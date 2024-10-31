@@ -1,15 +1,17 @@
+<button (click)="salir()">Cerrar sesion</button>
 <router-outlet />
 
-<p>{{title | titlecase}}</p>
+<!-- <p>{{title | titlecase}}</p>
 <p>{{ precio | currency: 'ARS' : '$' }}</p>
-<p>{{fecha | date: 'dd-MM-YY  hh:mm:ss'}}</p> <!--//formato completo de fecha, se puede usar solo la parte que necesitemos-->
+<p>{{fecha | date: 'dd-MM-YY  hh:mm:ss'}}</p> //formato completo de fecha, se puede usar solo la parte que necesitemos
 <p>{{objeto | json}}</p>
 <p>{{'hola mundo que tal' | muyLargo : 9 : '...'}}</p>
-<!-- //pipe personalizado, con parametros personalizados y opcionales, para definir el largo de un string, y luego de ese largo se le agrega el valor del segundo parametro -->
+//pipe personalizado, con parametros personalizados y opcionales, para definir el largo de un string, y luego de ese largo se le agrega el valor del segundo parametro 
 
 
-<!-- <img [src]="aca se le puede pasar un atributo" alt="">-->
+<img [src]="aca se le puede pasar un atributo" alt="">
 
-<p appHighlight color="purple">color</p> <!--el color se esta mandando por input-->
+<p appHighlight color="purple">color</p> el color se esta mandando por input
 
-<!-- storageRef.getDownloadURL() esto es sintaxis de angular/fire -->
+storageRef.getDownloadURL() esto es sintaxis de angular/fire  -->
+

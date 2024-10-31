@@ -1,0 +1,37 @@
+<div class="component">
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>DNI</th>
+          <th>Tipo de usuario</th>
+          <th>Verificacion correo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(usuario of usuarios; track $index){
+            <tr>
+              <td>{{usuario.nombre}}</td>
+              <td>{{usuario.apellido}}</td>
+              <td>{{usuario.email}}</td>
+              <td>{{usuario.dni}}</td>
+              <td>{{usuario.tipoUsuario}}</td>
+              <td>{{emailVerified}}</td>
+              <td>
+                @if(usuario.tipoUsuario === 'especialista' && !usuario.isActive){
+                    <button class="btn-activar" (click)="activar(usuario.uid, usuario.nombre, usuario.apellido)">Activar</button>
+                }
+                @else if(usuario.tipoUsuario === 'especialista' && usuario.isActive){
+                    <button class="btn-activar" (click)="desactivar(usuario.uid, usuario.nombre, usuario.apellido)">Inhabilitar</button>
+                }
+                <button class="btn-password" (click)="resetPassword(usuario.email)">Reset password </button>
+              </td>
+            </tr>
+        }
+        <!-- Más filas para cada usuario -->
+      </tbody>
+    </table>
+  </div>

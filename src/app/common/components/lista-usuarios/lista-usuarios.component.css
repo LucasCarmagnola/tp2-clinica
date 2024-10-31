@@ -1,0 +1,54 @@
+.component {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background-color: bisque;
+  min-height: 100vh;
+}
+
+.user-table {
+  width: 60%;
+  border-collapse: collapse;
+  background-color: rgb(213, 216, 216);
+  margin-top: 25px;
+}
+
+.user-table th, .user-table td {
+  padding: 10px;
+  border: 1px solid #bebebe;
+  text-align: center;
+}
+
+.user-table th {
+  background-color: rgb(149, 150, 218);
+  color: white;
+}
+
+.btn-activar, .btn-password {
+  padding: 5px 10px;
+  margin: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid rgb(192, 192, 206);
+  transition: transform 0.2s;
+}
+
+.btn-activar{
+  background-color: rgb(103, 199, 159);
+}
+
+.btn-activar:active,.btn-password:active{
+  transform: scale(1.2);
+}
+
+.btn-password{
+  background-color: rgb(42, 113, 236);
+}
+
+.btn-activar:hover{
+  background-color: rgba(103, 199, 159, 0.571);
+}
+
+.btn-password:hover{
+  background-color: rgba(42, 113, 236, 0.671);
+}
+

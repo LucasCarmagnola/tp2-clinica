@@ -5,32 +5,32 @@ export class Usuario {
     apellido : string;
     edad: number;
     dni : number;
-    obraSocial : string;
     email: string;
   
-    constructor(uid:string, tipoUsuario : string, nombre: string, apellido : string, edad : number, dni : number, obraSocial : string, email: string) {
+    constructor(uid:string, tipoUsuario : string, nombre: string, apellido : string, edad : number, dni : number, email: string) {
       this.uid = uid;
       this.tipoUsuario = tipoUsuario
       this.nombre = nombre;
       this.apellido = apellido;
       this.edad = edad;
       this.dni =dni;
-      this.obraSocial = obraSocial;
       this.email = email;
     }
 }
 
 
-export class paciente extends Usuario {
+export class Paciente extends Usuario {
     imagenPerfil : string
     imagenPortada : string
+    obraSocial : string
 
     constructor(uid:string, tipoUsuario : string, nombre: string, apellido : string, edad : number, dni : number, obraSocial : string, 
-        email: string, imagenPerfil : string, imagenPortada : string){
+        email: string){
         
-        super(uid, tipoUsuario, nombre, apellido, edad, dni, obraSocial, email)
-        this.imagenPerfil = imagenPerfil
-        this.imagenPortada = imagenPortada
+        super(uid, tipoUsuario, nombre, apellido, edad, dni, email)
+        this.obraSocial = obraSocial
+        this.imagenPerfil = 'gs://clinica-tp2.appspot.com/imagenesDePerfil/default-perfil.png'
+        this.imagenPortada = 'gs://clinica-tp2.appspot.com/imagenesDePortada/default-portada.jpg'
 
     }
 }
@@ -38,14 +38,16 @@ export class paciente extends Usuario {
 export class Especialista extends Usuario {
 
     especialidades : string[]
+    isActive : boolean
     imagenPerfil : string
 
-    constructor(uid: string, tipoUsuario : string, nombre: string,  apellido : string, edad: number, dni: number, obraSocial: string,
-        email: string, especialidades: string[], imagenPerfil : string){
+    constructor(uid: string, tipoUsuario : string, nombre: string,  apellido : string, edad: number, dni: number,
+        email: string, especialidades: string[]){
 
-        super(uid, tipoUsuario, nombre, apellido, edad, dni, obraSocial, email);
+        super(uid, tipoUsuario, nombre, apellido, edad, dni, email);
         this.especialidades = especialidades
-        this.imagenPerfil = imagenPerfil
+        this.isActive = false
+        this.imagenPerfil = 'gs://clinica-tp2.appspot.com/imagenesDePerfil/default-perfil.png'
     }
 
 }

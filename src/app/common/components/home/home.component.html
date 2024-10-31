@@ -1,1 +1,6 @@
 <p>home works!</p>
+@if(user){
+    <p>email verificado: {{user.emailVerified}}</p>
+}@else {
+    <div class="spinner"></div>
+}

@@ -1,0 +1,44 @@
+.component{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.seleccion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.opcion-registro{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    background-color: aqua;
+    height: 450px;
+    width: 300px;
+}
+
+.form-pacientes{
+    display: none;
+    flex-direction: column;
+}
+
+.form-especialista{
+    display: none;
+    flex-direction: column;
+}
+
+.back-option{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    height: 40px;
+    width: 80px;
+    border-radius: 10px;
+    background-color: aqua;
+    border: 1px solid grey;
+}
