@@ -29,8 +29,8 @@ export class Paciente extends Usuario {
         
         super(uid, tipoUsuario, nombre, apellido, edad, dni, email)
         this.obraSocial = obraSocial
-        this.imagenPerfil = 'gs://clinica-tp2.appspot.com/imagenesDePerfil/default-perfil.png'
-        this.imagenPortada = 'gs://clinica-tp2.appspot.com/imagenesDePortada/default-portada.jpg'
+        this.imagenPerfil = 'https://firebasestorage.googleapis.com/v0/b/clinica-tp2.appspot.com/o/imagenesDePerfil%2Fdefault-perfil.png?alt=media&token=268a0f9f-ac50-4912-a12d-aee990ce56a7'
+        this.imagenPortada = 'https://firebasestorage.googleapis.com/v0/b/clinica-tp2.appspot.com/o/imagenesDePortada%2Fdefault-portada.jpg?alt=media&token=9191d183-3b0e-4afd-9445-0663f30eb95c'
 
     }
 }
@@ -50,6 +50,17 @@ export class Especialista extends Usuario {
         this.imagenPerfil = 'gs://clinica-tp2.appspot.com/imagenesDePerfil/default-perfil.png'
     }
 
+}
+
+export class Administrador extends Usuario {
+    imagenPerfil : string
+
+    constructor(uid: string, nombre: string,  apellido : string, edad: number, dni: number,
+        email: string){
+
+        super(uid, 'administrador', nombre, apellido, edad, dni, email);
+        this.imagenPerfil = 'gs://clinica-tp2.appspot.com/imagenesDePerfil/default-perfil.png'
+    }
 }
 
 

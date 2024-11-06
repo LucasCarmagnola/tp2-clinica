@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile, user } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile, User, user } from '@angular/fire/auth';
 import { Usuario } from '../classes/usuario';
+import { BehaviorSubject } from 'rxjs';
+import { FirebaseApp, initializeApp } from '@angular/fire/app';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,24 +12,42 @@ export class AuthService {
 
   public user:any;
   public emailVerified : boolean = false
+  private uidSubject = new BehaviorSubject<string | null>(null);
+  uid$ = this.uidSubject.asObservable();
+
+  secondaryApp: FirebaseApp;
+  secondaryAuth: Auth;
+
 
   constructor(private auth : Auth) { 
+    this.secondaryApp = initializeApp(environment.firebaseConfig, 'secondary')
+    this.secondaryAuth = getAuth(this.secondaryApp)
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.user = user
         this.emailVerified = user.emailVerified
+        this.uidSubject.next(user.uid);
         console.log(`en el constructor del servicio. USER: ${user}`)
         console.log(`en el constructor del servicio. USER verificado: ${user.emailVerified}`)
         console.log(`en el constructor del servicio. Email: ${user.email}`)
       } else {
         this.user = null
+        this.uidSubject.next(null);
         console.log(`en el constructor del servicio. No hay usuario logeado. USER: ${user}`);
       }
     });
   }
 
+  get uid(): string | null {
+    return this.uidSubject.value;
+  }
+
   registro(email : string, password : string){
     return createUserWithEmailAndPassword(this.auth, email, password)
+  }
+
+  registroSecundario(email : string, password : string){
+    return createUserWithEmailAndPassword(this.secondaryAuth, email, password)
   }
 
   enviarEmail(){
@@ -55,11 +76,14 @@ export class AuthService {
   logOut(){
     return signOut(this.auth)
   }
+  logOutSecundario(){
+    return signOut(this.secondaryAuth)
+  }
 
-  getCurrentUser() {
+  async getCurrentUser(): Promise<User | null>{
     return this.auth.currentUser;
   }
-  
+
   async actualizarNombre(nombre: string) {
     const auth = getAuth(); 
     const user = auth.currentUser;
@@ -82,6 +106,7 @@ export class AuthService {
   reestablecerPassword(email : string){
     sendPasswordResetEmail(this.auth, email)
   }
+
 
 
 }

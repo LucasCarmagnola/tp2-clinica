@@ -29,6 +29,7 @@ export class ListaUsuariosComponent {
   activar(uid : string, nombre : string, apellido : string){
     Swal.fire({
       title: `Seguro de activar la cuenta del especialista ${nombre} ${apellido}?`,
+      icon : "warning",
       showDenyButton: true,
       confirmButtonText: "Activar",
       denyButtonText: `Cancelar`,
@@ -44,6 +45,7 @@ export class ListaUsuariosComponent {
   desactivar(uid : string, nombre : string, apellido : string){
     Swal.fire({
       title: `Seguro de inhabilitar la cuenta del especialista ${nombre} ${apellido}?`,
+      icon : "warning",
       showDenyButton: true,
       confirmButtonText: "Inhabilitar",
       denyButtonText: `Cancelar`,

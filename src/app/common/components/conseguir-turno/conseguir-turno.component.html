@@ -1,0 +1,14 @@
+<div class="component">
+    <div class="solicitar-turno">
+        <h1>Especialidades disponibles</h1>
+        <select name="especialidades" id="especialidades">
+            @for(especialidad of especialidadesMedicas; track especialidad){
+                <option [value]="especialidad">{{especialidad}}</option>
+            }
+        </select>
+        <button class="ver-fechas">Ver fechas disponibles</button>
+    </div>
+</div>
+<p>conseguir-turno works!</p>
+<p>{{user?.displayName}}</p>
+

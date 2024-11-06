@@ -1,0 +1,45 @@
+header{
+    display: flex;
+    padding: 5px;
+    border-bottom: 2px solid rgb(174, 172, 172);
+}
+
+.img-inicio{
+    height: auto;
+    width: auto;
+    margin: 0 10% 0 10%;
+    background-color: aliceblue;
+}
+
+.header-left{
+    width: 80%;
+    margin: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+}
+.header-right{
+    width: 20%;
+    margin: 2px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.img-perfil{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    align-self: flex-end;
+    padding-right: 10px;
+}
+
+.item-menu{
+    padding: 10px 20px 10px 20px;
+    border-radius: 15px;
+}
+
+.item-menu:hover{
+    background-color: rgba(128, 128, 128, 0.176);
+}

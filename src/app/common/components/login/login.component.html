@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup">
+<!-- <form [formGroup]="formGroup">
     <div>
         <label for="email">Email</label>
         <input type="text" id="email" formControlName="email">
@@ -9,5 +9,80 @@
     </div>
     <button (click)="login()">Iniciar sesion</button>
 
+    
 
-</form>
+
+</form> -->
+<div class="component">
+    <div class="contenedor-formulario contenedor">
+        <div class="imagen-formulario">
+            
+        </div>
+    
+        <form class="formulario" [formGroup]="formGroup" (ngSubmit)="login()">
+            <div class="texto-formulario">
+                <h2>Bienvenido de nuevo</h2>
+                <p>Inicia sesión con tu cuenta</p>
+            </div>
+            <div class="input">
+                <label for="email">Correo electrónico</label>
+                <input placeholder="Ingresa tu correo" type="text" id="correo" formControlName="email">
+                <!-- <p id="error-email-ob" style="color: rgb(207, 59, 59); font-size: 12px; margin: 2px 0 0 5px; padding: 0;"></p> -->
+                @if(formGroup.controls['email'].errors?.['required'] && formGroup.controls['email'].touched){
+                    <p id="error-email-ob" style="color: rgb(207, 59, 59); font-size: 12px; margin: 2px 0 0 5px; padding: 0;">Campo obligatorio</p>
+                     <!-- <script>
+                        const error = document.getElementById('error-email-ob')
+                        error.innerHTML = 'Campo obligatorio'
+                     </script> -->
+                  }
+                  @if(formGroup.controls['email'].errors?.['email'] && formGroup.controls['email'].touched){
+                    <p id="error-email-err" style="color: rgb(207, 59, 59); font-size: 12px; margin: 2px 0 0 5px; padding: 0;">Formato incorrecto</p>
+                  }
+            </div>
+            <div class="input">
+                <label for="contraseña">Contraseña</label>
+                <input placeholder="Ingresa tu contraseña" type="password" id="contraseña" formControlName="password">
+                @if(formGroup.controls['password'].errors?.['required'] && formGroup.controls['password'].touched && formGroup.controls['password'].value === ''){
+                    <p id="error-password-ob" style="color: rgb(207, 59, 59); font-size: 12px; margin: 2px 0 0 5px; padding: 0;">Campo obligatorio</p>
+                  }
+                  @if(formGroup.controls['password'].errors?.['minlength'] && formGroup.controls['password'].touched){
+                    <p id="error-password-err" style="color: rgb(207, 59, 59); font-size: 12px; margin: 2px 0 0 5px; padding: 0;">La contraseña debe tener minimo 6 caracteres</p>
+                  }
+            </div>
+            <div class="password-olvidada" (click)="resetPassword(this.formGroup.controls['email'].value)">
+                <a>¿Olvidaste tu contraseña?</a>
+            </div>
+            <div class="input">
+                <input type="submit" value="Login">
+            </div>
+        </form>
+        <div class="perfiles-container">
+            <p style="color: white;">Inicio rapido</p>
+            <div class="perfil">
+                <img src="/medicos.jpg" alt="perfil-1" class="opcion-login" (click)="cargarPerfil(1)">
+                <div class="pensamiento">Usuario administrador</div>
+              </div>
+              <div class="perfil">
+                <img src="/medicos.jpg" alt="perfil-2" class="opcion-login" (click)="cargarPerfil(2)">
+                <div class="pensamiento">Usuario especialista 1</div>
+              </div>
+              <div class="perfil">
+                <img src="/medicos.jpg" alt="perfil-3" class="opcion-login" (click)="cargarPerfil(3)">
+                <div class="pensamiento">Usuario especialista 2</div>
+              </div>
+              <div class="perfil">
+                  <img src="/medicos.jpg" alt="perfil-4" class="opcion-login" (click)="cargarPerfil(4)">
+                  <div class="pensamiento">Usuario paciente 1</div>
+              </div>
+              <div class="perfil">
+                <img src="/medicos.jpg" alt="perfil-4" class="opcion-login" (click)="cargarPerfil(5)">
+                <div class="pensamiento">Usuario paciente 2</div>
+            </div>
+            <div class="perfil">
+                <img src="/medicos.jpg" alt="perfil-4" class="opcion-login" (click)="cargarPerfil(6)">
+                <div class="pensamiento">Usuario paciente 3</div>
+            </div>
+
+        </div>
+    </div>
+</div>

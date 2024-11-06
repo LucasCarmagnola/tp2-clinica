@@ -1,0 +1,67 @@
+.container-forms{
+    display: flex;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #10325d; 
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    height: 800px;
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.titulo-form{
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.label-form{
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-form{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.button-form{
+    width: 100%;
+    padding: 10px;
+    background-color: #6998d5; /* color similar al botón de login */
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+.button-form:hover{
+    background-color: #5a86c4;
+}
+
+input[type='file']{
+    padding: 0;
+    margin: 5px;
+}
+
+
+
+

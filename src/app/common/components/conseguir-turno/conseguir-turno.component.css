@@ -1,0 +1,9 @@
+.component{
+    display: flex;
+    justify-content: center;
+}
+
+.solicitar-turno{
+    display: flex;
+    flex-direction: column;
+}

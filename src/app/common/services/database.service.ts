@@ -1,13 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Especialista, Usuario } from '../classes/usuario';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DatabaseService {
+  
+  userDatabase : any
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore, private authService : AuthService) {
+    const user = this.authService.user
+    if(user){
+      this.obtenerUserPorID('usuarios', user.uid).subscribe((userDatabase) => {
+        this.userDatabase = userDatabase
+      })
+    }
+
+   }
 
   agregarUsuario(usuario : Usuario, coleccion : string){
     const colUsuarios = this.firestore.collection(coleccion)

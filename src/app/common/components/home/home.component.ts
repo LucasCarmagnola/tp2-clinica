@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { DatabaseService } from '../../services/database.service';
-import { Usuario } from '../../classes/usuario';
 
 @Component({
   selector: 'app-home',
@@ -15,6 +14,7 @@ export class HomeComponent {
 
   user : any = null
   userDatabase : any = null
+
 
   constructor(private authService : AuthService, private auth : Auth, private databaseService : DatabaseService){
     //this.user = this.authService.user

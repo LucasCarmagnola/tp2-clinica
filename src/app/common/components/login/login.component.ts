@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
 import Swal from 'sweetalert2';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +17,17 @@ export class LoginComponent {
 
   formGroup : FormGroup
   user : any = null
+  returnUrl : string = '/'
 
   constructor(
     private formBuilder : FormBuilder,
     private authService : AuthService,
     protected router : Router,
-    private databaseservice : DatabaseService
+    private databaseservice : DatabaseService,
+    private route : ActivatedRoute
   ){
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
+
     this.formGroup = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password : ['', [Validators.required, Validators.minLength(6)]]
@@ -31,41 +36,6 @@ export class LoginComponent {
   }
 
 
-  // async login(){
-  //   this.authService.login(this.formGroup.controls['email'].value, 
-  //     this.formGroup.controls['password'].value).then(async (user : any) =>{
-  //       this.user = await user
-  //       this.databaseservice.obtenerUserPorID('usuarios', user.uid).subscribe((userDatabase : any) => {
-  //         const usuarioBD = userDatabase.data()
-  //         if(this.user.emailVerified){
-  //           if(usuarioBD.tipoUsuario === 'paciente'){
-  //             this.router.navigateByUrl('/home')
-  //             return
-  //           }
-  //           if(usuarioBD.tipoUsuario === 'especialista' && usuarioBD.isActive){
-  //             this.router.navigateByUrl('/home')
-  //             return
-  //           }else{
-  //             Swal.fire("Su cuenta aún no ha sido activada");
-  //           }
-  //         }else{
-  //           Swal.fire({
-  //             title: "Su correo aun no ha sido verificado",
-  //             text: "Recuerde verificar su casilla de spam",
-  //             showDenyButton: true,
-  //             confirmButtonText: "Reenviar correo",
-  //             denyButtonColor: "#74dc74",
-  //             denyButtonText: `Ok`
-  //           }).then((result) => {
-  //             if (result.isConfirmed) {
-  //               this.authService.enviarEmail()
-  //             }
-  //           });
-  //         }
-  //       })
-  //     })
-
-  // }
 
   async login(){
     if(this.formGroup.invalid){
@@ -85,12 +55,14 @@ export class LoginComponent {
       const userSnapshot = await this.databaseservice.obtenerUserPorID('usuarios', this.user.uid).toPromise();
       const usuarioBD : any = userSnapshot?.data();
       if(usuarioBD && usuarioBD.tipoUsuario === 'paciente'){
-        this.router.navigateByUrl('/home')
-      }else if (usuarioBD.tipoUsuario === 'especialista') {
+        this.router.navigateByUrl(this.returnUrl)
+      }else if (usuarioBD.tipoUsuario === 'especialista' || usuarioBD.tipoUsuario === 'administrador') {
         if (usuarioBD.isActive) {
-          this.router.navigateByUrl('/home');
+          this.router.navigateByUrl(this.returnUrl);
         } else {
-          Swal.fire("Su cuenta aún no ha sido activada");
+          Swal.fire({title : "Su cuenta aún no ha sido activada",
+            icon : 'info'
+            });
         }
       }
 
@@ -129,6 +101,66 @@ export class LoginComponent {
         this.authService.enviarEmail();
       }
     });
+  }
+
+  resetPassword(email : string){
+    Swal.fire({
+      title: `¿Quiere enviar un correo de recuperacion a: ${this.formGroup.controls['email'].value}?`,
+      icon: "info",
+      showDenyButton: true,
+      confirmButtonText: "Enviar correo",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.authService.reestablecerPassword(email)
+        Swal.fire('El correo fue enviado!')
+      }else if (result.isDenied) {
+
+      }
+    });
+  }
+
+
+  cargarPerfil(perfil:number){
+    switch(perfil){
+      case 1:
+        this.formGroup.patchValue({
+          email: 'admin@somelora.com',
+          password: '123456'  
+        });
+        break
+      case 2:
+        this.formGroup.patchValue({
+          email: 'fy5t0h3day@qejjyl.com',
+          password: '123456'  
+        });
+        break
+      case 3:
+        this.formGroup.patchValue({
+          email: 'especialista2@ibolinva.com',
+          password: '123456'  
+        });
+        break
+      case 4:
+        this.formGroup.patchValue({
+          email: 'paciente1@ibolinva.com',
+          password: '123456'  
+        });
+        break
+      case 5:
+        this.formGroup.patchValue({
+          email: 'paciente2@ibolinva.com',
+          password: '123456'  
+        });
+        break
+      case 6:
+        this.formGroup.patchValue({
+          email: 'paciente3@ibolinva.com',
+          password: '123456'  
+        });
+        break
+    
+    }
   }
 
   

@@ -1,4 +1,18 @@
-<button (click)="salir()">Cerrar sesion</button>
+<header>
+    <div class="header-left">
+        <div class="img-inicio">
+            <img src="favicon.ico" alt="inicio" class="" routerLink="/home">
+        </div>
+        <div class="item-menu" routerLink="/conseguir-turno">Quiero un turno</div>
+        <div class="item-menu">Mis turnos</div>
+        <div class="item-menu">Obras sociales</div>
+        <div class="item-menu"></div>
+    </div>
+    <div class="header-right">
+        <button (click)="salir()">Cerrar sesion</button>
+        <img [src]="userDatabase?.imagenPerfil" alt="" class="img-perfil">
+    </div>
+</header>
 <router-outlet />
 
 <!-- <p>{{title | titlecase}}</p>

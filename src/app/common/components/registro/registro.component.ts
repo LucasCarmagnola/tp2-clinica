@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Especialista, Paciente, Usuario } from '../../classes/usuario';
@@ -7,11 +7,13 @@ import { DatabaseService } from '../../services/database.service';
 import { StorageService } from '../../services/storage.service';
 import { Auth, onAuthStateChanged, sendEmailVerification } from '@angular/fire/auth';
 import Swal from 'sweetalert2';
+import {MatSelectModule} from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css',
 })
@@ -25,6 +27,24 @@ export class RegistroComponent {
   protected user : any = null
   protected emailVerified : boolean = false
   protected form : string = ''
+
+  especialidadesMedicas: string[] = [
+    'Cardiologia',
+    'Dermatologia',
+    'Endocrinologia',
+    'Gastroenterologia',
+    'Ginecologia',
+    'Medico clinico',
+    'Neumologia',
+    'Neurologia',
+    'Oftalmologia',
+    'Oncologia',
+    'Ortopedia',
+    'Pediatria',
+    'Psiquiatria',
+    'Traumatologia',
+    'Urologia'
+  ];
 
 
   constructor(
@@ -53,11 +73,11 @@ export class RegistroComponent {
       apellido: ['', [Validators.required, Validators.maxLength(35)]],
       edad: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.maxLength(2)]],
       dni: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(5), Validators.maxLength(10)]],
-      especialidad : ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(50)]],
       password : ['', [Validators.required, Validators.minLength(6), this.spacesValidator]],
       repeatPassword : ['', [Validators.required, Validators.minLength(6), this.spacesValidator]],
       imagenPerfil: [null, [Validators.required]],
+      especialidades: [[], [Validators.required]]
     }, { validators: this.verificarPasswords })
   }
 
@@ -134,7 +154,7 @@ export class RegistroComponent {
       }
       await sendEmailVerification(user);
       
-      this.openModal()
+      //this.openModal()
 
 
     }catch(e:any){
@@ -146,6 +166,7 @@ export class RegistroComponent {
     console.log(this.formGroupEspecialistas)
     if(this.formGroupEspecialistas.invalid){
       console.log('FORM INVALIDO')
+      console.log(this.formGroupEspecialistas.controls['especialidades'].value)
       return
     }
     try{
@@ -154,13 +175,11 @@ export class RegistroComponent {
         this.formGroupEspecialistas.controls['password'].value
       )
       this.user = userCredential.user
-      const especialidades : string[] =  []
-      especialidades.push(this.formGroupEspecialistas.controls['especialidad'].value)
-
+  
       const usuario = new Especialista(this.user.uid, 'especialista', 
         this.formGroupEspecialistas.controls['nombre'].value, this.formGroupEspecialistas.controls['apellido'].value,
         this.formGroupEspecialistas.controls['edad'].value, this.formGroupEspecialistas.controls['dni'].value,
-        this.formGroupEspecialistas.controls['email'].value, especialidades
+        this.formGroupEspecialistas.controls['email'].value, this.formGroupEspecialistas.controls['especialidades'].value
       )
       this.authService.actualizarNombre(usuario.nombre)
       this.databaseService.agregarUsuario(usuario, 'usuarios')
@@ -211,7 +230,7 @@ export class RegistroComponent {
   }
 
 
-  openModal(){
+  async openModal(){
     Swal.fire({
       title: `Verifique su correo electonico para continuar`,
       text: 'Recuerde revisar su casilla de spam.',
@@ -219,11 +238,16 @@ export class RegistroComponent {
       showDenyButton: true,
       confirmButtonText: "Reenviar correo",
       denyButtonText: `Ya lo verifiqué`,
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         this.authService.enviarEmail()
-      }else if (result.isDenied) {
-        this.ngOnInit()
+      }else if(result.isDenied){
+        await this.auth.currentUser?.reload();
+      if (this.auth.currentUser?.emailVerified) {
+        this.router.navigateByUrl('/home');
+      } else {
+        Swal.fire('Email no verificado', 'Por favor, verifique su correo antes de continuar. Luego recargue la pagina', 'error');
+      }
       }
     });
   }
@@ -232,7 +256,7 @@ export class RegistroComponent {
   seleccionForm(opcion : string){
     const seleccion = document.getElementById('seleccion') as HTMLDivElement
     const formPaciente = document.getElementById('form-pacientes') as HTMLDivElement
-    const formEspecialista = document.getElementById('form-especialista') as HTMLDivElement
+    const formEspecialista = document.getElementById('container-especialista') as HTMLDivElement
     const backOption = document.getElementById('back-option') as HTMLDivElement
 
     seleccion.style.display = 'none'
@@ -247,7 +271,7 @@ export class RegistroComponent {
   backSeleccion(){
     const seleccion = document.getElementById('seleccion') as HTMLDivElement
     const formPaciente = document.getElementById('form-pacientes') as HTMLDivElement
-    const formEspecialista = document.getElementById('form-especialista') as HTMLDivElement
+    const formEspecialista = document.getElementById('container-especialista') as HTMLDivElement
     const backOption = document.getElementById('back-option') as HTMLButtonElement
     seleccion.style.display = 'flex'
     backOption.style.display = 'none'

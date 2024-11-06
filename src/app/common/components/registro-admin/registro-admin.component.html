@@ -1,1 +1,149 @@
-<p>registro-admin works!</p>
+<div class="container-forms" id="container-forms">
+    <!-- FORM PACIENTES -->
+    <div class="form" id="form-pacientes">
+        <h2 class="titulo-form">Registrar un paciente</h2>
+            <form [formGroup]="grupoPacientes">
+                <div>
+                    <label for="nombre" class="label-form">Nombre</label>
+                    <input type="text" class="input-form" id="nombre" formControlName="nombre">
+                </div>
+                <div>
+                    <label for="apellido" class="label-form">Apellido</label>
+                    <input type="text" class="input-form" id="apellido" formControlName="apellido">
+                </div>
+                <div>
+                    <label for="edad" class="label-form">Edad</label>
+                    <input type="number" class="input-form" id="edad" formControlName="edad">
+                </div>
+                <div>
+                    <label for="DNI" class="label-form">DNI</label>
+                    <input type="text" class="input-form" id="DNI" formControlName="dni">
+                </div>
+                <div>
+                    <label for="obra-social" class="label-form">Obra Social</label>
+                    <select name="obra-social" id="obra-social" class="input-form" formControlName="obraSocial">
+                        @for(obraSocial of obrasSociales; track obraSocial){
+                            <option [value]="obraSocial.toLowerCase()">{{obraSocial}}</option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label for="email" class="label-form" id="label-email">Email</label>
+                    <input type="text" class="input-form" id="email" formControlName="email">
+                </div>
+                <div>
+                    <label for="password" class="label-form">Contraseña</label>
+                    <input type="text" class="input-form" id="password" formControlName="password">
+                </div>
+                <div>
+                    <label for="repeatPassword" class="label-form">Repita su contraseña</label>
+                    <input type="text" class="input-form" id="repeatPassword" formControlName="repeatPassword">
+                </div>
+                <div>
+                    <label for="foto-perfil" class="label-form">Foto de perfil</label>
+                    <input type="file" class="input-form" name="" id="foto-perfil" formControlName="imagenPerfil" (change)="ImagenPerfilCargada($event)">
+                </div>
+                <div>
+                    <label for="foto-portada" class="label-form">Foto de portada</label>
+                    <input type="file" class="input-form" name="" id="foto-portada" formControlName="imagenPortada" (change)="ImagenPortadaCargada($event)">
+                </div>
+                <button class="button-form" (click)="registroPaciente()">REGISTRAR</button>
+            </form>
+    </div>
+
+
+
+    <!-- FORM ESPECIALISTAS -->
+    <div class="form" id="form-especialista">
+        <h2 class="titulo-form">Registrar un especialista</h2>
+            <form [formGroup]="grupoEspecialistas">
+                <div>
+                    <label for="nombre" class="label-form">Nombre</label>
+                    <input type="text" class="input-form" id="nombre" formControlName="nombre">
+                </div>
+                <div>
+                    <label for="apellido" class="label-form">Apellido</label>
+                    <input type="text" class="input-form" id="apellido" formControlName="apellido">
+                </div>
+                <div>
+                    <label for="edad" class="label-form">Edad</label>
+                    <input type="number" class="input-form" id="edad" formControlName="edad">
+                </div>
+                <div>
+                    <label for="DNI" class="label-form">DNI</label>
+                    <input type="text" class="input-form" id="DNI" formControlName="dni">
+                </div>
+                <div>
+                    <mat-form-field class="input-form">
+                        <mat-label>Especialidades</mat-label>
+                        <mat-select formControlName="especialidades" multiple>
+                          @for (especialidad of especialidadesMedicas; track especialidad) {
+                            <mat-option [value]="especialidad.toLowerCase()">{{especialidad}}</mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                <div>
+                    <label for="email" class="label-form">Email</label>
+                    <input type="text" class="input-form" id="email" formControlName="email">
+                </div>
+                <div>
+                    <label for="password" class="label-form">Contraseña</label>
+                    <input type="text" class="input-form" id="password" formControlName="password">
+                </div>
+                <div>
+                    <label for="repeatPassword" class="label-form">Repita su contraseña</label>
+                    <input type="text" class="input-form" id="repeatPassword" formControlName="repeatPassword">
+                </div>
+                <div>
+                    <label for="foto-perfil" class="label-form">Foto de perfil</label>
+                    <input type="file" class="input-form" name="" id="foto-perfil" formControlName="imagenPerfil" (change)="ImagenPerfilCargada($event)">
+                </div>
+                <button class="button-form" (click)="registroEspecialista()">REGISTRAR</button>
+            </form>
+    </div>
+
+    <div class="form" id="form-administradores">
+        <h2 class="titulo-form">Registrar un administrador</h2>
+            <form [formGroup]="grupoAdmins">
+                <div>
+                    <label for="nombre" class="label-form">Nombre</label>
+                    <input type="text" class="input-form" id="nombre" formControlName="nombre">
+                </div>
+                <div>
+                    <label for="apellido" class="label-form">Apellido</label>
+                    <input type="text" class="input-form" id="apellido" formControlName="apellido">
+                </div>
+                <div>
+                    <label for="edad" class="label-form">Edad</label>
+                    <input type="number" class="input-form" id="edad" formControlName="edad">
+                </div>
+                <div>
+                    <label for="DNI" class="label-form">DNI</label>
+                    <input type="text" class="input-form" id="DNI" formControlName="dni">
+                </div>
+                <div>
+                    <label for="email" class="label-form" id="label-email">Email</label>
+                    <input type="text" class="input-form" id="email" formControlName="email">
+                </div>
+                <div>
+                    <label for="password" class="label-form">Contraseña</label>
+                    <input type="text" class="input-form" id="password" formControlName="password">
+                </div>
+                <div>
+                    <label for="repeatPassword" class="label-form">Repita su contraseña</label>
+                    <input type="text" class="input-form" id="repeatPassword" formControlName="repeatPassword">
+                </div>
+                <div>
+                    <label for="foto-perfil" class="label-form">Foto de perfil</label>
+                    <input type="file" class="input-form" name="" id="foto-perfil" formControlName="imagenPerfil" (change)="ImagenPerfilCargada($event)">
+                </div>
+                <button class="button-form" (click)="registroAdministrador()">REGISTRAR</button>
+            </form>
+    </div>
+
+
+
+
+
+</div>
