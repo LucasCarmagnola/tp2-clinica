@@ -1,0 +1,12 @@
+<div class="component">
+    <div class="lista-horarios">
+        <h1>Turnos disponibles</h1>
+        @for(turno of medicoInput?.horariosDisponibles; track turno){
+            @if(!medicoInput?.horariosOcupados.includes(turno)){
+                <div class="horario" (click)="seleccionarTurno()"> {{turno}} hs.</div>
+            }@else{
+                <div class="horario-ocupado">{{turno}} hs.</div>
+            }
+        }
+    </div>
+</div>

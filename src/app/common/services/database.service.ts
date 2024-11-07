@@ -33,6 +33,19 @@ export class DatabaseService {
     return colUsuarios.valueChanges()
   }
 
+  traerEspecialistas(){
+    const colUsuarios = this.firestore.collection('usuarios', ref => ref.where('tipoUsuario', '==','especialista'))
+    return colUsuarios.valueChanges()
+  }
+
+  traerEspecialista(especialidad : string){
+    const colUsuarios = this.firestore.collection('usuarios', ref => ref
+      .where('tipoUsuario', '==','especialista')
+      .where('especialidades', 'array-contains', especialidad)
+    )
+    return colUsuarios.valueChanges()
+  }
+
   activarEspecialista(uid: string){
     const colUsuarios = this.firestore.collection('usuarios');
     const documento = colUsuarios.doc(uid);

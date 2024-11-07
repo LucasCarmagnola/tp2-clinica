@@ -1,14 +1,32 @@
 <div class="component">
-    <div class="solicitar-turno">
+    <button class="volver" id="volver" (click)="backEspecialidades()">Volver</button>
+    <div class="solicitar-turno" id="solicitar-turno">
         <h1>Especialidades disponibles</h1>
-        <select name="especialidades" id="especialidades">
+        <select name="especialidades" id="especialidades" [(ngModel)]="especialidadSeleccionada">
             @for(especialidad of especialidadesMedicas; track especialidad){
                 <option [value]="especialidad">{{especialidad}}</option>
             }
         </select>
-        <button class="ver-fechas">Ver fechas disponibles</button>
+        <button class="ver-fechas" (click)="verMedicosDisponibles()">Ver médicos disponibles</button>
+    </div>
+    <div class="lista-especialistas" id="lista-especialistas">
+        <form action="" id="form-medicos">
+            @for(medico of especialistasDisponibles; track medico){
+                <div class="especialista" id="especialista">
+                    <div class="info">
+                        <img [src]="medico.imagenPerfil" alt="foto-perfil" class="foto-perfil">
+                        {{medico.nombre}} {{medico.apellido}}
+                    </div>
+                    <div class="container-radio">
+                        <input type="radio" name="medico" [value]="medico" class="input-radio" [(ngModel)]="medicoSeleccionado">
+                    </div>
+                </div>
+            }
+        </form>
+    </div>
+    <div class="turnos-component" id="turnos-component">
+        <app-turnos-disponibles [medicoRecibido]="medicoSeleccionado"></app-turnos-disponibles>
     </div>
 </div>
-<p>conseguir-turno works!</p>
-<p>{{user?.displayName}}</p>
+
 

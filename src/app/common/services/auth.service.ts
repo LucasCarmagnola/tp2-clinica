@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Auth, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, updateProfile, User, user } from '@angular/fire/auth';
 import { Usuario } from '../classes/usuario';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { FirebaseApp, initializeApp } from '@angular/fire/app';
 import { environment } from '../../../environments/environment';
 
@@ -9,6 +9,9 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class AuthService {
+
+  private userSubject = new BehaviorSubject<any>(null)
+  public usuarioObservable$ : Observable<any> = this.userSubject.asObservable()
 
   public user:any;
   public emailVerified : boolean = false
@@ -24,6 +27,7 @@ export class AuthService {
     this.secondaryAuth = getAuth(this.secondaryApp)
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
+        this.userSubject.next(user);
         this.user = user
         this.emailVerified = user.emailVerified
         this.uidSubject.next(user.uid);
@@ -31,6 +35,7 @@ export class AuthService {
         console.log(`en el constructor del servicio. USER verificado: ${user.emailVerified}`)
         console.log(`en el constructor del servicio. Email: ${user.email}`)
       } else {
+        this.userSubject.next(null);
         this.user = null
         this.uidSubject.next(null);
         console.log(`en el constructor del servicio. No hay usuario logeado. USER: ${user}`);

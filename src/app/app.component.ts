@@ -18,11 +18,14 @@ export class AppComponent {
   
   user : any = null
   userDatabase : any = null
+  showHeader = true;
 
   constructor(private authService : AuthService, 
     protected router : Router, private databaseService : DatabaseService,
     private auth : Auth){
-
+      this.router.events.subscribe(() => {
+        this.showHeader = !['/login', '/registro', '/login?returnUrl=%2Fhome'].includes(this.router.url);
+      });
   }
 
   async ngOnInit(){

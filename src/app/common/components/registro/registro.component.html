@@ -71,6 +71,17 @@
                     <label for="repeatPassword" style="color: white;">Foto de portada</label><br>
                     <input type="file" name="src-file2" aria-label="Archivo" id="foto-banner" formControlName="imagenPortada" (change)="ImagenPortadaCargada($event)">
                 </div>
+                <div>
+                    <ngx-recaptcha2 #captchaElem
+                    [siteKey]="siteKey"
+                    (reset)="handleReset()"
+                    (expire)="handleExpire()"
+                    (load)="handleLoad()"
+                    (success)="handleSuccess($event)"
+                    [useGlobalDomain]="false"
+                    formControlName="recaptcha">
+                  </ngx-recaptcha2>
+                </div>
                 <button class="button-registro" (click)="registroPaciente()">REGISTRARME</button>
             </form>
         </div>
@@ -128,6 +139,7 @@
                         <label for="foto-perfil">Foto de perfil</label>
                         <input type="file" name="" id="foto-perfil" formControlName="imagenPerfil" (change)="ImagenPerfilCargada($event)">
                     </div>
+                    
                     <button class="button-registro" (click)="registroEspecialista()">REGISTRARME</button>
                 </form>
         </div>

@@ -9,11 +9,12 @@ import { Auth, onAuthStateChanged, sendEmailVerification } from '@angular/fire/a
 import Swal from 'sweetalert2';
 import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule],
+  imports: [MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, NgxCaptchaModule],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css',
 })
@@ -27,6 +28,7 @@ export class RegistroComponent {
   protected user : any = null
   protected emailVerified : boolean = false
   protected form : string = ''
+  protected siteKey : string = '6Ldd73cqAAAAAE2Is1HfygGUwGLmba4WtvmTRiiJ'
 
   especialidadesMedicas: string[] = [
     'Cardiologia',
@@ -66,7 +68,8 @@ export class RegistroComponent {
       password : ['', [Validators.required, Validators.minLength(6), this.spacesValidator]],
       repeatPassword : ['', [Validators.required, Validators.minLength(6), this.spacesValidator]],
       imagenPerfil: [null],
-      imagenPortada: [null]
+      imagenPortada: [null],
+      recaptcha: ['', Validators.required]
     }, { validators: this.verificarPasswords })
     this.formGroupEspecialistas = this.formBuilder.group({
       nombre: ['', [Validators.required, Validators.maxLength(20)]],
@@ -77,7 +80,8 @@ export class RegistroComponent {
       password : ['', [Validators.required, Validators.minLength(6), this.spacesValidator]],
       repeatPassword : ['', [Validators.required, Validators.minLength(6), this.spacesValidator]],
       imagenPerfil: [null, [Validators.required]],
-      especialidades: [[], [Validators.required]]
+      especialidades: [[], [Validators.required]],
+      //recaptcha2: ['', Validators.required]
     }, { validators: this.verificarPasswords })
   }
 
@@ -278,6 +282,22 @@ export class RegistroComponent {
     formPaciente.style.display = 'none'
     formEspecialista.style.display = 'none'
 
+  }
+
+  handleReset(){
+
+  }
+
+  handleExpire(){
+
+  }
+
+  handleLoad(){
+
+  }
+
+  handleSuccess($event : string){
+    console.log($event)
   }
 
 
