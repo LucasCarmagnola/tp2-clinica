@@ -5,11 +5,12 @@ import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, NgxCaptchaModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -18,6 +19,7 @@ export class LoginComponent {
   formGroup : FormGroup
   user : any = null
   returnUrl : string = '/'
+  protected siteKey : string = '6Ldd73cqAAAAAE2Is1HfygGUwGLmba4WtvmTRiiJ'
 
   constructor(
     private formBuilder : FormBuilder,
@@ -161,6 +163,22 @@ export class LoginComponent {
         break
     
     }
+  }
+
+  handleReset(){
+
+  }
+
+  handleExpire(){
+
+  }
+
+  handleLoad(){
+
+  }
+
+  handleSuccess($event : string){
+
   }
 
   

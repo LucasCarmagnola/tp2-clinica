@@ -24,23 +24,43 @@
                     <h2>Formulario pacientes</h2>
                 </div>
                 <div class="input">
-                    <label for="nombre">Nombre</label>
+                    <label for="nombre">Nombre
+                        @if(formGroup.controls['nombre'].errors?.['required'] && formGroup.controls['nombre'].touched){
+                            *
+                         }
+                    </label>
                     <input type="text" id="nombre" formControlName="nombre">
                 </div>
                 <div class="input">
-                    <label for="apellido">Apellido</label>
+                    <label for="apellido">Apellido
+                        @if(formGroup.controls['apellido'].errors?.['required'] && formGroup.controls['apellido'].touched){
+                            *
+                         }
+                    </label>
                     <input type="text" id="apellido" formControlName="apellido">
                 </div>
                 <div class="input">
-                    <label for="edad">Edad</label>
+                    <label for="edad">Edad
+                        @if(formGroup.controls['edad'].errors?.['required'] && formGroup.controls['edad'].touched){
+                            *
+                         }
+                    </label>
                     <input type="number" id="edad" formControlName="edad">
                 </div>
                 <div class="input">
-                    <label for="DNI">DNI</label>
+                    <label for="DNI">DNI
+                        @if(formGroup.controls['dni'].errors?.['required'] && formGroup.controls['dni'].touched){
+                            *
+                         }
+                    </label>
                     <input type="text" id="DNI" formControlName="dni">
                 </div>
                 <div class="input">
-                    <label for="obra-social">Obra Social</label>
+                    <label for="obra-social">Obra Social
+                        @if(formGroup.controls['obraSocial'].errors?.['required'] && formGroup.controls['obraSocial'].touched){
+                            *
+                         }
+                    </label>
                     <select name="obra-social" id="obra-social" formControlName="obraSocial">
                         <option value="particular">Particular</option>
                         <option value="ioma">IOMA</option>
@@ -52,15 +72,27 @@
                     </select>
                 </div>
                 <div class="input">
-                    <label for="email">Email</label>
+                    <label for="email">Email
+                        @if(formGroup.controls['email'].errors?.['required'] && formGroup.controls['email'].touched){
+                            *
+                         }
+                    </label>
                     <input type="text" id="email" formControlName="email">
                 </div>
                 <div class="input">
-                    <label for="password">Contraseña (minimo 6 caracteres)</label>
+                    <label for="password">Contraseña (minimo 6 caracteres)
+                        @if(formGroup.controls['password'].errors?.['required'] && formGroup.controls['password'].touched){
+                            *
+                         }
+                    </label>
                     <input type="text" id="password" formControlName="password">
                 </div>
                 <div class="input">
-                    <label for="repeatPassword">Repita su contraseña</label>
+                    <label for="repeatPassword">Repita su contraseña
+                        @if(formGroup.controls['repeatPassword'].errors?.['required'] && formGroup.controls['repeatPassword'].touched){
+                            *
+                         }
+                    </label>
                     <input type="text" id="repeatPassword" formControlName="repeatPassword">
                 </div>
                 <div class="file-select" id="src-file1">
@@ -71,17 +103,19 @@
                     <label for="repeatPassword" style="color: white;">Foto de portada</label><br>
                     <input type="file" name="src-file2" aria-label="Archivo" id="foto-banner" formControlName="imagenPortada" (change)="ImagenPortadaCargada($event)">
                 </div>
-                <div>
-                    <ngx-recaptcha2 #captchaElem
-                    [siteKey]="siteKey"
-                    (reset)="handleReset()"
-                    (expire)="handleExpire()"
-                    (load)="handleLoad()"
-                    (success)="handleSuccess($event)"
-                    [useGlobalDomain]="false"
-                    formControlName="recaptcha">
-                  </ngx-recaptcha2>
-                </div>
+                @if(showRecaptchaPacientes){
+                    <div>
+                        <ngx-recaptcha2 #captchaElem
+                        [siteKey]="siteKey"
+                        (reset)="handleReset()"
+                        (expire)="handleExpire()"
+                        (load)="handleLoad()"
+                        (success)="handleSuccess($event)"
+                        [useGlobalDomain]="false"
+                        formControlName="recaptcha">
+                      </ngx-recaptcha2>
+                    </div>
+                }
                 <button class="button-registro" (click)="registroPaciente()">REGISTRARME</button>
             </form>
         </div>
@@ -98,24 +132,42 @@
             <h2>Formulario especialistas</h2>
                 <form [formGroup]="formGroupEspecialistas">
                     <div>
-                        <label for="nombre">Nombre</label>
+                        <label for="nombre">
+                            Nombre
+                            @if(formGroupEspecialistas.controls['nombre'].errors?.['required'] && formGroupEspecialistas.controls['nombre'].touched){
+                               *
+                            }
+                        </label>
                         <input type="text" id="nombre" formControlName="nombre">
                     </div>
                     <div>
-                        <label for="apellido">Apellido</label>
+                        <label for="apellido">Apellido
+                            @if(formGroupEspecialistas.controls['apellido'].errors?.['required'] && formGroupEspecialistas.controls['apellido'].touched){
+                                *
+                             }
+                        </label>
                         <input type="text" id="apellido" formControlName="apellido">
                     </div>
                     <div>
-                        <label for="edad">Edad</label>
+                        <label for="edad">Edad
+                            @if(formGroupEspecialistas.controls['edad'].errors?.['required'] && formGroupEspecialistas.controls['edad'].touched){
+                                *
+                             }
+                        </label>
                         <input type="number" id="edad" formControlName="edad">
                     </div>
                     <div>
-                        <label for="DNI">DNI</label>
+                        <label for="DNI">DNI
+                            @if(formGroupEspecialistas.controls['dni'].errors?.['required'] && formGroupEspecialistas.controls['dni'].touched){
+                                *
+                             }
+                        </label>
                         <input type="text" id="DNI" formControlName="dni">
                     </div>
                     <div>
                         <mat-form-field>
-                            <mat-label>Especialidades</mat-label>
+                            <mat-label>Especialidades
+                            </mat-label>
                             <mat-select formControlName="especialidades" multiple>
                               @for (especialidad of especialidadesMedicas; track especialidad) {
                                 <mat-option [value]="especialidad.toLowerCase()">{{especialidad}}</mat-option>
@@ -124,22 +176,51 @@
                           </mat-form-field>
                         </div>
                     <div>
-                        <label for="email">Email</label>
+                        <label for="email">Email
+                            @if(formGroupEspecialistas.controls['email'].errors?.['required'] && formGroupEspecialistas.controls['email'].touched){
+                                *
+                             }
+                        </label>
                         <input type="text" id="email" formControlName="email">
                     </div>
                     <div>
-                        <label for="password">Contraseña</label>
+                        <label for="password">Contraseña
+                            @if(formGroupEspecialistas.controls['password'].errors?.['required'] && formGroupEspecialistas.controls['password'].touched){
+                                *
+                             }
+                        </label>
                         <input type="text" id="password" formControlName="password">
                     </div>
                     <div>
-                        <label for="repeatPassword">Repita su contraseña</label>
+                        <label for="repeatPassword">Repita su contraseña
+                            @if(formGroupEspecialistas.controls['repeatPassword'].errors?.['required'] && formGroupEspecialistas.controls['repeatPassword'].touched){
+                                *
+                             }
+                        </label>
                         <input type="text" id="repeatPassword" formControlName="repeatPassword">
                     </div>
                     <div>
-                        <label for="foto-perfil">Foto de perfil</label>
+                        <label for="foto-perfil">Foto de perfil
+                            @if(formGroupEspecialistas.controls['imagenPerfil'].errors?.['required'] && formGroupEspecialistas.controls['imagenPerfil'].touched){
+                                *
+                             }
+                        </label>
                         <input type="file" name="" id="foto-perfil" formControlName="imagenPerfil" (change)="ImagenPerfilCargada($event)">
                     </div>
-                    
+                    @if(showRecaptchaEspecialistas){
+                        <div>
+                            <ngx-recaptcha2 
+                            [siteKey]="siteKey"
+                            (reset)="handleReset2()"
+                            (expire)="handleExpire2()"
+                            (load)="handleLoad2()"
+                            (success)="handleSuccess2($event)"
+                            [useGlobalDomain]="false"
+                            formControlName="recaptcha2">
+                          </ngx-recaptcha2>
+                        </div>
+                    }
+                                       
                     <button class="button-registro" (click)="registroEspecialista()">REGISTRARME</button>
                 </form>
         </div>

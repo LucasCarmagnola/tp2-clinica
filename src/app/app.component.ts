@@ -24,7 +24,7 @@ export class AppComponent {
     protected router : Router, private databaseService : DatabaseService,
     private auth : Auth){
       this.router.events.subscribe(() => {
-        this.showHeader = !['/login', '/registro', '/login?returnUrl=%2Fhome'].includes(this.router.url);
+        this.showHeader = !['/login', '/registro', '/login?returnUrl=%2Fhome','/login?returnUrl=%2Fconseguir-turno', '/login?returnUrl=%2Fmis-turnos'].includes(this.router.url);
       });
   }
 

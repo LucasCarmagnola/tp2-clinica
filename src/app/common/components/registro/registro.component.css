@@ -148,7 +148,8 @@ h2{
     text-align: center;
 }
 .input label{
-    display: block;
+    display: flex;
+    flex-direction: row;
     font-size: 18px;
     font-weight: bold;
     margin: 8px 0;

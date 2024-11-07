@@ -29,6 +29,9 @@ export class RegistroComponent {
   protected emailVerified : boolean = false
   protected form : string = ''
   protected siteKey : string = '6Ldd73cqAAAAAE2Is1HfygGUwGLmba4WtvmTRiiJ'
+  protected siteKey2 : string = '6Ldd73cqAAAAAE2Is1HfygGUwGLmba4WtvmTRiiJ'
+  showRecaptchaPacientes = false;
+  showRecaptchaEspecialistas = false;
 
   especialidadesMedicas: string[] = [
     'Cardiologia',
@@ -81,7 +84,7 @@ export class RegistroComponent {
       repeatPassword : ['', [Validators.required, Validators.minLength(6), this.spacesValidator]],
       imagenPerfil: [null, [Validators.required]],
       especialidades: [[], [Validators.required]],
-      //recaptcha2: ['', Validators.required]
+      recaptcha2: ['', Validators.required]
     }, { validators: this.verificarPasswords })
   }
 
@@ -267,8 +270,10 @@ export class RegistroComponent {
     backOption.style.display = 'flex'
     if(opcion === 'paciente'){
       formPaciente.style.display = 'flex'
+      this.showRecaptchaPacientes = true
     }else if(opcion === 'medico'){
       formEspecialista.style.display = 'flex'
+      this.showRecaptchaEspecialistas = true
     }
   }
 
@@ -281,6 +286,8 @@ export class RegistroComponent {
     backOption.style.display = 'none'
     formPaciente.style.display = 'none'
     formEspecialista.style.display = 'none'
+    this.showRecaptchaEspecialistas = false
+    this.showRecaptchaPacientes = false
 
   }
 
@@ -297,6 +304,22 @@ export class RegistroComponent {
   }
 
   handleSuccess($event : string){
+    console.log($event)
+  }
+
+  handleReset2(){
+
+  }
+
+  handleExpire2(){
+
+  }
+
+  handleLoad2(){
+
+  }
+
+  handleSuccess2($event : string){
     console.log($event)
   }
 

@@ -7,7 +7,7 @@ export const routes: Routes = [
     {path : '', redirectTo : 'home', pathMatch : 'full'},
     {
         path : 'home', loadComponent : () => import('./common/components/home/home.component')
-        .then((c) => c.HomeComponent), canActivate : [authGuard]
+        .then((c) => c.HomeComponent),
     },
     {
         path : 'login', loadComponent : () => import('./common/components/login/login.component')
@@ -27,7 +27,7 @@ export const routes: Routes = [
     },
     {
         path : 'conseguir-turno', loadComponent : () => import('./common/components/conseguir-turno/conseguir-turno.component')
-        .then((c) => c.ConseguirTurnoComponent), //canActivate : [authAdminGuard]
+        .then((c) => c.ConseguirTurnoComponent),  canActivate : [authGuard]
     },
 
 ];
