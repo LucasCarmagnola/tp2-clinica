@@ -1,6 +1,19 @@
+:host{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
 .component{
     display: flex;
     justify-content: center;
+    width: 100%;
+}
+.component-child{
+    display: none;
+    justify-content: center;
+    width: 25%;
+    margin: 10px;
 }
 
 .solicitar-turno{
@@ -15,7 +28,7 @@
     top: 100px;
     height: 40px;
     width: 80px;
-    border-radius: 20px;
+    border-radius: 10px;
     border: 1px solid grey;
 }
 
@@ -24,11 +37,13 @@
 }
 
 .lista-especialistas{
+    height: 700px;
+    width: 25%;
     display: none;
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    width: 50%;
+    margin-top: 50px;
 }
 
 .especialista{
@@ -72,4 +87,9 @@
 .turnos-component{
     display: none;
 }
+
+.horarios-component{
+    display: none;
+}
+
 

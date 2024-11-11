@@ -1,0 +1,14 @@
+<div class="component">
+    @if(horariosDisponibles){
+        <h1>Horarios Disponibles</h1>
+    }
+    <div class="lista-horarios">
+        @for(horario of horariosDisponibles; track $index){
+            @if(horario.disponible){
+                <div class="disponible" (click)="crearTurno(horario.hora)">{{horario.hora}}</div>
+            }@else {
+                <div class="no-disponible">{{horario.hora}}</div>
+            }
+        }
+    </div>
+</div>

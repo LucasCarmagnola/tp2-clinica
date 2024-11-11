@@ -14,7 +14,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, NgxCaptchaModule],
+  imports: [MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, NgxCaptchaModule, RouterLink],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css',
 })

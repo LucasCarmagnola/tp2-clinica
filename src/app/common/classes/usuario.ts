@@ -49,7 +49,7 @@ export class Especialista extends Usuario {
         super(uid, tipoUsuario, nombre, apellido, edad, dni, email);
         this.especialidades = especialidades
         this.isActive = false
-        this.imagenPerfil = 'gs://clinica-tp2.appspot.com/imagenesDePerfil/default-perfil.png'
+        this.imagenPerfil = 'https://firebasestorage.googleapis.com/v0/b/clinica-tp2.appspot.com/o/imagenesDePerfil%2Fdefault-perfil.png?alt=media&token=268a0f9f-ac50-4912-a12d-aee990ce56a7'
         this.horariosDisponibles = [
             "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", 
             "11:00", "11:30", "12:00", "12:30", "13:00", "13:30",
@@ -62,12 +62,14 @@ export class Especialista extends Usuario {
 
 export class Administrador extends Usuario {
     imagenPerfil : string
+    isActive : boolean
 
     constructor(uid: string, nombre: string,  apellido : string, edad: number, dni: number,
         email: string){
 
         super(uid, 'administrador', nombre, apellido, edad, dni, email);
-        this.imagenPerfil = 'gs://clinica-tp2.appspot.com/imagenesDePerfil/default-perfil.png'
+        this.imagenPerfil = 'https://firebasestorage.googleapis.com/v0/b/clinica-tp2.appspot.com/o/imagenesDePerfil%2Fdefault-perfil.png?alt=media&token=268a0f9f-ac50-4912-a12d-aee990ce56a7'
+        this.isActive = true
     }
 }
 

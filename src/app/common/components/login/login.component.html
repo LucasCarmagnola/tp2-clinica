@@ -52,6 +52,17 @@
             <div class="password-olvidada" (click)="resetPassword(this.formGroup.controls['email'].value)">
                 <a>¿Olvidaste tu contraseña?</a>
             </div>
+            <div>
+                <ngx-recaptcha2 
+                [siteKey]="siteKey"
+                (reset)="handleReset()"
+                (expire)="handleExpire()"
+                (load)="handleLoad()"
+                (success)="handleSuccess($event)"
+                [useGlobalDomain]="false"
+                formControlName="recaptcha">
+              </ngx-recaptcha2>
+            </div>
             <div class="input">
                 <input type="submit" value="Login">
             </div>

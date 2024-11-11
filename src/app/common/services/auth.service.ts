@@ -31,8 +31,7 @@ export class AuthService {
         this.user = user
         this.emailVerified = user.emailVerified
         this.uidSubject.next(user.uid);
-        console.log(`en el constructor del servicio. USER: ${user}`)
-        console.log(`en el constructor del servicio. USER verificado: ${user.emailVerified}`)
+
         console.log(`en el constructor del servicio. Email: ${user.email}`)
       } else {
         this.userSubject.next(null);

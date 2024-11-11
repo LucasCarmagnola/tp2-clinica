@@ -115,6 +115,9 @@
 a:hover{
     text-decoration: underline;
 }
+a{
+  margin-bottom: 10px;
+}
 
 
 h1 {

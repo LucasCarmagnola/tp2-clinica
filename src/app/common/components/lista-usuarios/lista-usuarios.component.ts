@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-lista-usuarios',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './lista-usuarios.component.html',
   styleUrl: './lista-usuarios.component.css'
 })
@@ -14,9 +15,13 @@ export class ListaUsuariosComponent {
 
   protected usuarios : any[] = []
   protected emailVerified : any
+  formulario : FormGroup
 
-  constructor(private databaseService : DatabaseService, private authService : AuthService){
-
+  constructor(private databaseService : DatabaseService, private authService : AuthService, private fb : FormBuilder){
+    this.formulario = this.fb.group({
+      dias: ['', [Validators.required]],
+      horario: ['', [Validators.required]]
+    })
   }
 
   ngOnInit(){

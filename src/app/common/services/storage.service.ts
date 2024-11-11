@@ -38,5 +38,12 @@ export class StorageService {
     this.subir(imagen, uid, 'imagenesDePortada', parametroAModificar)
   }
 
+  async subirImagenEspecialidad(imagen : Blob, nombreEspecialidad : string){
+    const storageRef = ref(this.storage, 'imagenesDeEspecialidades' + '/' + nombreEspecialidad);
+    await uploadBytes(storageRef, imagen);
+    const url = await getDownloadURL(storageRef);
+    return url
+  }
+
 
 }

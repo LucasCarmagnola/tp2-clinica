@@ -1,0 +1,38 @@
+.component{
+    padding: 20px;
+    margin: 10px;
+}
+
+.lista-horarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    padding: 10px;
+  }
+  
+  .lista-horarios div {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+ 
+  .lista-horarios .disponible:hover {
+    background-color: #a8e6a1;
+    border-color: #76c893; 
+    transform: scale(1.05); 
+    cursor: pointer;
+  }
+  
+  
+  .lista-horarios .no-disponible {
+    background-color: #e0e0e0; 
+    border-color: #a3a3a3; 
+    color: #b2b2b2; 
+    cursor: not-allowed;
+  }

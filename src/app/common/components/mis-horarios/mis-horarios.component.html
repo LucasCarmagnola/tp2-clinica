@@ -1,0 +1,95 @@
+<div class="component">
+
+    <p>mis-horarios works!</p>
+    @if(userDB?.disponibilidad === null){
+        <div class="form-container">
+            <form [formGroup]="formulario" class="availability-form" (ngSubmit)="cargarDisponibilidad()">
+                <h2>Disponibilidad de los Médicos</h2>
+    
+                <!-- Generar los días de la semana (Lunes a Sábado) -->
+                <div class="day-row" *ngFor="let day of ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado']">
+                    <label>
+                        <input type="checkbox" formControlName="{{day}}" (change)="toggleTimeInputs(day)">
+                        {{ day.charAt(0).toUpperCase() + day.slice(1) }}
+                    </label>
+    
+                    <!-- Contenedor de inicio y fin de horario -->
+                    <div class="time-inputs" *ngIf="formulario.get(day)?.value">
+                        <label>
+                            Inicio:
+                            <input type="time" formControlName="{{day}}_inicio" placeholder="HH:mm">
+                        </label>
+                        <label>
+                            Fin:
+                            <input type="time" formControlName="{{day}}_fin" placeholder="HH:mm">
+                        </label>
+
+                        <button type="button" class="full-schedule-button" (click)="setFullSchedule(day)">
+                            Horario Completo
+                        </button>
+                    </div>
+                </div>
+    
+                <button type="submit" class="submit-button">Guardar Disponibilidad</button>
+            </form>
+        </div>
+    }
+    <p>{{userDB?.disponibilidad?.lunes}}</p>
+    @if(userDB?.disponibilidad != null){
+        <h3>Dias laborales</h3>
+        <table class="table">
+            <thead>
+              <tr>
+                <th>dia</th>
+                <th>hora de inicio</th>
+                <th>hora de fin</th>
+    
+              </tr>
+            </thead>
+            <tbody>
+                @if(userDB?.disponibilidad?.lunes){
+                    <tr>
+                        <td>Lunes</td>
+                        <td>{{userDB.disponibilidad.lunes.inicio}}</td>
+                        <td>{{userDB.disponibilidad.lunes.fin}}</td>
+                    </tr>
+                }
+                @if(userDB?.disponibilidad?.martes){
+                    <tr>
+                        <td>{{userDB.disponibilidad.martes}}</td>
+                        <td>{{userDB.disponibilidad.martes.inicio}}</td>
+                        <td>{{userDB.disponibilidad.martes.fin}}</td>
+                    </tr>
+                }
+                @if(userDB?.disponibilidad?.miercoles){
+                    <tr>
+                        <td>Miércoles</td>
+                        <td>{{userDB.disponibilidad.miercoles.inicio}}</td>
+                        <td>{{userDB.disponibilidad.miercoles.fin}}</td>
+                    </tr>
+                }
+                @if(userDB?.disponibilidad?.jueves){
+                    <tr>
+                        <td>Jueves</td>
+                        <td>{{userDB.disponibilidad.jueves.inicio}}</td>
+                        <td>{{userDB.disponibilidad.jueves.fin}}</td>
+                    </tr>
+                }
+                @if(userDB?.disponibilidad?.viernes){
+                    <tr>
+                        <td>Viernes</td>
+                        <td>{{userDB.disponibilidad.viernes.inicio}}</td>
+                        <td>{{userDB.disponibilidad.viernes.fin}}</td>
+                    </tr>
+                }
+                @if(userDB?.disponibilidad?.sabado){
+                    <tr>
+                        <td>Sábado</td>
+                        <td>{{userDB.disponibilidad.sabado.inicio}}</td>
+                        <td>{{userDB.disponibilidad.sabado.fin}}</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

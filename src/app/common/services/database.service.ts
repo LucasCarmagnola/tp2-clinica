@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Especialista, Usuario } from '../classes/usuario';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from './auth.service';
+import { StorageService } from './storage.service';
+import { Turno } from '../classes/turno';
+import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +13,21 @@ export class DatabaseService {
   
   userDatabase : any
 
-  constructor(private firestore: AngularFirestore, private authService : AuthService) {
+  constructor(private firestore: AngularFirestore, private authService : AuthService, private storageService : StorageService, private auth : Auth) {
     const user = this.authService.user
     if(user){
-      this.obtenerUserPorID('usuarios', user.uid).subscribe((userDatabase) => {
-        this.userDatabase = userDatabase
-      })
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          this.obtenerUserPorID('usuarios', user.uid).subscribe((userDatabase : any) => {
+            const user = userDatabase.data()
+            this.userDatabase = user
+          })
+    
+        } else {
+          console.log('No hay usuario logeado');
+          this.userDatabase = null
+        }
+      });
     }
 
    }
@@ -67,6 +79,51 @@ export class DatabaseService {
     const documento = colPuntos.doc(id);
     return documento.get();
   }
+
+  agregarEspecialidad(nombreEspecialidad: string, imagen : Blob){
+    const coleccion = this.firestore.collection('especialidades')
+    const documento = coleccion.doc()
+    const url = this.storageService.subirImagenEspecialidad(imagen, nombreEspecialidad)
+    documento.set({nombre: nombreEspecialidad, foto: url})
+  }
+
+  getTurnosOcupados(medicoId: string, startDate: string, endDate: string) {
+    return this.firestore.collection('turnos', ref =>
+      ref
+        .where('medicoId', '==', medicoId)
+        .where('fecha', '>=', startDate)
+        .where('fecha', '<=', endDate)
+        .where('estado', '==', 'pendiente')
+    ).valueChanges();
+  }
+
+  sacarTildes(str : string) {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  }
+
+  crearTurno(hora: string, fecha : string, medico : any, especialidad : string){
+    const coleccion = this.firestore.collection('turnos')
+    const doc = coleccion.doc()
+    const turno = new Turno(fecha, hora, 'pendiente', medico.uid, medico.nombre, especialidad, this.authService.user.uid, this.authService.user.displayName)
+
+    doc.set({...turno})
+  }
+
+  modificarDisponibilidad(uid:string, disponibilidad : any){
+    const coleccion = this.firestore.collection('usuarios')
+    const doc = coleccion.doc(uid)
+    doc.update({
+      disponibilidad: disponibilidad
+    })
+    .then(() => {
+      console.log("Disponibilidad actualizada correctamente");
+    })
+    .catch((error) => {
+      console.error("Error al actualizar disponibilidad: ", error);
+    });
+  }
+
+
 
 
 }

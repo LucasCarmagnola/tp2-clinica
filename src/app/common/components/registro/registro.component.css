@@ -11,6 +11,24 @@
     align-items: center;
 }
 
+.btn-login{
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  padding: 10px;
+  background-color: #6998d5; 
+  border: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-login:hover{
+  background-color: #5a86c4;
+}
+
 .opcion-registro{
     display: flex;
     flex-direction: column;
@@ -148,18 +166,27 @@ h2{
     text-align: center;
 }
 .input label{
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     font-size: 18px;
     font-weight: bold;
-    margin: 8px 0;
+    margin: 8px 0; */
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
 }
 
 .input input{
-    width: 100%;
+    /* width: 100%;
     padding: 5px 0;
     border-radius: 5px;
-    outline: none;
+    outline: none; */
+    width: 100%;
+    padding: 6px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 select{
   width: 100%;
@@ -243,7 +270,7 @@ select{
 .form-especialista input[type="number"],
 .form-especialista mat-form-field {
   width: 100%;
-  padding: 10px;
+  padding: 6px;
   margin-bottom: 15px;
   border: none;
   border-radius: 4px;
@@ -260,10 +287,18 @@ mat-form-field {
 
 /* Estilo de la imagen de perfil */
 #foto-perfil {
-  margin-top: 15px;
-  margin-bottom: 15px;
+  margin-top: 5px;
   display: block;
 }
+#foto-portada {
+  margin-top: 5px;
+  display: block;
+}
+
+.foto-perfil{
+  margin-bottom: 10px;
+}
+
 
 /* Espacio para la foto de perfil */
 .perfil-img-container {

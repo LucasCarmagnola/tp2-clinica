@@ -1,5 +1,6 @@
 <div class="component">
     <div class="seleccion" id="seleccion">
+        <button class="btn-login" routerLink="/login">Inicio de sesion</button>
         <div class="opcion-registro" (click)="seleccionForm('paciente')">
             <h2>Registrarse como Paciente</h2>
             <img src="/paciente.jpg" alt="" class="image-registro">
@@ -10,7 +11,7 @@
         </div>
     </div>
 
-    <button class="back-option" id="back-option" (click)="backSeleccion()">Volver</button>
+    <button class="btn-login" id="back-option" (click)="backSeleccion()">Volver</button>
 
     <div class="container-form contenedor" id="form-pacientes">
         <div class="imagen-formulario">
@@ -101,7 +102,7 @@
                 </div><br>
                 <div class="file-select" id="src-file2">
                     <label for="repeatPassword" style="color: white;">Foto de portada</label><br>
-                    <input type="file" name="src-file2" aria-label="Archivo" id="foto-banner" formControlName="imagenPortada" (change)="ImagenPortadaCargada($event)">
+                    <input type="file" name="src-file2" aria-label="Archivo" id="foto-banner" formControlName="imagenPortada" (change)="ImagenPortadaCargada($event)" style="margin-bottom: 10px;">
                 </div>
                 @if(showRecaptchaPacientes){
                     <div>
@@ -205,7 +206,7 @@
                                 *
                              }
                         </label>
-                        <input type="file" name="" id="foto-perfil" formControlName="imagenPerfil" (change)="ImagenPerfilCargada($event)">
+                        <input type="file" name="" class="foto-perfil" id="foto-perfil" formControlName="imagenPerfil" (change)="ImagenPerfilCargada($event)">
                     </div>
                     @if(showRecaptchaEspecialistas){
                         <div>

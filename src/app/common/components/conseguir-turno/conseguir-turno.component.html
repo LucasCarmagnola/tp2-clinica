@@ -24,8 +24,11 @@
             }
         </form>
     </div>
-    <div class="turnos-component" id="turnos-component">
-        <app-turnos-disponibles [medicoRecibido]="medicoSeleccionado"></app-turnos-disponibles>
+    <div class="component-child" id="turnos-component">
+        <app-turnos-disponibles [medicoRecibido]="medicoSeleccionado" (horariosEmitidos)="recibirDato($event)" (diaSeleccionadoEmitido)="recibirDia($event)"></app-turnos-disponibles>
+    </div>
+    <div class="component-child" id="horarios-component">
+        <app-horarios-disponibles [horariosDisponibles]="horariosDisponibles" [diaSeleccionado]="diaSeleccinoado" [medicoRecibido]="medicoSeleccionado" [especialidad]="especialidadSeleccionada"></app-horarios-disponibles>
     </div>
 </div>
 

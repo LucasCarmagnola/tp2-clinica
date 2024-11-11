@@ -1,12 +1,25 @@
 <div class="component">
     <div class="lista-horarios">
-        <h1>Turnos disponibles</h1>
-        @for(turno of medicoInput?.horariosDisponibles; track turno){
+        @if(turnosDisponibles){
+            <h1>Turnos disponibles</h1>
+        }@else {
+            <h1>No hay turnos disponibles</h1>
+        }
+    
+            
+        <!-- @if(medicoInput?.disponibilidad?.lunes){
+            <h3>Lunes</h3>
+            <p>inicio: {{medicoInput.disponibilidad.lunes.inicio}}</p>
+        }   <p></p> -->
+        <!-- @for(turno of medicoInput?.horariosDisponibles; track turno){
             @if(!medicoInput?.horariosOcupados.includes(turno)){
                 <div class="horario" (click)="seleccionarTurno()"> {{turno}} hs.</div>
             }@else{
                 <div class="horario-ocupado">{{turno}} hs.</div>
             }
+        } -->
+        @for(turnoDisponible of turnosDisponibles; track turnoDisponible){
+            <div class="dias-disponibles" (click)="enviarHorarios(turnoDisponible.horarios); enviarDia(turnoDisponible.dia)">{{turnoDisponible.dia}}</div>
         }
     </div>
 </div>
