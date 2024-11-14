@@ -4,10 +4,14 @@
             <div class="img-inicio">
                 <img src="favicon.ico" alt="inicio" class="" routerLink="/home">
             </div>
-            <div class="item-menu" routerLink="/conseguir-turno">Quiero un turno</div>
-            <div class="item-menu">Mis turnos</div>
+            @if(userDatabase?.tipoUsuario !== 'especialista'){
+                <div class="item-menu" routerLink="/conseguir-turno">Quiero un turno</div>
+            }
+            <div class="item-menu" routerLink="/mis-turnos">Mis turnos</div>
             <div class="item-menu">Obras sociales</div>
-            <div class="item-menu"></div>
+            @if(userDatabase?.tipoUsuario === 'especialista'){
+                <div class="item-menu" routerLink="/mis-horarios">Mis horarios</div>
+            }
         </div>
         <div class="header-right">
             <button (click)="salir()">Cerrar sesion</button>

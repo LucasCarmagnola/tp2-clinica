@@ -1,1 +1,99 @@
 <p>turnos works!</p>
+@if(userDatabase){
+    <input type="text" placeholder="Buscar..." class="filtro">
+    @for(turno of turnos; track $index){
+        <div class="turno">
+            <h3 class="turno__titulo">Turno</h3>
+            <div class="turno__detalle">
+              <span class="turno__label">Fecha:</span>
+              <span class="turno__valor">{{turno.fecha}}</span>
+            </div>
+            <div class="turno__detalle">
+              <span class="turno__label">Hora:</span>
+              <span class="turno__valor">{{turno.hora}} hs</span>
+            </div>
+            <div class="turno__detalle">
+              <span class="turno__label">Especialidad:</span>
+              <span class="turno__valor">{{turno.especialidad}}</span>
+            </div>
+            <div class="turno__detalle">
+                <span class="turno__label">Estado:</span>
+                <span class="turno__valor" style="color: blue;">{{turno.estado}}</span>
+            </div>
+            @if(userDatabase.tipoUsuario === 'paciente'){
+                <div class="turno__detalle">
+                  <span class="turno__label">Médico:</span>
+                  <span class="turno__valor">{{turno.nombreEspecialista}}</span>
+                </div>
+                @if(turno.estado === 'pendiente'){
+                    <div class="turno__accion">
+                        <span class="turno__valor"><button class="turno_boton_accion" (click)="cancelarTurno(turno)">Cancelar Turno</button></span>
+                    </div>
+                }
+            }@else if(userDatabase.tipoUsuario === 'especialista'){
+                <div class="turno__detalle">
+                    <span class="turno__label">Paciente:</span>
+                    <span class="turno__valor">{{turno.nombrePaciente}}</span>
+                </div>
+                @if(turno.estado === 'pendiente'){
+                    <div class="turno__accion">
+                        <span class="turno__valor"><button class="turno_boton_accion" (click)="rechazarTurno(turno)">Rechazar Turno</button></span>
+                        <span class="turno__valor"><button class="turno_boton_accion" (click)="finalizarTurno(turno)">Finalizar Turno</button></span>
+                    </div>
+                }
+            }
+            @if(turno.estado === 'finalizado'){
+                <div class="turno__detalle">
+                    <span class="turno__label">Evaluación:</span>
+                    <span class="turno__valor"><button class="turno_boton" (click)="mostrarEvaluacion(turno)">Ver evaluación</button></span>
+                </div>
+                @if(!turno.encuesta){
+                    <div class="turno__detalle">
+                        <span class="turno__label">Encuesta:</span>
+                        <span class="turno__valor"><button class="turno_boton" (click)="openEncuesta(turno)">Completar encuesta</button></span>
+                    </div>
+                }
+            }
+
+        </div>
+
+        <dialog #encuestaDialog class="encuesta-dialog" id="encuesta">
+            <h2>Encuesta Médica</h2>
+            <form [formGroup]="formEncuesta" (ngSubmit)="enviarEncuesta()">
+              <!-- Controles del formulario -->
+              <label>Calidad de Atención:</label>
+              <mat-radio-group formControlName="calidadAtencion">
+                <mat-radio-button value="excelente">Excelente</mat-radio-button>
+                <mat-radio-button value="buena">Buena</mat-radio-button>
+                <mat-radio-button value="regular">Regular</mat-radio-button>
+              </mat-radio-group>
+              <br>
+              <label>Tiempo de Espera:</label>
+              <mat-radio-group formControlName="tiempoEspera">
+                <mat-radio-button value="rapido">Rápido</mat-radio-button>
+                <mat-radio-button value="moderado">Moderado</mat-radio-button>
+                <mat-radio-button value="lento">Lento</mat-radio-button>
+              </mat-radio-group>
+              <br>
+              <label>Trato del Médico:</label>
+              <mat-radio-group formControlName="tratoMedico">
+                <mat-radio-button value="excelente">Excelente</mat-radio-button>
+                <mat-radio-button value="adecuado">Adecuado</mat-radio-button>
+                <mat-radio-button value="inadecuado">Inadecuado</mat-radio-button>
+              </mat-radio-group>
+              <br><br>
+              <label>Comentario:</label><br>
+              <textarea formControlName="comentario"></textarea>
+          
+              <div class="button-group">
+                <button type="submit" class="encuesta_boton">Enviar Encuesta</button>
+                <button type="button" class="encuesta_boton" (click)="closeEncuesta()">Cancelar</button>
+              </div>
+            </form>
+          </dialog>
+    }
+}@else {
+    <app-spinner></app-spinner>
+}
+
+

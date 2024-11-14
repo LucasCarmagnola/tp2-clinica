@@ -9,6 +9,7 @@
         </select>
         <button class="ver-fechas" (click)="verMedicosDisponibles()">Ver médicos disponibles</button>
     </div>
+
     <div class="lista-especialistas" id="lista-especialistas">
         <form action="" id="form-medicos">
             @for(medico of especialistasDisponibles; track medico){
@@ -30,6 +31,7 @@
     <div class="component-child" id="horarios-component">
         <app-horarios-disponibles [horariosDisponibles]="horariosDisponibles" [diaSeleccionado]="diaSeleccinoado" [medicoRecibido]="medicoSeleccionado" [especialidad]="especialidadSeleccionada"></app-horarios-disponibles>
     </div>
+
 </div>
 
 

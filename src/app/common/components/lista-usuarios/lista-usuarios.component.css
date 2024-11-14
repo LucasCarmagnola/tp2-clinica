@@ -2,11 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  background-color: bisque;
-  min-height: 100vh;
+
 }
 
-.user-table {
+/* .user-table {
   width: 60%;
   border-collapse: collapse;
   background-color: rgb(213, 216, 216);
@@ -22,7 +21,9 @@
 .user-table th {
   background-color: rgb(149, 150, 218);
   color: white;
-}
+} */
+
+
 
 .btn-activar, .btn-password {
   padding: 5px 10px;
@@ -51,4 +52,77 @@
 .btn-password:hover{
   background-color: rgba(42, 113, 236, 0.671);
 }
+
+
+.user-table {
+  width: 80%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  background-color: #fff;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.user-table th, .user-table td {
+  padding: 12px;
+  text-align: left;
+  font-size: 1rem;
+  color: #333;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.user-table td {
+  border-bottom: 1px solid #ddd;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.user-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.user-table td, .user-table th {
+  border: 1px solid #ddd;
+}
+
+
+/* Estilo de la imagen de perfil */
+.user-table td img {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Estilos específicos para los botones
+.user-table .btn-activar,
+.user-table .btn-password {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.user-table .btn-activar:hover,
+.user-table .btn-password:hover {
+  background-color: #0056b3;
+}
+
+.user-table .btn-activar:disabled,
+.user-table .btn-password:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+} */
 

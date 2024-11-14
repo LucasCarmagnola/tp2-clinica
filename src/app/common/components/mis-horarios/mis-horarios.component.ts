@@ -4,11 +4,13 @@ import { DatabaseService } from '../../services/database.service';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SpinnerComponent } from '../spinner/spinner.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-horarios',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, SpinnerComponent],
   templateUrl: './mis-horarios.component.html',
   styleUrl: './mis-horarios.component.css'
 })
@@ -21,6 +23,7 @@ export class MisHorariosComponent {
   private auth = inject(Auth)
   private fb = inject(FormBuilder)
   formulario : FormGroup
+  protected formVisible = false
 
   constructor(){
     //   this.formulario = this.fb.group({
@@ -30,23 +33,23 @@ export class MisHorariosComponent {
     this.formulario = this.fb.group({
       lunes: new FormControl(false),
       martes: new FormControl(false),
-      miércoles: new FormControl(false),
+      miercoles: new FormControl(false),
       jueves: new FormControl(false),
       viernes: new FormControl(false),
-      sábado: new FormControl(false),
+      sabado: new FormControl(false),
       // Agregar los controles de inicio y fin para cada día
       lunes_inicio: new FormControl(''),
       lunes_fin: new FormControl(''),
       martes_inicio: new FormControl(''),
       martes_fin: new FormControl(''),
-      miércoles_inicio: new FormControl(''),
-      miércoles_fin: new FormControl(''),
+      miercoles_inicio: new FormControl(''),
+      miercoles_fin: new FormControl(''),
       jueves_inicio: new FormControl(''),
       jueves_fin: new FormControl(''),
       viernes_inicio: new FormControl(''),
       viernes_fin: new FormControl(''),
-      sábado_inicio: new FormControl(''),
-      sábado_fin: new FormControl('')
+      sabado_inicio: new FormControl(''),
+      sabado_fin: new FormControl('')
     });
   }
 
@@ -80,7 +83,7 @@ export class MisHorariosComponent {
   }
 
   toggleAllTimeInputs(enable: boolean): void {
-    const days = ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+    const days = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
     days.forEach(day => {
       this.formulario.get(`${day}_inicio`)?.[enable ? 'enable' : 'disable']();
       this.formulario.get(`${day}_fin`)?.[enable ? 'enable' : 'disable']();
@@ -93,7 +96,7 @@ export class MisHorariosComponent {
     const saturdayHours = { inicio: '08:00', fin: '14:00' };
 
     // Seleccionar el horario según el día
-    const hours = day === 'sábado' ? saturdayHours : weekdayHours;
+    const hours = day === 'sabado' ? saturdayHours : weekdayHours;
 
     // Asignar los horarios a los controles de inicio y fin
     this.formulario.get(`${day}_inicio`)?.setValue(hours.inicio);
@@ -104,7 +107,7 @@ export class MisHorariosComponent {
     const disponibilidad: { [key: string]: { inicio: string, fin: string } } = {};
   
     // Recorremos cada día y agregamos solo los días seleccionados con sus horarios
-    ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'].forEach(day => {
+    ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'].forEach(day => {
       if (this.formulario.get(day)?.value) { // Verifica si el día está seleccionado
         disponibilidad[day] = {
           inicio: this.formulario.get(`${day}_inicio`)?.value,
@@ -115,7 +118,18 @@ export class MisHorariosComponent {
   
     console.log("Disponibilidad cargada:", disponibilidad);
     this.databaseService.modificarDisponibilidad(this.user.uid, disponibilidad)
-    // Aquí puedes enviar el objeto `disponibilidad` al backend o procesarlo según necesites
+
+    Swal.fire('Disponibilidad cargada!')
+    this.formVisible = false
+    this.ngOnInit()
+  }
+
+  mostrarHorarios(){
+    this.formVisible = true
+  }
+
+  cerrarFormulario(){
+    this.formVisible = false
   }
 
 

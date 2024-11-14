@@ -4,7 +4,7 @@ export class Turno {
 
     fecha : string
     hora : string
-    estado : 'pendiente'| 'realizado' | 'cancelado'
+    estado : 'pendiente'| 'realizado' | 'cancelado' | 'rechazado'
     medicoId : string
     nombreEspecialista : string
     especialidad : string
@@ -29,4 +29,11 @@ export class Turno {
     }
 
 
+}
+
+export enum EstadoTurnos {
+    Pendiente = "pendiente",
+    Rechazado = "rechazado",
+    Cancelado = "cancelado",
+    Finalizado = "finalizado"
 }

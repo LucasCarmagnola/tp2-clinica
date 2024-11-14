@@ -111,6 +111,21 @@ export class AuthService {
     sendPasswordResetEmail(this.auth, email)
   }
 
+  verificarUsuario() : Observable<any>{
+    return new Observable((observer) =>{
+      onAuthStateChanged(this.auth, (user) => {
+        if (user) {
+          observer.next(user);
+          console.log('Usuario logeado:', user);
+          console.log('UID: ' + user.uid)
+        } else {
+          observer.next(null);
+        }
+        observer.complete();
+      });
+    })
+  }
+
 
 
 }

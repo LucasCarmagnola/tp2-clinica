@@ -11,6 +11,7 @@ import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 })
 export class DatabaseService {
   
+  userAuth : any
   userDatabase : any
 
   constructor(private firestore: AngularFirestore, private authService : AuthService, private storageService : StorageService, private auth : Auth) {
@@ -18,6 +19,7 @@ export class DatabaseService {
     if(user){
       onAuthStateChanged(this.auth, (user) => {
         if (user) {
+          this.userAuth = user
           this.obtenerUserPorID('usuarios', user.uid).subscribe((userDatabase : any) => {
             const user = userDatabase.data()
             this.userDatabase = user
@@ -104,7 +106,7 @@ export class DatabaseService {
   crearTurno(hora: string, fecha : string, medico : any, especialidad : string){
     const coleccion = this.firestore.collection('turnos')
     const doc = coleccion.doc()
-    const turno = new Turno(fecha, hora, 'pendiente', medico.uid, medico.nombre, especialidad, this.authService.user.uid, this.authService.user.displayName)
+    const turno = new Turno(fecha, hora, 'pendiente', medico.uid, `${medico.nombre} ${medico.apellido}`, especialidad, this.authService.user.uid, this.authService.user.displayName)
 
     doc.set({...turno})
   }
@@ -121,6 +123,27 @@ export class DatabaseService {
     .catch((error) => {
       console.error("Error al actualizar disponibilidad: ", error);
     });
+  }
+
+  getTurnos(uid : any, tipoUsuario : string){
+    return this.firestore.collection('turnos', ref => 
+      ref
+      .where(tipoUsuario === 'paciente' ? 'idPaciente' : 'medicoId', '==', uid)
+      .orderBy('fecha', 'asc')
+      
+    ).valueChanges({ idField: 'id' })
+  }
+
+  modificarTurno(idTurno: string, nuevoEstado : string){
+    const coleccion = this.firestore.collection('turnos')
+    const documento = coleccion.doc(idTurno)
+    documento.update({estado : nuevoEstado})
+  }
+
+  finalizarTurno(idTurno: string, nuevoEstado : string, evaluacion: string){
+    const coleccion = this.firestore.collection('turnos')
+    const documento = coleccion.doc(idTurno)
+    documento.update({estado : nuevoEstado, evaluacion : evaluacion})
   }
 
 

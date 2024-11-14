@@ -147,7 +147,7 @@ export class RegistroComponent {
         this.formGroup.controls['dni'].value, this.formGroup.controls['obraSocial'].value,
         this.formGroup.controls['email'].value
       )
-      this.authService.actualizarNombre(usuario.nombre)
+      this.authService.actualizarNombre(`${usuario.nombre} ${usuario.apellido}`)
       this.databaseService.agregarUsuario(usuario, 'usuarios')
       console.log('Usuario guardado en la base de datos');
 

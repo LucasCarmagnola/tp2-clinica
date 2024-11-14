@@ -52,6 +52,7 @@
             <div class="password-olvidada" (click)="resetPassword(this.formGroup.controls['email'].value)">
                 <a>¿Olvidaste tu contraseña?</a>
             </div>
+            <p style="color: white;">¿No estás registrado? Registrate <a href="/registro" style="color: red;">aquí</a></p>
             <div>
                 <ngx-recaptcha2 
                 [siteKey]="siteKey"

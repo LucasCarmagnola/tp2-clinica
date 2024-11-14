@@ -40,8 +40,8 @@ export class Especialista extends Usuario {
     especialidades : string[]
     isActive : boolean
     imagenPerfil : string
-    horariosDisponibles : string[]
-    horariosOcupados : string [] = []
+    disponibilidad : null
+
 
     constructor(uid: string, tipoUsuario : string, nombre: string,  apellido : string, edad: number, dni: number,
         email: string, especialidades: string[]){
@@ -50,12 +50,7 @@ export class Especialista extends Usuario {
         this.especialidades = especialidades
         this.isActive = false
         this.imagenPerfil = 'https://firebasestorage.googleapis.com/v0/b/clinica-tp2.appspot.com/o/imagenesDePerfil%2Fdefault-perfil.png?alt=media&token=268a0f9f-ac50-4912-a12d-aee990ce56a7'
-        this.horariosDisponibles = [
-            "08:00", "08:30", "09:00", "09:30", "10:00", "10:30", 
-            "11:00", "11:30", "12:00", "12:30", "13:00", "13:30",
-            "14:00", "14:30", "15:00", "15:30", "16:00", "16:30",
-            "17:00", "17:30", "18:00", "18:30"
-          ];
+        this.disponibilidad = null
     }
 
 }

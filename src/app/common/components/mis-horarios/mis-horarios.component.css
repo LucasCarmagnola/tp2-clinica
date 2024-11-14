@@ -1,5 +1,6 @@
 .component {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1rem;
@@ -7,6 +8,7 @@
 }
 
 .form-container {
+    position: relative;
     background-color: white;
     padding: 2rem;
     border-radius: 8px;
@@ -92,3 +94,100 @@ input[type="checkbox"] {
 .full-schedule-button:hover {
     background-color: #003366;
 }
+
+
+.boton-toggle {
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    background-color: #004a7c; /* Azul oscuro */
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .boton-toggle:hover {
+    background-color: #0066a1; /* Azul más claro */
+    transform: scale(1.1); /* Agranda el botón ligeramente al hacer hover */
+  }
+  
+  .boton-toggle:active {
+    background-color: #003255; /* Azul más oscuro al hacer click */
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background-color: transparent;
+    color: #333;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0;
+    transition: color 0.3s ease;
+  }
+  
+  .close-button:hover {
+    color: #ff5c5c; /* Cambia el color a rojo claro al hacer hover */
+  }
+
+
+  .table {
+    width: 80%;
+    border-collapse: collapse; /* Para evitar bordes dobles */
+    margin: 70px 0; /* Espaciado arriba y abajo */
+    background-color: #fff; /* Fondo blanco para la tabla */
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para darle profundidad */
+    border-radius: 8px; /* Bordes redondeados */
+  }
+  
+  .table th, .table td {
+    padding: 12px; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación de texto a la izquierda */
+    font-size: 1rem; /* Tamaño de texto */
+    color: #333; /* Color de texto */
+  }
+  
+  .table th {
+    background-color: #f4f4f4; /* Color de fondo de los encabezados */
+    font-weight: bold; /* Negrita para los encabezados */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .table td {
+    border-bottom: 1px solid #ddd; /* Línea sutil entre filas */
+  }
+  
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Fila alterna con color diferente */
+  }
+  
+  .table tr:hover {
+    background-color: #f1f1f1; /* Efecto hover para filas */
+  }
+  
+  .table td, .table th {
+    border: 1px solid #ddd; /* Borde gris claro */
+  }
+  
+  /* Estilo para las celdas de la primera columna (Día) */
+  .table td:first-child {
+    font-weight: bold;
+  }
+  
+  /* Opcional: Estilo para filas sin datos */
+  .table tr.empty-row td {
+    color: #bbb;
+    text-align: center;
+  }
+  
+
+

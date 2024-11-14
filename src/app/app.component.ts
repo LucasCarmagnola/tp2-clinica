@@ -10,7 +10,7 @@ import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, TitleCasePipe, CurrencyPipe, JsonPipe, DatePipe, MuyLargoPipe, HighlightDirective, RouterLink],
+  imports: [RouterOutlet, RouterLink],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

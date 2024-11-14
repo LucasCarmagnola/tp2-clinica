@@ -33,5 +33,9 @@ export const routes: Routes = [
         path : 'mis-horarios', loadComponent : () => import('./common/components/mis-horarios/mis-horarios.component')
         .then((c) => c.MisHorariosComponent),  //canActivate : [authGuard]
     },
+    {
+        path : 'mis-turnos', loadComponent : () => import('./common/components/turnos/turnos.component')
+        .then((c) => c.TurnosComponent),  //canActivate : [authGuard]
+    },
 
 ];

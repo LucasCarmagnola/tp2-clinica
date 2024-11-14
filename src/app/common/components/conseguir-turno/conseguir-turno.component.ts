@@ -4,11 +4,12 @@ import { DatabaseService } from '../../services/database.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TurnosDisponiblesComponent } from '../turnos-disponibles/turnos-disponibles.component';
 import { HorariosDisponiblesComponent } from "../horarios-disponibles/horarios-disponibles.component";
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-conseguir-turno',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, TurnosDisponiblesComponent, HorariosDisponiblesComponent],
+  imports: [FormsModule, ReactiveFormsModule, TurnosDisponiblesComponent, HorariosDisponiblesComponent, SpinnerComponent],
   templateUrl: './conseguir-turno.component.html',
   styleUrl: './conseguir-turno.component.css'
 })
@@ -20,7 +21,7 @@ export class ConseguirTurnoComponent {
   userDatabase : any
   medicoSeleccionado : any 
   especialidadSeleccionada : string = ''
-  especialistasDisponibles : any[] = []
+  especialistasDisponibles : any = null
   especialidadesMedicas: string[] = [
     'Cardiologia',
     'Dermatologia',
