@@ -7,15 +7,32 @@
             @if(userDatabase?.tipoUsuario !== 'especialista'){
                 <div class="item-menu" routerLink="/conseguir-turno">Quiero un turno</div>
             }
-            <div class="item-menu" routerLink="/mis-turnos">Mis turnos</div>
+            @if(userDatabase?.tipoUsuario !== 'administrador'){
+                <div class="item-menu" routerLink="/mis-turnos">Mis turnos</div>
+            }@else {
+                <div class="item-menu" routerLink="/mis-turnos">Turnos</div>
+            }
             <div class="item-menu">Obras sociales</div>
             @if(userDatabase?.tipoUsuario === 'especialista'){
                 <div class="item-menu" routerLink="/mis-horarios">Mis horarios</div>
             }
         </div>
         <div class="header-right">
-            <button (click)="salir()">Cerrar sesion</button>
-            <img [src]="userDatabase?.imagenPerfil" alt="" class="img-perfil">
+            <!-- <img [src]="userDatabase?.imagenPerfil" alt="" class="img-perfil">
+            <img src="flecha.png" alt=""> -->
+            <div class="perfil-container">
+                <img [src]="userDatabase?.imagenPerfil" alt="Imagen de perfil" class="img-perfil" (click)="openMenu()"/>
+                <img src="flecha.png" alt="Flecha" class="flecha" (click)="openMenu()" />
+            </div>
+            @if(menuOpen === true){
+                <div id="menu" class="menu" id="menu">
+                    <ul>
+                      <li><a href="/mis-horarios">Mi perfil</a></li>
+
+                      <li><a (click)="salir()">Cerrar sesion</a></li>
+                    </ul>
+                </div>
+            }
         </div>
     </header>
 }

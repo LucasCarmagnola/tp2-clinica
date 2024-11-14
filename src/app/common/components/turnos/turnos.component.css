@@ -1,11 +1,26 @@
+.buscar{
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    /* padding: 20px 20px 20px 250px; */
+}
+
+.turnos-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 480px);
+    gap: 16px; 
+    justify-content: center; 
+    margin: 0 auto; 
+    padding: 16px; 
+}
 .turno {
-    background-color: #f9f9f9; /* Fondo claro para el turno */
+    background-color: #f9f9f9; 
     border: 1px solid #dcdcdc;
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 16px 0;
-    width: clamp(280px, 90%, 400px); 
+    width: clamp(280px, 400px, 400px); 
 }
 
 .turno__titulo {
@@ -156,13 +171,5 @@ textarea{
     background-color: #003255; 
 }
 
-.buscar{
-    background-color: #0066a1;
-    padding: 20px 20px 20px 200px;
-}
-
-.turnos{
-    
-}
   
   

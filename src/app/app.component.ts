@@ -1,5 +1,5 @@
 import { CurrencyPipe, DatePipe, JsonPipe, TitleCasePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MuyLargoPipe } from './common/pipes/muy-largo.pipe';
 import { HighlightDirective } from './common/directives/highlight.directive';
@@ -19,6 +19,7 @@ export class AppComponent {
   user : any = null
   userDatabase : any = null
   showHeader = true;
+  menuOpen : boolean = false
 
   constructor(private authService : AuthService, 
     protected router : Router, private databaseService : DatabaseService,
@@ -42,11 +43,29 @@ export class AppComponent {
         console.log('No hay usuario logeado');
         this.user = null
       }
-    });
+    })
+
+    window.onclick = (event: MouseEvent) => {
+      const menu = document.getElementById('menu');
+      if (this.menuOpen && menu) {
+        this.menuOpen = false;
+      }
+    }
+
+
   }
 
   salir(){
     this.authService.logOut()
     this.router.navigateByUrl('/login')
   }
+
+
+  openMenu() {
+    this.menuOpen = !this.menuOpen
+  }
+
+
+  
+
 }

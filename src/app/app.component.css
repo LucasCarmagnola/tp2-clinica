@@ -30,7 +30,7 @@ header{
     height: 60px;
     width: 60px;
     border-radius: 50%;
-    object-fit: cover;
+    object-fit: fill;
     align-self: flex-end;
     padding-right: 10px;
 }
@@ -48,4 +48,68 @@ header{
     padding: 0;
     height: 55px;
     width: 55px;
+}
+
+
+.perfil-container {
+    position: relative;
+    display: inline-block;
+}
+
+
+.img-perfil {
+    width: 50px; 
+    height: 50px;
+    border-radius: 50%; 
+}
+
+
+.flecha {
+    position: absolute;
+    top: 90%; 
+    left: 70%; 
+    transform: translate(0, -50%); 
+    margin-left: 4px; 
+    width: 16px; 
+    height: auto;
+}
+
+
+.menu {
+    display: block; /* Oculto por defecto */
+    position: absolute;
+    top: 70px; 
+    right: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li {
+    cursor: pointer;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.menu li:last-child {
+    border-bottom: none;
+}
+
+.menu li a {
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.menu li a:hover {
+    background-color: #f2f2f2;
 }

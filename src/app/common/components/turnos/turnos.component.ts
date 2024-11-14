@@ -128,6 +128,11 @@ export class TurnosComponent {
     });
   }
 
+  aceptarTurno(turno : any){
+    this.databaseService.modificarTurno(turno.id, EstadoTurnos.Aceptado)
+    Swal.fire(`Turno aceptado!`, "", "success");
+  }
+
 
 
   enviarEncuesta(){
@@ -157,16 +162,44 @@ export class TurnosComponent {
   filtrarTurnos(){
     const filtroEnMinusculas = this.filtro.toLowerCase()
 
-    this.turnosFiltrados = this.turnos.filter((turno : any) => {
-      const especialidadEnMinusculas = turno.especialidad.toLowerCase();
-      const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+    if(this.userDatabase.tipoUsuario === 'paciente'){
+      this.turnosFiltrados = this.turnos.filter((turno : any) => {
+        const especialidadEnMinusculas = turno.especialidad.toLowerCase();
+        const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+  
+  
+        return (
+          especialidadEnMinusculas.includes(filtroEnMinusculas) ||
+          nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas)
+        );
+      });
 
+    }else if(this.userDatabase.tipoUsuario === 'especialista'){
+      this.turnosFiltrados = this.turnos.filter((turno : any) => {
+        const especialidadEnMinusculas = turno.especialidad.toLowerCase();
+        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase();
+  
+  
+        return (
+          especialidadEnMinusculas.includes(filtroEnMinusculas) ||
+          nombrePacienteEnMinusculas.includes(filtroEnMinusculas)
+        );
+      });
 
-      return (
-        especialidadEnMinusculas.includes(filtroEnMinusculas) ||
-        nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas)
-      );
-    });
+    }else if(this.userDatabase.tipoUsuario === 'administrador'){
+      this.turnosFiltrados = this.turnos.filter((turno : any) => {
+        const especialidadEnMinusculas = turno.especialidad.toLowerCase();
+        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase();
+        const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+  
+        return (
+          especialidadEnMinusculas.includes(filtroEnMinusculas) ||
+          nombrePacienteEnMinusculas.includes(filtroEnMinusculas) ||
+          nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas)
+        );
+      });
+
+    }
   }
 
 

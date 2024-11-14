@@ -2,7 +2,7 @@
   <div class="buscar">
     <input type="text" placeholder="Buscar..." class="filtro" [(ngModel)]="filtro" (input)="filtrarTurnos()">
   </div>
-  <div class="turnos">
+  <div class="turnos-container">
 
     @for(turno of turnosFiltrados; track $index){
         <div class="turno">
@@ -23,12 +23,22 @@
                 <span class="turno__label">Estado:</span>
                 <span class="turno__valor" style="color: blue;">{{turno.estado}}</span>
             </div>
+            @if(userDatabase.tipoUsuario === 'administrador'){
+              <div class="turno__detalle">
+                <span class="turno__label">Médico:</span>
+                <span class="turno__valor">{{turno.nombreEspecialista}}</span>
+              </div>
+              <div class="turno__detalle">
+                <span class="turno__label">Paciente:</span>
+                <span class="turno__valor">{{turno.nombrePaciente}}</span>
+              </div>
+            }
             @if(userDatabase.tipoUsuario === 'paciente'){
                 <div class="turno__detalle">
                   <span class="turno__label">Médico:</span>
                   <span class="turno__valor">{{turno.nombreEspecialista}}</span>
                 </div>
-                @if(turno.estado === 'pendiente'){
+                @if(turno.estado === 'pendiente' || turno.estado === 'aceptado'){
                     <div class="turno__accion">
                         <span class="turno__valor"><button class="turno_boton_accion" (click)="cancelarTurno(turno)">Cancelar Turno</button></span>
                     </div>
@@ -40,9 +50,14 @@
                 </div>
                 @if(turno.estado === 'pendiente'){
                     <div class="turno__accion">
+                      <span class="turno__valor"><button class="turno_boton_accion" (click)="aceptarTurno(turno)">Aceptar Turno</button></span>
                         <span class="turno__valor"><button class="turno_boton_accion" (click)="rechazarTurno(turno)">Rechazar Turno</button></span>
-                        <span class="turno__valor"><button class="turno_boton_accion" (click)="finalizarTurno(turno)">Finalizar Turno</button></span>
-                    </div>
+                      </div>
+                }@else if(turno.estado === 'aceptado'){
+                  <div class="turno__accion">
+                    <span class="turno__valor"><button class="turno_boton_accion" (click)="finalizarTurno(turno)">Finalizar Turno</button></span>
+                  </div>
+
                 }
               }
               @if(turno.estado === 'finalizado'){

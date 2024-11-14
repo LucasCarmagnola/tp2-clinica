@@ -1,104 +1,131 @@
-@if(userDB){
-
-    <div class="component">
-        @if(userDB.disponibilidad === null){
-            <button class="boton-toggle" (click)="mostrarHorarios()">Cargar mis horarios</button>
-        }@else(){
-            <button class="boton-toggle" (click)="mostrarHorarios()">Cambiar mis horarios</button>
-        }
-        @if(formVisible){
-
-            <div class="form-container" id="form-horarios">
-                <button type="button" class="close-button" (click)="cerrarFormulario()">✕</button>
-                <form [formGroup]="formulario" class="availability-form" (ngSubmit)="cargarDisponibilidad()">
-                    <h2>Horario</h2>
-        
-                    <!-- Generar los días de la semana (Lunes a Sábado) -->
-                    <div class="day-row" *ngFor="let day of ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado']">
-                        <label>
-                            <input type="checkbox" formControlName="{{day}}" (change)="toggleTimeInputs(day)">
-                            {{ day.charAt(0).toUpperCase() + day.slice(1) }}
-                        </label>
-        
-                        <!-- Contenedor de inicio y fin de horario -->
-                        <div class="time-inputs" *ngIf="formulario.get(day)?.value">
-                            <label>
-                                Inicio:
-                                <input type="time" formControlName="{{day}}_inicio" placeholder="HH:mm">
-                            </label>
-                            <label>
-                                Fin:
-                                <input type="time" formControlName="{{day}}_fin" placeholder="HH:mm">
-                            </label>
-    
-                            <button type="button" class="full-schedule-button" (click)="setFullSchedule(day)">
-                                Horario Completo
-                            </button>
-                        </div>
-                    </div>
-        
-                    <button type="submit" class="submit-button">Guardar Disponibilidad</button>
-                </form>
+<div class="component">
+    @if(userDB){
+        @if(userDB.tipoUsuario === 'paciente'){
+            <div class="portada">
+                <img [src]="userDB.imagenPortada" alt="" class="foto-portada">
             </div>
         }
+        <div class="container-info">
+            <div class="container-foto-perfil">
+                <img [src]="userDB.imagenPerfil" alt="" class="foto-perfil">
+            </div>
+            <div class="dato">
+                <span class="field">Nombre</span>
+                <span>{{userDB.nombre}} {{userDB.apellido}}</span>
+            </div>
+            <div class="dato">
+                <span class="field">Correo</span>
+                <span>{{userDB.email}}</span>
+            </div>
+            @if(userDB.tipoUsuario === 'paciente'){
+                <div class="dato">
+                    <span class="field">Obra social</span>
+                    <span>{{userDB.obraSocial}}</span>
+                </div>
+            }
+        </div>
+        @if(userDB.tipoUsuario === 'especialista'){
+            
+                @if(userDB.disponibilidad === null){
+                    <button class="boton-toggle" (click)="mostrarHorarios()">Cargar mis horarios</button>
+                }@else(){
+                    <button class="boton-toggle" (click)="mostrarHorarios()">Cambiar mis horarios</button>
+                }
+                @if(formVisible){
         
-        @if(userDB?.disponibilidad != null){
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th>Día</th>
-                    <th>Inicio</th>
-                    <th>Fin</th>
-        
-                  </tr>
-                </thead>
-                <tbody>
-                    @if(userDB?.disponibilidad?.lunes){
-                        <tr>
-                            <td>Lunes</td>
-                            <td>{{userDB.disponibilidad.lunes.inicio}} hs</td>
-                            <td>{{userDB.disponibilidad.lunes.fin}} hs</td>
-                        </tr>
-                    }
-                    @if(userDB?.disponibilidad?.martes){
-                        <tr>
-                            <td>Martes</td>
-                            <td>{{userDB.disponibilidad.martes.inicio}} hs</td>
-                            <td>{{userDB.disponibilidad.martes.fin}} hs</td>
-                        </tr>
-                    }
-                    @if(userDB?.disponibilidad?.miercoles){
-                        <tr>
-                            <td>Miércoles</td>
-                            <td>{{userDB.disponibilidad.miercoles.inicio}} hs</td>
-                            <td>{{userDB.disponibilidad.miercoles.fin}} hs</td>
-                        </tr>
-                    }
-                    @if(userDB?.disponibilidad?.jueves){
-                        <tr>
-                            <td>Jueves</td>
-                            <td>{{userDB.disponibilidad.jueves.inicio}} hs</td>
-                            <td>{{userDB.disponibilidad.jueves.fin}} hs</td>
-                        </tr>
-                    }
-                    @if(userDB?.disponibilidad?.viernes){
-                        <tr>
-                            <td>Viernes</td>
-                            <td>{{userDB.disponibilidad.viernes.inicio}} hs</td>
-                            <td>{{userDB.disponibilidad.viernes.fin}} hs</td>
-                        </tr>
-                    }
-                    @if(userDB?.disponibilidad?.sabado){
-                        <tr>
-                            <td>Sábado</td>
-                            <td>{{userDB.disponibilidad.sabado.inicio}} hs</td>
-                            <td>{{userDB.disponibilidad.sabado.fin}} hs</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                    <div class="form-container" id="form-horarios">
+                        <button type="button" class="close-button" (click)="cerrarFormulario()">✕</button>
+                        <form [formGroup]="formulario" class="availability-form" (ngSubmit)="cargarDisponibilidad()">
+                            <h2>Horario</h2>
+                
+                            <!-- Generar los días de la semana (Lunes a Sábado) -->
+                            <div class="day-row" *ngFor="let day of ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado']">
+                                <label>
+                                    <input type="checkbox" formControlName="{{day}}" (change)="toggleTimeInputs(day)">
+                                    {{ day.charAt(0).toUpperCase() + day.slice(1) }}
+                                </label>
+                
+                                <!-- Contenedor de inicio y fin de horario -->
+                                <div class="time-inputs" *ngIf="formulario.get(day)?.value">
+                                    <label>
+                                        Inicio:
+                                        <input type="time" formControlName="{{day}}_inicio" placeholder="HH:mm">
+                                    </label>
+                                    <label>
+                                        Fin:
+                                        <input type="time" formControlName="{{day}}_fin" placeholder="HH:mm">
+                                    </label>
+            
+                                    <button type="button" class="full-schedule-button" (click)="setFullSchedule(day)">
+                                        Horario Completo
+                                    </button>
+                                </div>
+                            </div>
+                
+                            <button type="submit" class="submit-button">Guardar Disponibilidad</button>
+                        </form>
+                    </div>
+                }
+                
+                @if(userDB?.disponibilidad != null){
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Día</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @if(userDB?.disponibilidad?.lunes){
+                                <tr>
+                                    <td>Lunes</td>
+                                    <td>{{userDB.disponibilidad.lunes.inicio}} hs</td>
+                                    <td>{{userDB.disponibilidad.lunes.fin}} hs</td>
+                                </tr>
+                            }
+                            @if(userDB?.disponibilidad?.martes){
+                                <tr>
+                                    <td>Martes</td>
+                                    <td>{{userDB.disponibilidad.martes.inicio}} hs</td>
+                                    <td>{{userDB.disponibilidad.martes.fin}} hs</td>
+                                </tr>
+                            }
+                            @if(userDB?.disponibilidad?.miercoles){
+                                <tr>
+                                    <td>Miércoles</td>
+                                    <td>{{userDB.disponibilidad.miercoles.inicio}} hs</td>
+                                    <td>{{userDB.disponibilidad.miercoles.fin}} hs</td>
+                                </tr>
+                            }
+                            @if(userDB?.disponibilidad?.jueves){
+                                <tr>
+                                    <td>Jueves</td>
+                                    <td>{{userDB.disponibilidad.jueves.inicio}} hs</td>
+                                    <td>{{userDB.disponibilidad.jueves.fin}} hs</td>
+                                </tr>
+                            }
+                            @if(userDB?.disponibilidad?.viernes){
+                                <tr>
+                                    <td>Viernes</td>
+                                    <td>{{userDB.disponibilidad.viernes.inicio}} hs</td>
+                                    <td>{{userDB.disponibilidad.viernes.fin}} hs</td>
+                                </tr>
+                            }
+                            @if(userDB?.disponibilidad?.sabado){
+                                <tr>
+                                    <td>Sábado</td>
+                                    <td>{{userDB.disponibilidad.sabado.inicio}} hs</td>
+                                    <td>{{userDB.disponibilidad.sabado.fin}} hs</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            
         }
-    </div>
-}@else {
-    <app-spinner></app-spinner>
-}
+    }@else {
+        <app-spinner></app-spinner>
+    }
+</div>

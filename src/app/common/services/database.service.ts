@@ -137,12 +137,18 @@ export class DatabaseService {
   }
 
   getTurnos(uid : any, tipoUsuario : string){
-    return this.firestore.collection('turnos', ref => 
-      ref
-      .where(tipoUsuario === 'paciente' ? 'idPaciente' : 'medicoId', '==', uid)
-      .orderBy('fecha', 'asc')
-      
-    ).valueChanges({ idField: 'id' })
+    if(tipoUsuario === 'paciente' || tipoUsuario === 'especialista'){
+      return this.firestore.collection('turnos', ref => 
+        ref
+        .where(tipoUsuario === 'paciente' ? 'idPaciente' : 'medicoId', '==', uid)
+        .orderBy('fecha', 'asc')
+        
+      ).valueChanges({ idField: 'id' })
+    }else{
+      return this.firestore.collection('turnos', ref => 
+        ref.orderBy('fecha', 'asc')
+      ).valueChanges({ idField: 'id' })
+    }
   }
 
   modificarTurno(idTurno: string, nuevoEstado : string){
