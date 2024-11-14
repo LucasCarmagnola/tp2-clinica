@@ -42,6 +42,17 @@ export class DatabaseService {
     console.log('Estoy En el service. Agregando usuario a la base de datos.')
   }
 
+  agregar(objeto : any, coleccion : string, id : string | null = null){
+    const col = this.firestore.collection(coleccion)
+
+    if (id) {
+      const documento = col.doc(id);
+      documento.set({ ...objeto });
+  } else {
+      col.add({ ...objeto });
+  }
+  }
+
   traerUsuarios(){
     const colUsuarios = this.firestore.collection('usuarios', ref => ref.orderBy('tipoUsuario', 'asc'))
     return colUsuarios.valueChanges()
@@ -138,6 +149,12 @@ export class DatabaseService {
     const coleccion = this.firestore.collection('turnos')
     const documento = coleccion.doc(idTurno)
     documento.update({estado : nuevoEstado})
+  }
+
+  modificarEncuestaTurno(idTurno: string, nuevoEstado : boolean){
+    const coleccion = this.firestore.collection('turnos')
+    const documento = coleccion.doc(idTurno)
+    documento.update({encuestaCompletada : nuevoEstado})
   }
 
   finalizarTurno(idTurno: string, nuevoEstado : string, evaluacion: string){

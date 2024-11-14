@@ -1,7 +1,10 @@
-<p>turnos works!</p>
 @if(userDatabase){
-    <input type="text" placeholder="Buscar..." class="filtro">
-    @for(turno of turnos; track $index){
+  <div class="buscar">
+    <input type="text" placeholder="Buscar..." class="filtro" [(ngModel)]="filtro" (input)="filtrarTurnos()">
+  </div>
+  <div class="turnos">
+
+    @for(turno of turnosFiltrados; track $index){
         <div class="turno">
             <h3 class="turno__titulo">Turno</h3>
             <div class="turno__detalle">
@@ -41,19 +44,21 @@
                         <span class="turno__valor"><button class="turno_boton_accion" (click)="finalizarTurno(turno)">Finalizar Turno</button></span>
                     </div>
                 }
-            }
-            @if(turno.estado === 'finalizado'){
+              }
+              @if(turno.estado === 'finalizado'){
                 <div class="turno__detalle">
-                    <span class="turno__label">Evaluación:</span>
-                    <span class="turno__valor"><button class="turno_boton" (click)="mostrarEvaluacion(turno)">Ver evaluación</button></span>
+                  <span class="turno__label">Evaluación:</span>
+                  <span class="turno__valor"><button class="turno_boton" (click)="mostrarEvaluacion(turno)">Ver evaluación</button></span>
                 </div>
-                @if(!turno.encuesta){
-                    <div class="turno__detalle">
-                        <span class="turno__label">Encuesta:</span>
-                        <span class="turno__valor"><button class="turno_boton" (click)="openEncuesta(turno)">Completar encuesta</button></span>
-                    </div>
+                @if(userDatabase.tipoUsuario === 'paciente'){
+                  @if(!turno.encuestaCompletada){
+                      <div class="turno__detalle">
+                          <span class="turno__label">Encuesta:</span>
+                          <span class="turno__valor"><button class="turno_boton" (click)="openEncuesta(turno)">Completar encuesta</button></span>
+                      </div>
+                  }
                 }
-            }
+              }
 
         </div>
 
@@ -92,6 +97,7 @@
             </form>
           </dialog>
     }
+  </div>
 }@else {
     <app-spinner></app-spinner>
 }

@@ -11,6 +11,7 @@ export class Turno {
     idPaciente : string
     nombrePaciente : string
     evaluacion : string | null
+    encuestaCompletada : boolean
 
 
     constructor(fecha : string, hora:string, estado: 'pendiente'| 'realizado' | 'cancelado', medicoId:string, nombreEspecialista:string, especialidad:string,
@@ -26,6 +27,7 @@ export class Turno {
         this.idPaciente = idPaciente
         this.nombrePaciente = nombrePaciente
         this.evaluacion = null
+        this.encuestaCompletada = false
     }
 
 

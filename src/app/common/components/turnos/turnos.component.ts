@@ -6,13 +6,14 @@ import Swal from 'sweetalert2';
 import { EstadoTurnos } from '../../classes/turno';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Encuesta } from '../../classes/encuesta';
 
 
 @Component({
   selector: 'app-turnos',
   standalone: true,
-  imports: [SpinnerComponent, MatDialogModule, MatRadioModule, ReactiveFormsModule],
+  imports: [SpinnerComponent, MatDialogModule, MatRadioModule, ReactiveFormsModule, FormsModule],
   templateUrl: './turnos.component.html',
   styleUrl: './turnos.component.css'
 })
@@ -23,6 +24,9 @@ export class TurnosComponent {
   protected userDatabase : any
   formEncuesta: FormGroup
   encuestaOpen = false
+  protected turnoSeleccionado : any
+  turnosFiltrados: any[] = [];
+  filtro: string = '';
 
 
   constructor(private databaseService : DatabaseService, 
@@ -45,12 +49,14 @@ export class TurnosComponent {
         this.userDatabase = us
         this.databaseService.getTurnos(user.uid, us.tipoUsuario).subscribe((turnos) => {
           this.turnos = turnos
+          this.turnosFiltrados = turnos
       })
       })
     })
   }
 
   openEncuesta(turno: any): void {
+    this.turnoSeleccionado = turno
     const encuesta = document.getElementById('encuesta') as HTMLDialogElement
     encuesta.showModal()
   }
@@ -128,10 +134,39 @@ export class TurnosComponent {
     if (this.formEncuesta.valid) {
       const encuestaData = this.formEncuesta.value;
       console.log("Datos de la encuesta:", encuestaData);
+      const encuesta = new Encuesta(this.turnoSeleccionado.medicoId, 
+        this.turnoSeleccionado.nombreEspecialista, 
+        this.turnoSeleccionado.idPaciente, 
+        this.turnoSeleccionado.nombrePaciente, 
+        this.turnoSeleccionado.id, 
+        encuestaData.calidadAtencion, 
+        encuestaData.comentario, 
+        encuestaData.tiempoEspera, 
+        encuestaData.tratoMedico
+      )
+      this.databaseService.agregar(encuesta, 'encuestas')
+      this.databaseService.modificarEncuestaTurno(this.turnoSeleccionado.id, true)
+      Swal.fire("Encuesta enviada", "", "success")
       this.closeEncuesta();  
     } else {
-      console.log("Formulario no válido"); //aca tengo que poder obtener los datos del turno, asi saco el id del medico y el id del turno
+      console.log("Formulario no válido"); 
     }
+  }
+
+
+  filtrarTurnos(){
+    const filtroEnMinusculas = this.filtro.toLowerCase()
+
+    this.turnosFiltrados = this.turnos.filter((turno : any) => {
+      const especialidadEnMinusculas = turno.especialidad.toLowerCase();
+      const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+
+
+      return (
+        especialidadEnMinusculas.includes(filtroEnMinusculas) ||
+        nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas)
+      );
+    });
   }
 
 

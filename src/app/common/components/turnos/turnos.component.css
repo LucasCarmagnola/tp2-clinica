@@ -91,6 +91,7 @@
   
 
 .filtro{
+    width: 270px;
     padding: 7px;
     border-radius: 20px;
     border: none;
@@ -153,6 +154,15 @@ textarea{
 
 .encuesta_boton:active {
     background-color: #003255; 
+}
+
+.buscar{
+    background-color: #0066a1;
+    padding: 20px 20px 20px 200px;
+}
+
+.turnos{
+    
 }
   
   

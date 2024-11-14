@@ -43,3 +43,9 @@ header{
 .item-menu:hover{
     background-color: rgba(128, 128, 128, 0.176);
 }
+.icono{
+    margin: 0;
+    padding: 0;
+    height: 55px;
+    width: 55px;
+}
