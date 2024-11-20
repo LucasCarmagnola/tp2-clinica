@@ -1,13 +1,20 @@
 <div class="component">
     <button class="volver" id="volver" (click)="backEspecialidades()">Volver</button>
     <div class="solicitar-turno" id="solicitar-turno">
-        <h1>Especialidades disponibles</h1>
-        <select name="especialidades" id="especialidades" [(ngModel)]="especialidadSeleccionada">
-            @for(especialidad of especialidadesMedicas; track especialidad){
-                <option [value]="especialidad">{{especialidad}}</option>
-            }
-        </select>
-        <button class="ver-fechas" (click)="verMedicosDisponibles()">Ver médicos disponibles</button>
+        <h1>Seleccione una especialidad</h1>
+        <div class="container">
+            <button class="arrow left" (click)="scrollLeft()">&#8592;</button>
+            <div class="container-especialidades">
+                @for(especialidad of especialidadesMedicas; track especialidad){
+                    <div class="especialidad" (click)="verMedicosDisponibles(especialidad)">
+                        <img [src]="especialidad.foto" alt="">
+                        <p>{{especialidad.nombre}}</p>
+                    </div>
+                }
+            </div>
+            <button class="arrow right" (click)="scrollRight()">&#8594;</button>
+        </div>
+
     </div>
 
     <div class="lista-especialistas" id="lista-especialistas">

@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-bottom: 50px;
 }
 
 .form-container {
@@ -228,5 +229,25 @@ input[type="checkbox"] {
   object-fit: cover;
 }
   
+
+
+.titulo-especialidad{
+  display: flex;
+  justify-content: flex-start;
+  width: 600px;
+}
+
+.turno_boton {
+  background-color: #004a7c; 
+  color: #ffffff; 
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; 
+  text-align: center;
+}
 
 

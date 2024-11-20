@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { collection, doc, Firestore, getDoc, setDoc, updateDoc } from '@angular/fire/firestore';
 import { getDownloadURL, ref, Storage, uploadBytes } from '@angular/fire/storage';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
 
-  constructor(private fs: Firestore, private storage: Storage) { }
+  constructor(private fs: Firestore, private storage: Storage, private authService: AuthService) { }
 
 
   async subir(imagen: Blob, uid : string, carpeta: string, parametroAModificar : string) {
@@ -24,6 +25,7 @@ export class StorageService {
       usuario[`${parametroAModificar}`] = url
       
       await updateDoc(documento, {...usuario})
+      this.authService.actualizarFoto(url)
       console.log('Imagen actualizada correctamente en la base de datos.')
     }else{
       console.log("El documento del usuario no existe.");

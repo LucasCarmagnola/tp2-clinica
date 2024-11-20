@@ -24,6 +24,18 @@
                 </div>
             }
         </div>
+        <h1>Historia Clínica</h1>
+        @for(especialidad of especialidadesEnHistoriasClinicas; track $index){
+            <div class="titulo-especialidad">
+                <h2>{{especialidad}}</h2>
+            </div>
+            @for(historiaClinica of historiasClinicasPorEspecialidad[especialidad]; track $index){
+                <div class="dato">
+                    <span>Turno el {{historiaClinica.fecha | date: 'dd/MM/yyy'}} con especialista {{historiaClinica.nombreMedico}}</span>
+                    <span><button class="turno_boton" (click)="detallesTurno(historiaClinica)">detalles del turno</button></span>
+                </div>
+            }
+        }
         @if(userDB.tipoUsuario === 'especialista'){
             
                 @if(userDB.disponibilidad === null){

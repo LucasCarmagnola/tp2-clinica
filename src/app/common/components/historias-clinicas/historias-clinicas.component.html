@@ -1,0 +1,25 @@
+<div class="component">
+    <h1>Historias Clínicas</h1>
+    <h3>Seleccione el paciente para ver su historial</h3>
+    <div class="container">
+        <button class="arrow left" (click)="scrollLeft()">&#8592;</button>
+        <div class="container-especialidades">
+            @for(paciente of pacientes; track $index){
+                <div class="especialidad" (click)="mostrarTurnosDePaciente(paciente.idPaciente)">
+                    <img [src]="paciente.fotoPaciente" alt="">
+                    <p>{{paciente.nombrePaciente}}</p>
+                </div>
+            }
+        </div>
+        <button class="arrow right" (click)="scrollRight()">&#8594;</button>
+    </div>
+
+    @if(mostrarTurnos){
+        @for(turno of turnosPorPaciente; track $index){
+            <div class="dato">
+                <span>Turno el {{turno.fecha}}</span>
+                <span><button class="turno_boton" (click)="detallesTurno(turno.historiaClinica)">detalles del turno</button></span>
+            </div>
+        }
+    }
+</div>

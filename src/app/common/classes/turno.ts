@@ -12,10 +12,11 @@ export class Turno {
     nombrePaciente : string
     evaluacion : string | null
     encuestaCompletada : boolean
+    fotoPaciente : string
 
 
     constructor(fecha : string, hora:string, estado: 'pendiente'| 'realizado' | 'cancelado', medicoId:string, nombreEspecialista:string, especialidad:string,
-        idPaciente:string, nombrePaciente:string
+        idPaciente:string, nombrePaciente:string, fotoPaciente : string
     ){
 
         this.fecha = fecha
@@ -28,6 +29,7 @@ export class Turno {
         this.nombrePaciente = nombrePaciente
         this.evaluacion = null
         this.encuestaCompletada = false
+        this.fotoPaciente = fotoPaciente
     }
 
 

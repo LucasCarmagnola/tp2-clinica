@@ -33,6 +33,32 @@
                 <span class="turno__valor">{{turno.nombrePaciente}}</span>
               </div>
             }
+            @if(turno.historiaClinica){
+              <div class="turno__detalle">
+                <span class="turno__label">Altura:</span>
+                <span class="turno__valor">{{turno.historiaClinica.altura}}</span>
+              </div>
+              <div class="turno__detalle">
+                <span class="turno__label">Peso:</span>
+                <span class="turno__valor">{{turno.historiaClinica.peso}}</span>
+              </div>
+              <div class="turno__detalle">
+                <span class="turno__label">Presión:</span>
+                <span class="turno__valor">{{turno.historiaClinica.presion}}</span>
+              </div>
+              <div class="turno__detalle">
+                <span class="turno__label">Temperatura:</span>
+                <span class="turno__valor">{{turno.historiaClinica.temperatura}}</span>
+              </div>
+              @if(turno.historiaClinica.datosDinamicos){
+                @for(dato of turno.historiaClinica.datosDinamicos; track $index){
+                  <div class="turno__detalle">
+                    <span class="turno__label">{{dato.clave.charAt(0).toUpperCase() + dato.clave.slice(1).toLowerCase()}}:</span>
+                    <span class="turno__valor">{{dato.valor}}</span>
+                  </div>
+                }
+              }
+            }
             @if(userDatabase.tipoUsuario === 'paciente'){
                 <div class="turno__detalle">
                   <span class="turno__label">Médico:</span>
@@ -55,7 +81,7 @@
                       </div>
                 }@else if(turno.estado === 'aceptado'){
                   <div class="turno__accion">
-                    <span class="turno__valor"><button class="turno_boton_accion" (click)="finalizarTurno(turno)">Finalizar Turno</button></span>
+                    <span class="turno__valor"><button class="turno_boton_accion" (click)="cargarEvaluacion(turno)">Finalizar Turno</button></span>
                   </div>
 
                 }

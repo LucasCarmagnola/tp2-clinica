@@ -155,6 +155,8 @@ export class RegistroComponent {
       const fotoPortadaSeleccionada = this.formGroup.controls['imagenPortada'].value
       if(fotoPerfilSeleccionada && this.imagenPerfil){
         this.storageService.subirImagenPerfil(this.imagenPerfil, usuario.uid, 'imagenPerfil')
+      }else{
+        this.authService.actualizarFoto('https://firebasestorage.googleapis.com/v0/b/clinica-tp2.appspot.com/o/imagenesDePerfil%2Fdefault-perfil.png?alt=media&token=268a0f9f-ac50-4912-a12d-aee990ce56a7')
       }
       if(fotoPortadaSeleccionada && this.imagenPortada){
         this.storageService.subirImagenPortada(this.imagenPortada, usuario.uid, 'imagenPortada')
@@ -195,6 +197,8 @@ export class RegistroComponent {
       const fotoPerfilSeleccionada = this.formGroupEspecialistas.controls['imagenPerfil'].value
       if(fotoPerfilSeleccionada && this.imagenPerfil){
         this.storageService.subirImagenPerfil(this.imagenPerfil, usuario.uid, 'imagenPerfil')
+      }else{
+        this.authService.actualizarFoto('https://firebasestorage.googleapis.com/v0/b/clinica-tp2.appspot.com/o/imagenesDePerfil%2Fdefault-perfil.png?alt=media&token=268a0f9f-ac50-4912-a12d-aee990ce56a7')
       }
 
       await sendEmailVerification(this.user);

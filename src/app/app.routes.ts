@@ -37,5 +37,9 @@ export const routes: Routes = [
         path : 'mis-turnos', loadComponent : () => import('./common/components/turnos/turnos.component')
         .then((c) => c.TurnosComponent),  //canActivate : [authGuard]
     },
+    {
+        path : 'historias-clinicas', loadComponent : () => import('./common/components/historias-clinicas/historias-clinicas.component')
+        .then((c) => c.HistoriasClinicasComponent),  //canActivate : [authGuard]
+    },
 
 ];

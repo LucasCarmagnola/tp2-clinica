@@ -1,0 +1,95 @@
+.component {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+
+.dato{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 600px;
+    padding: 15px;
+    border-bottom: 1px solid rgb(174, 174, 174);
+  }
+  .turno_boton {
+    background-color: #004a7c; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%; 
+    text-align: center;
+  }
+
+
+  .container{
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .container-especialidades{
+    box-sizing: border-box;
+    height: 250px;
+    width: 90vw;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    overflow-x: hidden;
+  
+  }
+  
+  .especialidad{
+    height: 90%;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+
+  .especialidad:hover{
+    background-color: rgba(183, 183, 183, 0.613);
+  }
+  
+  img{
+    height:170px;
+    width: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    font-size: 2rem;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  .arrow.left {
+    left: 10px;
+  }
+  
+  .arrow.right {
+    right: 10px;
+  }
+  
+  .arrow:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+  }

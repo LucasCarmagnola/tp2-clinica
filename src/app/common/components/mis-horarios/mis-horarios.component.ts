@@ -24,6 +24,9 @@ export class MisHorariosComponent {
   private fb = inject(FormBuilder)
   formulario : FormGroup
   protected formVisible = false
+  historiasClinicas : any[] = []
+  especialidadesEnHistoriasClinicas : string[] = []
+  historiasClinicasPorEspecialidad : any
 
   constructor(){
     //   this.formulario = this.fb.group({
@@ -63,6 +66,23 @@ export class MisHorariosComponent {
           this.userDB = user
           console.log('a ver el user')
           console.log(this.userDB)
+        })
+        this.databaseService.traerHistoriasClinicas(user.uid).subscribe(historiasClinicas => {
+          this.historiasClinicas = historiasClinicas
+          console.log(historiasClinicas)
+
+          this.especialidadesEnHistoriasClinicas = [
+            ...new Set(historiasClinicas.map((historia : any) => historia.especialidad))
+          ];
+
+          this.historiasClinicasPorEspecialidad = this.especialidadesEnHistoriasClinicas.reduce((acc:any, especialidad:any) => {
+            acc[especialidad] = historiasClinicas.filter((historia:any) => historia.especialidad === especialidad);
+            return acc;
+          }, {});
+
+          console.log(this.especialidadesEnHistoriasClinicas);
+          console.log(this.historiasClinicasPorEspecialidad);
+
         })
   
       } else {
@@ -132,5 +152,33 @@ export class MisHorariosComponent {
     this.formVisible = false
   }
 
+
+  detallesTurno(historiaClinica : any){
+    const datosDinamicos = historiaClinica.datosDinamicos.map(
+      (dato: any) => `<b>${dato.clave}:</b> ${dato.valor}`
+    ).join('<br>');
+  
+    Swal.fire({
+      title: `<h2 style="color: #004a7c;">Detalles de la Historia Clínica</h2>`,
+      html: `
+        <div style="text-align: left; font-size: 16px; color: #333;">
+          <p><b>Altura:</b> ${historiaClinica.altura} cm</p>
+          <p><b>Peso:</b> ${historiaClinica.peso} kg</p>
+          <p><b>Presión:</b> ${historiaClinica.presion}</p>
+          <p><b>Temperatura:</b> ${historiaClinica.temperatura} °C</p>
+          <p><b>Evaluación:</b> ${historiaClinica.evaluacion}</p>
+          <p><b>Datos adicionales:</b></p>
+          <p>${datosDinamicos || 'No hay datos adicionales disponibles'}</p>
+        </div>
+      `,
+      confirmButtonText: 'Cerrar',
+      confirmButtonColor: '#004a7c', // Azul similar al de la página
+      background: '#f4f8fb', // Fondo claro
+      customClass: {
+        popup: 'sweetalert-custom', // Estilo adicional si necesitas CSS personalizado
+      }
+    });
+
+  }
 
 }

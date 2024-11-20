@@ -107,6 +107,25 @@ export class AuthService {
 
   }
 
+  async actualizarFoto(foto: string) {
+    const auth = getAuth(); 
+    const user = auth.currentUser;
+    if (user) {
+      // Verifica que el usuario esté autenticado
+      try {
+          await updateProfile(user, {
+              photoURL: foto
+          });
+          console.log('foto actualizado correctamente:', foto);
+      } catch (error) {
+          console.error('Error al actualizar la foto:', error);
+      }
+    } else {
+        console.log('No hay un usuario autenticado.');
+    }
+
+  }
+
   reestablecerPassword(email : string){
     sendPasswordResetEmail(this.auth, email)
   }

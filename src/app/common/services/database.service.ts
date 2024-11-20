@@ -115,11 +115,16 @@ export class DatabaseService {
   }
 
   crearTurno(hora: string, fecha : string, medico : any, especialidad : string){
-    const coleccion = this.firestore.collection('turnos')
-    const doc = coleccion.doc()
-    const turno = new Turno(fecha, hora, 'pendiente', medico.uid, `${medico.nombre} ${medico.apellido}`, especialidad, this.authService.user.uid, this.authService.user.displayName)
+    try{
+      const coleccion = this.firestore.collection('turnos')
+      const doc = coleccion.doc()
+      const turno = new Turno(fecha, hora, 'pendiente', medico.uid, `${medico.nombre} ${medico.apellido}`, especialidad, this.authService.user.uid, this.authService.user.displayName, this.authService.user.photoURL)
+  
+      doc.set({...turno})
 
-    doc.set({...turno})
+    }catch(error){
+      throw error
+    }
   }
 
   modificarDisponibilidad(uid:string, disponibilidad : any){
@@ -167,6 +172,55 @@ export class DatabaseService {
     const coleccion = this.firestore.collection('turnos')
     const documento = coleccion.doc(idTurno)
     documento.update({estado : nuevoEstado, evaluacion : evaluacion})
+  }
+
+  agregarHistoriaClinicaATurno(historiaClinica:any, idTurno:string){
+    const coleccion = this.firestore.collection('turnos')
+    const documento = coleccion.doc(idTurno)
+    documento.update({historiaClinica : historiaClinica})
+  }
+
+
+  async cargarHistoriaClinica(idUsuario: string, historiaClinica: any){
+    try {
+      const historiasClinicasRef = this.firestore
+        .collection('usuarios') // Colección de usuarios
+        .doc(idUsuario) // Documento del usuario correspondiente
+        .collection('historiasClinicas'); // Subcolección de historias clínicas
+  
+      // Agregar un nuevo documento a la colección
+      const nuevaHistoria = await historiasClinicasRef.add({
+        ...historiaClinica,
+        fecha: new Date().toISOString() // Se guarda la fecha actual como timestamp
+      });
+  
+      console.log(`Historia clínica cargada con ID: ${nuevaHistoria.id}`);
+      return nuevaHistoria.id; // Devuelve el ID del nuevo documento creado
+    } catch (error) {
+      console.error('Error al cargar la historia clínica:', error);
+      throw error;
+    }
+  }
+
+  traerHistoriasClinicas(idDocumento : string){
+    return this.firestore.collection(`usuarios/${idDocumento}/historiasClinicas`).valueChanges()
+  }
+
+  async traerHistoriasClinicasEspecialista(especialista:any){
+    try{
+      this.firestore.collection('turnos', ref => ref.where('idMedico', '==', especialista.id))
+      .valueChanges().subscribe((turnos:any)=> {
+        if(turnos){
+          const idPacientes = [
+            ...new Set(turnos.docs.map((doc:any) => doc.data().idPaciente))
+          ];
+        }
+      })
+  
+      
+    }catch(error){
+
+    }
   }
 
 

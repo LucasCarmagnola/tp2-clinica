@@ -88,7 +88,7 @@ export class TurnosComponent {
     
   }
 
-  async finalizarTurno(turno : any){
+  async cargarEvaluacion(turno : any){
     const { value: evaluacion } = await Swal.fire({
       title: "Cargue la evaluación del paciente",
       input: "text",
@@ -104,12 +104,108 @@ export class TurnosComponent {
     });
     
     if (evaluacion) {
-      this.databaseService.finalizarTurno(turno.id, EstadoTurnos.Finalizado, evaluacion)
-      Swal.fire(`Turno finalizado!`);
+      //this.databaseService.finalizarTurno(turno.id, EstadoTurnos.Finalizado, evaluacion)
+      //Swal.fire(`Turno finalizado!`);
+      this.finalizarTurno(turno, evaluacion)
     }
   }
 
+  async finalizarTurno(turno: any, evaluacion : string) {
+    const { value: formValues } = await Swal.fire({
+      title: "Cargar Historia Clínica",
+      html: `
+        <div style="display: flex; flex-direction: column; gap: 15px; max-width: 500px; margin: auto;">
+          <label for="altura">Altura (cm):</label>
+          <input type="number" id="altura" class="swal2-input" placeholder="Altura (cm)">
+          
+          <label for="peso">Peso (kg):</label>
+          <input type="number" id="peso" class="swal2-input" placeholder="Peso (kg)">
+          
+          <label for="temperatura">Temperatura (°C):</label>
+          <input type="number" id="temperatura" class="swal2-input" placeholder="Temperatura (°C)">
+          
+          <label for="presion">Presión (ej: 120/80):</label>
+          <input type="text" id="presion" class="swal2-input" placeholder="Presión">
+  
+          <!-- Datos dinámicos -->
+          <div style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 15px;">
+            <div style="display: flex; width: 100%; justify-content: center; gap: 10px;">
+              <input type="text" id="clave1" class="swal2-input" placeholder="Clave 1" style="flex: 1;">
+              <input type="text" id="valor1" class="swal2-input" placeholder="Valor 1" style="flex: 1;">
+            </div>
+            <div style="display: flex; width: 100%; max-width: 400px; justify-content: center; gap: 10px;">
+              <input type="text" id="clave2" class="swal2-input" placeholder="Clave 2" style="flex: 1;">
+              <input type="text" id="valor2" class="swal2-input" placeholder="Valor 2" style="flex: 1;">
+            </div>
+            <div style="display: flex; width: 100%; max-width: 400px; justify-content: center; gap: 10px;">
+              <input type="text" id="clave3" class="swal2-input" placeholder="Clave 3" style="flex: 1;">
+              <input type="text" id="valor3" class="swal2-input" placeholder="Valor 3" style="flex: 1;">
+            </div>
+          </div>
+        </div>
+      `,
+      focusConfirm: false,
+      width: 800, // Ajustar el ancho del cuadro
+      preConfirm: () => {
+        const altura = (document.getElementById('altura') as HTMLInputElement).value;
+        const peso = (document.getElementById('peso') as HTMLInputElement).value;
+        const temperatura = (document.getElementById('temperatura') as HTMLInputElement).value;
+        const presion = (document.getElementById('presion') as HTMLInputElement).value;
+  
+        const clave1 = (document.getElementById('clave1') as HTMLInputElement).value;
+        const valor1 = (document.getElementById('valor1') as HTMLInputElement).value;
+        const clave2 = (document.getElementById('clave2') as HTMLInputElement).value;
+        const valor2 = (document.getElementById('valor2') as HTMLInputElement).value;
+        const clave3 = (document.getElementById('clave3') as HTMLInputElement).value;
+        const valor3 = (document.getElementById('valor3') as HTMLInputElement).value;
+  
+        if (!altura || !peso || !temperatura || !presion) {
+          Swal.showValidationMessage('Debe completar los datos obligatorios (altura, peso, temperatura, presión).');
+          return undefined;
+        }
+  
+        return {
+          altura,
+          peso,
+          temperatura,
+          presion,
+          datosDinamicos: [
+            clave1 && valor1 ? { clave: clave1, valor: valor1 } : null,
+            clave2 && valor2 ? { clave: clave2, valor: valor2 } : null,
+            clave3 && valor3 ? { clave: clave3, valor: valor3 } : null
+          ].filter(dato => dato !== null)
+        };
+      },
+      showCancelButton: true
+    });
+  
+    if (formValues) {
+      const historiaClinica = {
+        idMedico: turno.medicoId,
+        nombreMedico: turno.nombreEspecialista,
+        especialidad: turno.especialidad,
+        evaluacion: evaluacion,
+        altura: parseFloat(formValues.altura),
+        peso: parseFloat(formValues.peso),
+        temperatura: parseFloat(formValues.temperatura),
+        presion: formValues.presion,
+        datosDinamicos: formValues.datosDinamicos
+      };
+      console.log("Valores ingresados:", historiaClinica);
+      // this.cargarEvaluacion(turno)
+      try{
+        await this.databaseService.cargarHistoriaClinica(turno.idPaciente, historiaClinica)
+        this.databaseService.agregarHistoriaClinicaATurno(historiaClinica, turno.id)
+        this.databaseService.finalizarTurno(turno.id, EstadoTurnos.Finalizado, evaluacion)
+        Swal.fire('Historia clínica y evaluacion guardados correctamente', '', 'success');
+      }catch(error:any){
+        Swal.fire('Error al guardar la historia clínica', error.message, 'error');
+      }
 
+    }
+  }
+  
+  
 
 
   rechazarTurno(turno : any){
@@ -164,44 +260,119 @@ export class TurnosComponent {
 
     if(this.userDatabase.tipoUsuario === 'paciente'){
       this.turnosFiltrados = this.turnos.filter((turno : any) => {
-        const especialidadEnMinusculas = turno.especialidad.toLowerCase();
-        const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+        const especialidadEnMinusculas = turno.especialidad.toLowerCase()
+        const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase()
+        const historiaClinica = turno.historiaClinica || {}
   
   
         return (
           especialidadEnMinusculas.includes(filtroEnMinusculas) ||
-          nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas)
+          nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas) ||
+          this.filtrarPorHistoriaClinica(historiaClinica, filtroEnMinusculas)
         );
       });
 
     }else if(this.userDatabase.tipoUsuario === 'especialista'){
       this.turnosFiltrados = this.turnos.filter((turno : any) => {
-        const especialidadEnMinusculas = turno.especialidad.toLowerCase();
-        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase();
+        const especialidadEnMinusculas = turno.especialidad.toLowerCase()
+        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase()
+        const historiaClinica = turno.historiaClinica || {}
   
   
         return (
           especialidadEnMinusculas.includes(filtroEnMinusculas) ||
-          nombrePacienteEnMinusculas.includes(filtroEnMinusculas)
+          nombrePacienteEnMinusculas.includes(filtroEnMinusculas) ||
+          this.filtrarPorHistoriaClinica(historiaClinica, filtroEnMinusculas)
         );
       });
 
     }else if(this.userDatabase.tipoUsuario === 'administrador'){
       this.turnosFiltrados = this.turnos.filter((turno : any) => {
-        const especialidadEnMinusculas = turno.especialidad.toLowerCase();
-        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase();
-        const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+        const especialidadEnMinusculas = turno.especialidad.toLowerCase()
+        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase()
+        const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase()
+        const historiaClinica = turno.historiaClinica || {}
   
         return (
           especialidadEnMinusculas.includes(filtroEnMinusculas) ||
           nombrePacienteEnMinusculas.includes(filtroEnMinusculas) ||
-          nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas)
-        );
+          nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas) ||
+          this.filtrarPorHistoriaClinica(historiaClinica, filtroEnMinusculas)
+        )
+      
       });
 
     }
   }
 
+  // Método auxiliar para filtrar por los campos de la historia clínica
+private filtrarPorHistoriaClinica(historiaClinica: any, filtro: string): boolean {
+  const altura = historiaClinica.altura ? historiaClinica.altura.toString() : '';
+  const peso = historiaClinica.peso ? historiaClinica.peso.toString() : '';
+  const presion = historiaClinica.presion ? historiaClinica.presion.toLowerCase() : '';
+  const temperatura = historiaClinica.temperatura ? historiaClinica.temperatura.toString() : '';
+
+  const datosDinamicos = historiaClinica.datosDinamicos || []; 
+  const datosDinamicosCoinciden = datosDinamicos.some((dato: { clave: string; valor: string }) => {
+    const clave = dato.clave.toLowerCase();
+    const valor = dato.valor.toLowerCase();
+    return clave.includes(filtro) || valor.includes(filtro);
+  });
+
+
+  return (
+    altura.includes(filtro) ||
+    peso.includes(filtro) ||
+    presion.includes(filtro) ||
+    temperatura.includes(filtro) ||
+    datosDinamicosCoinciden
+  );
+}
+
+
 
 
 }
+
+// filtrarTurnos(){
+//   const filtroEnMinusculas = this.filtro.toLowerCase()
+
+//   if(this.userDatabase.tipoUsuario === 'paciente'){
+//     this.turnosFiltrados = this.turnos.filter((turno : any) => {
+//       const especialidadEnMinusculas = turno.especialidad.toLowerCase();
+//       const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+
+
+//       return (
+//         especialidadEnMinusculas.includes(filtroEnMinusculas) ||
+//         nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas)
+//       );
+//     });
+
+//   }else if(this.userDatabase.tipoUsuario === 'especialista'){
+//     this.turnosFiltrados = this.turnos.filter((turno : any) => {
+//       const especialidadEnMinusculas = turno.especialidad.toLowerCase();
+//       const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase();
+
+
+//       return (
+//         especialidadEnMinusculas.includes(filtroEnMinusculas) ||
+//         nombrePacienteEnMinusculas.includes(filtroEnMinusculas)
+//       );
+//     });
+
+//   }else if(this.userDatabase.tipoUsuario === 'administrador'){
+//     this.turnosFiltrados = this.turnos.filter((turno : any) => {
+//       const especialidadEnMinusculas = turno.especialidad.toLowerCase();
+//       const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase();
+//       const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase();
+
+//       return (
+//         especialidadEnMinusculas.includes(filtroEnMinusculas) ||
+//         nombrePacienteEnMinusculas.includes(filtroEnMinusculas) ||
+//         nombreEspecialistaEnMinusculas.includes(filtroEnMinusculas) 
+//       )
+//     });
+
+//   }
+// }

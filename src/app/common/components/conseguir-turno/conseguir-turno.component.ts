@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { DatabaseService } from '../../services/database.service';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TurnosDisponiblesComponent } from '../turnos-disponibles/turnos-disponibles.component';
 import { HorariosDisponiblesComponent } from "../horarios-disponibles/horarios-disponibles.component";
 import { SpinnerComponent } from '../spinner/spinner.component';
@@ -22,23 +22,24 @@ export class ConseguirTurnoComponent {
   medicoSeleccionado : any 
   especialidadSeleccionada : string = ''
   especialistasDisponibles : any = null
-  especialidadesMedicas: string[] = [
-    'Cardiologia',
-    'Dermatologia',
-    'Endocrinologia',
-    'Gastroenterologia',
-    'Ginecologia',
-    'Medico clinico',
-    'Neumologia',
-    'Neurologia',
-    'Oftalmologia',
-    'Oncologia',
-    'Ortopedia',
-    'Pediatria',
-    'Psiquiatria',
-    'Traumatologia',
-    'Urologia'
+  especialidadesMedicas: any[] = [
+    { nombre: 'Cardiologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Dermatologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Endocrinologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Gastroenterologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Ginecologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Medico clinico', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Neumologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Neurologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Oftalmologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Oncologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Ortopedia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Pediatria', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Psiquiatria', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Traumatologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
+    { nombre: 'Urologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' }
   ];
+
 
   constructor(private authService : AuthService, private databaseService : DatabaseService, private fb : FormBuilder){
     // this.formulario = this.fb.group({
@@ -49,7 +50,6 @@ export class ConseguirTurnoComponent {
   async ngOnInit(){
     this.user = await this.authService.user
     this.userDatabase = await this.databaseService.userDatabase
-    console.log('en el componente conseguir turno')
   }
 
   recibirDato(dato : any){
@@ -59,7 +59,8 @@ export class ConseguirTurnoComponent {
     this.diaSeleccinoado = dato
   }
 
-  verMedicosDisponibles(){
+  verMedicosDisponibles(especialidad : any){
+    this.especialidadSeleccionada = especialidad.nombre
     const back = document.getElementById('volver') as HTMLDivElement
     const turnos = document.getElementById('solicitar-turno') as HTMLDivElement
     const listaMedicos = document.getElementById('lista-especialistas') as HTMLDivElement
@@ -71,7 +72,7 @@ export class ConseguirTurnoComponent {
     if(turnosComponent){turnosComponent.style.display = 'flex'}
     if(horariosComponent){horariosComponent.style.display = 'flex'}
 
-    this.databaseService.traerEspecialista(this.especialidadSeleccionada.toLowerCase()).subscribe((values) => {
+    this.databaseService.traerEspecialista(especialidad.nombre.toLowerCase()).subscribe((values) => {
       this.especialistasDisponibles = values
     })
     console.log(this.especialistasDisponibles)
@@ -91,6 +92,22 @@ export class ConseguirTurnoComponent {
     if(turnosComponent){turnosComponent.style.display = 'none'}
     if(horariosComponent){horariosComponent.style.display = 'none'}
   }
+
+
+  scrollLeft() {
+    const container = document.querySelector('.container-especialidades');
+    if(container){
+      container.scrollBy({ left: -200, behavior: 'smooth' });
+    }
+  }
+  
+  scrollRight() {
+    const container = document.querySelector('.container-especialidades');
+    if(container){
+      container.scrollBy({ left: 200, behavior: 'smooth' });
+    }
+  }
+  
 
 
 }
