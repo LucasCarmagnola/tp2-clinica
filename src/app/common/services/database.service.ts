@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { StorageService } from './storage.service';
 import { Turno } from '../classes/turno';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
+import { from, map, switchMap, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -56,6 +57,39 @@ export class DatabaseService {
   traerUsuarios(){
     const colUsuarios = this.firestore.collection('usuarios', ref => ref.orderBy('tipoUsuario', 'asc'))
     return colUsuarios.valueChanges()
+  }
+  // traerUsuariosConHistoriasClinicas() {
+    
+  //   this.traerUsuarios().forEach((usuario:any) => {
+  //     this.firestore.collection(`usuarios/${usuario.uid}/historiasClinicas`).valueChanges()
+  //   })
+    
+  // }
+  traerUsuariosConHistoriasClinicas() {
+    // Obtener usuarios
+    return this.firestore.collection('usuarios').snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data: any = a.payload.doc.data(); // Datos del usuario
+        const id = a.payload.doc.id; // ID del documento
+        return { id, ...data }; // Combinar ID con los datos del usuario
+      })),
+      switchMap(usuarios => {
+        // Para cada usuario, agregar sus historias clínicas
+        const usuariosConHistoriasClinicas = usuarios.map(async usuario => {
+          const historiasClinicas = await this.firestore
+            .collection(`usuarios/${usuario.id}/historiasClinicas`)
+            .valueChanges()
+            .pipe(take(1)) // Tomar una única vez los datos
+            .toPromise(); // Convertir observable a promesa
+  
+          // Devolver el usuario con sus historias clínicas
+          return { ...usuario, historiasClinicas: historiasClinicas || [] };
+        });
+  
+        // Esperar a que todas las promesas se resuelvan
+        return from(Promise.all(usuariosConHistoriasClinicas));
+      })
+    );
   }
 
   traerEspecialistas(){

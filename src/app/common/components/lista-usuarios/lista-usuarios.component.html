@@ -1,45 +1,82 @@
 <div class="component">
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
-          <th>DNI</th>
-          <th>Tipo de usuario</th>
-          <th>Foto</th>
-          <th>Verificacion correo</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for(usuario of usuarios; track $index){
-            <tr>
-              <td>{{usuario.nombre}}</td>
-              <td>{{usuario.apellido}}</td>
-              <td>{{usuario.email}}</td>
-              <td>{{usuario.dni}}</td>
-              <td>{{usuario.tipoUsuario}}</td>
-              <td><img [src]="usuario.imagenPerfil" alt="foto-perfil" style="height: 50px; width: 50px; border-radius: 50%;"></td>
-              <td>{{emailVerified}}</td>
-              <td>
-                @if(usuario.tipoUsuario === 'especialista' && !usuario.isActive){
-                    <button class="btn-activar" (click)="activar(usuario.uid, usuario.nombre, usuario.apellido)">Activar</button>
-                }
-                @else if(usuario.tipoUsuario === 'especialista' && usuario.isActive){
-                    <button class="btn-activar" (click)="desactivar(usuario.uid, usuario.nombre, usuario.apellido)">Inhabilitar</button>
-                }
-                <button class="btn-password" (click)="resetPassword(usuario.email)">Reset password </button>
-              </td>
-            </tr>
-        }
-        <!-- Más filas para cada usuario -->
-      </tbody>
-    </table>
+  @if(usuarios.length>0){
 
-    <!-- <dialog>
-      <form action="" [formGroup]="formulario">
-        <label for=""></label>//SEGUIR ACA, QUE EL ADMIN TENGA QUE AGREGARLE LOS HORARIOS EN LOS QUE TRABAJA EL MEDICO P[ARA PODER ACTIVAR SU CUENTA. HACER QUE EL FORMATO QUE VA A QUEDAR DE DISPONIBILIDAD COINCIDA CON EL QUE ESTA EN FIREBASE
-      </form>
-    </dialog> -->
+    <div class="btn-container">
+      <button class="btn-descarga" (click)="exportTableToExcel()">Exportar a Excel</button>
+    </div>
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>DNI</th>
+            <th>Tipo de usuario</th>
+            <th>Foto</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(usuario of usuarios; track $index){
+              <tr>
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.apellido}}</td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.dni}}</td>
+                <td>{{usuario.tipoUsuario}}</td>
+                <td><img [src]="usuario.imagenPerfil" alt="foto-perfil" style="height: 50px; width: 50px; border-radius: 50%;"></td>
+                <td>
+                  @if(usuario.tipoUsuario === 'especialista' && !usuario.isActive){
+                      <button class="btn-activar" (click)="activar(usuario.uid, usuario.nombre, usuario.apellido)">Activar</button>
+                  }
+                  @else if(usuario.tipoUsuario === 'especialista' && usuario.isActive){
+                      <button class="btn-activar" (click)="desactivar(usuario.uid, usuario.nombre, usuario.apellido)">Inhabilitar</button>
+                  }
+                  <button class="btn-password" (click)="resetPassword(usuario.email)">Reset password </button>
+                  @if(usuario.historiasClinicas?.length > 0){
+                    <button class="btn-historia" (click)="verHistoriaClinica(usuario)">Ver historia clínica</button>
+                  }
+                </td>
+              </tr>
+          }
+        </tbody>
+      </table>
+  
+      @if(tablaHistoriaClinica){
+        <div class="user-table">
+          <h3>Historia clínica de {{usuarioSeleccionado.nombre}} {{usuarioSeleccionado.apellido}}</h3>
+          <table class="historia-clinica-table">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Medico</th>
+                <th>Diagnóstico</th>
+                <th>Observaciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for(historia of usuarioSeleccionado.historiasClinicas; track $index){
+                <tr>
+                  <td>{{historia.fecha | date: 'dd/MM/yyy'}}</td>
+                  <td>{{historia.nombreMedico}}</td>
+                  <td>{{historia.evaluacion}}</td>
+                  @if(historia.datosDinamicos){
+                    <td>
+                      @for(dato of historia.datosDinamicos; track $index){
+                        {{dato.clave}}: {{dato.valor}}<br>
+                      }
+                    </td>
+                  }@else {
+                    <td>----</td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+  }@else {
+    <app-spinner></app-spinner>
+  }
+    
   </div>
