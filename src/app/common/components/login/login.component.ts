@@ -6,6 +6,7 @@ import { DatabaseService } from '../../services/database.service';
 import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { Registro } from '../../classes/registro';
 
 @Component({
   selector: 'app-login',
@@ -49,6 +50,8 @@ export class LoginComponent {
       const email = this.formGroup.controls['email'].value;
       const password = this.formGroup.controls['password'].value;
       const userCredential: any = await this.authService.login(email, password)
+      const registro = new Registro(email)
+      this.databaseservice.agregar(registro, 'registros')
       this.user = userCredential.user;
       if (!this.user.emailVerified) {
         this.mostrarAlertEmailNoVerificado()

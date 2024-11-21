@@ -27,6 +27,7 @@ export class TurnosComponent {
   protected turnoSeleccionado : any
   turnosFiltrados: any[] = [];
   filtro: string = '';
+  cantidadTurnos : number = 0
 
 
   constructor(private databaseService : DatabaseService, 
@@ -49,6 +50,7 @@ export class TurnosComponent {
         this.userDatabase = us
         this.databaseService.getTurnos(user.uid, us.tipoUsuario).subscribe((turnos) => {
           this.turnos = turnos
+          this.cantidadTurnos = turnos.length
           this.turnosFiltrados = turnos
       })
       })

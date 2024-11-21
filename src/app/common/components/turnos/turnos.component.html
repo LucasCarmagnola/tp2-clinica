@@ -2,6 +2,10 @@
   <div class="buscar">
     <input type="text" placeholder="Buscar..." class="filtro" [(ngModel)]="filtro" (input)="filtrarTurnos()">
   </div>
+  <div class="info-turnos">
+    <span>Cantidad de turnos: </span>
+    <span>{{cantidadTurnos}}</span>
+  </div>
   <div class="turnos-container">
 
     @for(turno of turnosFiltrados; track $index){
