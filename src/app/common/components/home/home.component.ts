@@ -2,13 +2,22 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { DatabaseService } from '../../services/database.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [ // Animación para cuando el componente aparece
+        style({ opacity: 0 }), // Estado inicial
+        animate('1s ease-in', style({ opacity: 1 })) // Estado final
+      ]),
+    ])
+  ]
 })
 export class HomeComponent {
 

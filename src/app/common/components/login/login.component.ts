@@ -7,13 +7,22 @@ import Swal from 'sweetalert2';
 import { Title } from '@angular/platform-browser';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { Registro } from '../../classes/registro';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, NgxCaptchaModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  animations: [
+    trigger('fadeInScale', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.5) translateY(-100px)' }),
+        animate('800ms ease-out', style({ opacity: 1, transform: 'scale(1) translateY(0)' }))
+      ])
+    ])
+  ]
 })
 export class LoginComponent {
 

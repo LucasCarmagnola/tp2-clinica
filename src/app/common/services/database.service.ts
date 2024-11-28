@@ -49,9 +49,9 @@ export class DatabaseService {
     if (id) {
       const documento = col.doc(id);
       documento.set({ ...objeto });
-  } else {
-      col.add({ ...objeto });
-  }
+    } else {
+        col.add({ ...objeto });
+    }
   }
 
   traerUsuarios(){
@@ -258,6 +258,9 @@ export class DatabaseService {
   }
 
 
+  traerRegistros(){
+    return this.firestore.collection('registros').valueChanges()
+  }
 
 
 }

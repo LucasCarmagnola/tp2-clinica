@@ -5,13 +5,34 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TurnosDisponiblesComponent } from '../turnos-disponibles/turnos-disponibles.component';
 import { HorariosDisponiblesComponent } from "../horarios-disponibles/horarios-disponibles.component";
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+
+
 
 @Component({
   selector: 'app-conseguir-turno',
   standalone: true,
   imports: [FormsModule, ReactiveFormsModule, TurnosDisponiblesComponent, HorariosDisponiblesComponent, SpinnerComponent],
   templateUrl: './conseguir-turno.component.html',
-  styleUrl: './conseguir-turno.component.css'
+  styleUrl: './conseguir-turno.component.css',
+  animations: [
+    trigger('slideInFromTop', [
+      transition(':enter', [
+        style({ transform: 'translateY(-100%)', opacity: 0 }), // Inicia fuera de la pantalla y con opacidad 0
+        animate(
+          '300ms ease-out',
+          style({ transform: 'translateY(0)', opacity: 1 })
+        ), // Aparece con opacidad 1 y en su posición original
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateY(0)', opacity: 1 }), // Estado inicial cuando se va a salir
+        animate(
+          '300ms ease-in',
+          style({ transform: 'translateY(-100%)', opacity: 0 })
+        ), // Se mueve hacia arriba y pierde opacidad
+      ]),
+    ]),
+  ],
 })
 export class ConseguirTurnoComponent {
 
@@ -46,6 +67,7 @@ export class ConseguirTurnoComponent {
     //   medico: ['', [Validators.required]]
     // })
   }
+  
 
   async ngOnInit(){
     this.user = await this.authService.user

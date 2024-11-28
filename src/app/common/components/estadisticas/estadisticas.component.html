@@ -1,0 +1,73 @@
+<p>estadisticas works!</p>
+<div>
+    @for (especialidad of especialidadesMedicas; track $index) {
+        @if (turnosPorEspecialidad?.[especialidad]) {
+          <p>Turnos de {{especialidad}}: {{turnosPorEspecialidad[especialidad].length}}</p>
+        }
+        @else {
+          <p>No hay turnos para {{especialidad}}.</p>
+        }
+      }
+      @for(log of registros; track $index){
+        <p>{{log.email}}</p>
+        <p>{{log.fecha | date: 'dd/MM/yyyy hh:mm a'}}</p>
+      }
+      <p>Total de registros: {{registros.length}}</p>
+
+
+      <h3>Turnos por especialista:</h3>
+      @for(especialista of especialistas; track $index){
+        @if(turnosDelEspecialista[especialista.uid]){
+            <p>turnos del especialista: {{especialista.nombre + especialista.apellido}}:</p>
+            @for(turno of turnosDelEspecialista[especialista.uid]; track $index){
+                <p>Turno el {{turno.fecha}} a las {{turno.hora}}</p>
+            }
+        }
+      }
+
+      <h3>Turnos por mes:</h3>
+      <!-- <div *ngFor="let turno of turnosPorMes; let i = index">
+        <p>Mes: {{ turnosPorMes[i].value }}</p>
+        <div *ngFor="let detalle of turno[i]">
+          <p>- {{ detalle.nombreEspecialista }}: {{ detalle.fecha }}</p>
+        </div>
+      </div> -->
+
+      @for(mes of meses; track $index){
+        <p>Mes: {{mes}}</p>
+        @for(turno of turnosPorMes[mes]; track $index){
+          <p>- {{turno.especialidad}} | {{ turno.nombreEspecialista }}: {{ turno.fecha }}</p>
+        }
+        Total de turnos del {{mes}}: {{turnosPorMes[mes].length}}
+      }
+
+      
+      @for(mes of meses; track $index){
+        <p>Mes: {{mes.key}}</p>
+        @for(especialista of mes.value | keyvalue; track $index){
+          <p>Especialista: {{especialista.key}}</p>
+          @for(turno of !especialista.key; track $index){
+            <p>- {{turno.fecha}}</p>
+          }
+        }
+      }
+      <div *ngFor="let mes of getMeses()">
+        <h3>Mes: {{ mes | date: 'MM-yyyy'}}</h3>
+        <ul>
+          <li *ngFor="let especialista of getEspecialistasPorMes(mes)">
+            {{ especialista.nombre }}: {{ especialista.turnos }} turnos
+          </li>
+        </ul>
+      </div>
+
+
+      <div *ngFor="let mes of meses">
+        <h3>Mes: {{ mes }}</h3>
+        <ul>
+          <li *ngFor="let especialista of getEspecialistasFinalizadosPorMes(mes)">
+            {{ especialista.nombre }}: {{ especialista.turnosFinalizados }} turnos finalizados
+          </li>
+        </ul>
+      </div>
+
+</div>

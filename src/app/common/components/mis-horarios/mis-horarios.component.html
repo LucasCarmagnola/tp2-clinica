@@ -1,4 +1,4 @@
-<div class="component">
+<div class="component" [@fadeIn]>
     @if(userDB){
         @if(userDB.tipoUsuario === 'paciente'){
             <div class="portada">
@@ -32,7 +32,8 @@
             @for(historiaClinica of historiasClinicasPorEspecialidad[especialidad]; track $index){
                 <div class="dato">
                     <span>Turno el {{historiaClinica.fecha | date: 'dd/MM/yyy'}} con especialista {{historiaClinica.nombreMedico}}</span>
-                    <span><button class="turno_boton" (click)="detallesTurno(historiaClinica)">detalles del turno</button></span>
+                    <span><button class="turno_boton" (click)="detallesTurno(historiaClinica)">Detalles del turno</button></span>
+                    <span><button class="turno_boton" (click)="descargarTurno(historiaClinica)">Descargar turno</button></span>
                 </div>
             }
         }

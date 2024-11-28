@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 import {MatSelectModule} from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-registro',
@@ -17,6 +18,15 @@ import { NgxCaptchaModule } from 'ngx-captcha';
   imports: [MatFormFieldModule, MatSelectModule, FormsModule, ReactiveFormsModule, NgxCaptchaModule, RouterLink],
   templateUrl: './registro.component.html',
   styleUrl: './registro.component.css',
+  animations: [
+    trigger('flipAnimation', [
+      state('normal', style({ transform: 'rotateY(0)' })),
+      state('flipped', style({ transform: 'rotateY(180deg)' })),
+      transition('normal <=> flipped', [
+        animate('600ms ease-in-out')
+      ])
+    ])
+  ]
 })
 export class RegistroComponent {
 
@@ -32,6 +42,9 @@ export class RegistroComponent {
   protected siteKey2 : string = '6Ldd73cqAAAAAE2Is1HfygGUwGLmba4WtvmTRiiJ'
   showRecaptchaPacientes = false;
   showRecaptchaEspecialistas = false;
+  estadoCartaPaciente: string = 'normal';
+  estadoCartaMedico: string = 'normal';
+
 
   especialidadesMedicas: string[] = [
     'Cardiologia',
@@ -270,16 +283,30 @@ export class RegistroComponent {
     const formEspecialista = document.getElementById('container-especialista') as HTMLDivElement
     const backOption = document.getElementById('back-option') as HTMLDivElement
 
-    seleccion.style.display = 'none'
-    backOption.style.display = 'flex'
-    if(opcion === 'paciente'){
-      formPaciente.style.display = 'flex'
-      this.showRecaptchaPacientes = true
-    }else if(opcion === 'medico'){
-      formEspecialista.style.display = 'flex'
-      this.showRecaptchaEspecialistas = true
+    setTimeout(() => {
+      seleccion.style.display = 'none'
+      backOption.style.display = 'flex'
+      if(opcion === 'paciente'){
+        formPaciente.style.display = 'flex'
+        this.showRecaptchaPacientes = true
+      }else if(opcion === 'medico'){
+        formEspecialista.style.display = 'flex'
+        this.showRecaptchaEspecialistas = true
+      }
+
+    }, 600); 
+    
+  }
+
+  animarCarta(usuario:string) {
+    if(usuario == 'paciente'){
+      this.estadoCartaPaciente = this.estadoCartaPaciente === 'normal' ? 'flipped' : 'normal'; // Cambia el estado al hacer clic
+    }else{
+      this.estadoCartaMedico = this.estadoCartaMedico === 'normal' ? 'flipped' : 'normal'; // Cambia el estado al hacer clic
+
     }
   }
+
 
   backSeleccion(){
     const seleccion = document.getElementById('seleccion') as HTMLDivElement

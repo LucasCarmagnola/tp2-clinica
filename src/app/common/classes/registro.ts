@@ -1,9 +1,9 @@
 export class Registro {
     email: string
-    fecha : Date
+    fecha : any
 
     constructor(email : string){
         this.email = email
-        this.fecha = new Date()
+        this.fecha = new Date().valueOf()
     }
 }

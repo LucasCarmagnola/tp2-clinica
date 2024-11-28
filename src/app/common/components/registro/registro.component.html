@@ -2,11 +2,13 @@
     <div class="seleccion" id="seleccion">
         <div class="opcion-registro" (click)="seleccionForm('paciente')">
             <h2>Registrarse como Paciente</h2>
-            <img src="/paciente.jpg" alt="" class="image-registro">
+            <img src="/paciente.jpg" alt="" class="image-registro" [@flipAnimation]="estadoCartaPaciente"
+            (click)="animarCarta('paciente')">
         </div>
-        <div class="opcion-registro" (click)="seleccionForm('medico')">
+        <div class="opcion-registro" (click)="seleccionForm('medico')" [@flipAnimation]="estadoCartaMedico"
+        (click)="animarCarta('medico')">
             <h2>Registrarse como Médico</h2>
-            <img src="/image.jpeg" alt="" class="image-registro">
+            <img src="/image.jpeg" alt="" class="image-registro" >
         </div>
     </div>
 
