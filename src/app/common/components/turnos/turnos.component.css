@@ -24,7 +24,7 @@
 }
 
 .turno__titulo {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: #004a7c; 
     margin-bottom: 8px;
     text-align: center;
@@ -169,6 +169,34 @@ textarea{
 
 .encuesta_boton:active {
     background-color: #003255; 
+}
+
+
+
+select {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+    width: 200px;
+    height: 35px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+}
+
+select:hover {
+    border-color: #0056b3;
+}
+select:focus {
+    outline: none;
+    border-color: #004a7c;
+    box-shadow: 0 0 5px #004a7c;
+}
+  
+.info-turnos{
+    margin-left: 50px;
+    font-family: Arial, sans-serif;
 }
 
   

@@ -44,7 +44,10 @@
   
       @if(tablaHistoriaClinica){
         <div class="user-table">
-          <h3>Historia clínica de {{usuarioSeleccionado.nombre}} {{usuarioSeleccionado.apellido}}</h3>
+          <div class="title">
+            <h3>Historia clínica de {{usuarioSeleccionado.nombre}} {{usuarioSeleccionado.apellido}}</h3>
+            <span><button class="btn-descarga-usuario" (click)="generarExcelPorUsuario(usuarioSeleccionado)">Exportar historia clinica a excel</button></span>
+          </div>
           <table class="historia-clinica-table">
             <thead>
               <tr>

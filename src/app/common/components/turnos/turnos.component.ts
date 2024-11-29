@@ -258,8 +258,9 @@ export class TurnosComponent {
 
 
   filtrarTurnos(){
+    console.log(this.filtro)
     const filtroEnMinusculas = this.filtro.toLowerCase()
-
+    console.log(filtroEnMinusculas)
     if(this.userDatabase.tipoUsuario === 'paciente'){
       this.turnosFiltrados = this.turnos.filter((turno : any) => {
         const especialidadEnMinusculas = turno.especialidad.toLowerCase()
@@ -276,8 +277,8 @@ export class TurnosComponent {
 
     }else if(this.userDatabase.tipoUsuario === 'especialista'){
       this.turnosFiltrados = this.turnos.filter((turno : any) => {
-        const especialidadEnMinusculas = turno.especialidad.toLowerCase()
-        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase()
+        const especialidadEnMinusculas = (turno.especialidad || '').toLowerCase()
+        const nombrePacienteEnMinusculas = (turno.nombrePaciente || '').toLowerCase()
         const historiaClinica = turno.historiaClinica || {}
   
   
@@ -290,9 +291,9 @@ export class TurnosComponent {
 
     }else if(this.userDatabase.tipoUsuario === 'administrador'){
       this.turnosFiltrados = this.turnos.filter((turno : any) => {
-        const especialidadEnMinusculas = turno.especialidad.toLowerCase()
-        const nombrePacienteEnMinusculas = turno.nombrePaciente.toLowerCase()
-        const nombreEspecialistaEnMinusculas = turno.nombreEspecialista.toLowerCase()
+        const especialidadEnMinusculas = (turno.especialidad || '').toLowerCase()
+        const nombrePacienteEnMinusculas = (turno.nombrePaciente || '').toLowerCase()
+        const nombreEspecialistaEnMinusculas = (turno.nombreEspecialista || '').toLowerCase()
         const historiaClinica = turno.historiaClinica || {}
   
         return (
@@ -329,6 +330,18 @@ private filtrarPorHistoriaClinica(historiaClinica: any, filtro: string): boolean
     temperatura.includes(filtro) ||
     datosDinamicosCoinciden
   );
+}
+
+ordenarTurnosPorEstado(categoriaAEvaluar: string, event: Event): void {
+
+  const selectElement = event.target as HTMLSelectElement;
+  const valorDeCategoria = selectElement.value;
+
+  this.turnos.sort((a: any, b: any) => {
+    if (a[categoriaAEvaluar] === valorDeCategoria && b[categoriaAEvaluar] !== valorDeCategoria) return -1;
+    else if (a[categoriaAEvaluar] !== valorDeCategoria && b[categoriaAEvaluar] === valorDeCategoria) return 1;
+    return 0;
+  });
 }
 
 

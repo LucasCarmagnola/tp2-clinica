@@ -6,6 +6,16 @@
     <span>Cantidad de turnos: </span>
     <span>{{cantidadTurnos}}</span>
   </div>
+  <div class="info-turnos">
+    <label for="ordenar">Ordenar por</label>
+    <select name="ordenar" id="ordenar" (change)="ordenarTurnosPorEstado('estado', $event)">
+      <option value="finalizado">Finalizados</option>
+      <option value="pendiente">Pendientes</option>
+      <option value="aceptado">Aceptados</option>
+      <option value="rechazado">Rechazados</option>
+      <option value="cancelado">Cancelados</option>
+    </select>
+  </div>
   <div class="turnos-container">
 
     @for(turno of turnosFiltrados; track $index){

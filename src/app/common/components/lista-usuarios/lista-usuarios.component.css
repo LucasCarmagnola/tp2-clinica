@@ -31,6 +31,28 @@
   background-color: #003255; 
 }
 
+.btn-descarga-usuario{
+  background-color: #004a7c; 
+  color: #ffffff; 
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 8px 10px 0 10px;
+  height: 40px;
+  text-align: center;
+}
+
+.btn-descarga-usuario:hover {
+  background-color: #0066a1; 
+}
+
+.btn-descarga-usuario:active {
+  background-color: #003255; 
+}
+
 /* .user-table {
   width: 60%;
   border-collapse: collapse;
@@ -138,6 +160,17 @@
   width: 50px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.title{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.title btn{
+
 }
 
 /* Estilos específicos para los botones
