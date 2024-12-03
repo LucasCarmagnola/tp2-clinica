@@ -6,11 +6,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import * as XLSX from 'xlsx';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { CommonModule } from '@angular/common';
+import { MuyLargoPipe } from '../../pipes/muy-largo.pipe';
+import { DniPuntosPipe } from '../../pipes/dni-puntos.pipe';
 
 @Component({
   selector: 'app-lista-usuarios',
   standalone: true,
-  imports: [ReactiveFormsModule, SpinnerComponent, CommonModule],
+  imports: [ReactiveFormsModule, SpinnerComponent, CommonModule, MuyLargoPipe, DniPuntosPipe],
   templateUrl: './lista-usuarios.component.html',
   styleUrl: './lista-usuarios.component.css'
 })

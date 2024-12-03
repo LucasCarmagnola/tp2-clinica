@@ -7,7 +7,7 @@
         }
         <div class="container-info">
             <div class="container-foto-perfil">
-                <img [src]="userDB.imagenPerfil" alt="" class="foto-perfil">
+                <img [src]="userDB.imagenPerfil" alt="" class="foto-perfil" appAgrandarElemento [escala]="'3,3'">
             </div>
             <div class="dato">
                 <span class="field">Nombre</span>
@@ -15,7 +15,7 @@
             </div>
             <div class="dato">
                 <span class="field">Correo</span>
-                <span>{{userDB.email}}</span>
+                <span appRestringirDato [datoSensible]="userDB.email">{{userDB.email}}</span>
             </div>
             @if(userDB.tipoUsuario === 'paciente'){
                 <div class="dato">

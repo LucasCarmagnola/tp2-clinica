@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class MuyLargoPipe implements PipeTransform {
 
-  transform(value: string, largoMaximo: number = 8, cadenaQueCorta : string = '...'): string {
+  transform(value: string, largoMaximo: number = 20, cadenaQueCorta : string = '...'): string {
 
     if(value.length > largoMaximo){
       let respuesta = value.slice(0, largoMaximo) + cadenaQueCorta

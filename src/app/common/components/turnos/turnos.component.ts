@@ -8,12 +8,13 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatRadioModule } from '@angular/material/radio';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Encuesta } from '../../classes/encuesta';
+import { HighlightDirective } from '../../directives/highlight.directive';
 
 
 @Component({
   selector: 'app-turnos',
   standalone: true,
-  imports: [SpinnerComponent, MatDialogModule, MatRadioModule, ReactiveFormsModule, FormsModule],
+  imports: [SpinnerComponent, MatDialogModule, MatRadioModule, ReactiveFormsModule, FormsModule, HighlightDirective],
   templateUrl: './turnos.component.html',
   styleUrl: './turnos.component.css'
 })

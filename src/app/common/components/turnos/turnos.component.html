@@ -35,7 +35,7 @@
             </div>
             <div class="turno__detalle">
                 <span class="turno__label">Estado:</span>
-                <span class="turno__valor" style="color: blue;">{{turno.estado.toUpperCase()}}</span>
+                <span class="turno__valor" style="color: blue;" appHighlight [color]="'red'" [colorNativo]="'blue'">{{turno.estado.toUpperCase()}}</span>
             </div>
             @if(userDatabase.tipoUsuario === 'administrador'){
               <div class="turno__detalle">

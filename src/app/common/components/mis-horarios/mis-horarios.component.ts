@@ -8,12 +8,14 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 import Swal from 'sweetalert2';
 import { animate, style, transition, trigger } from '@angular/animations';
 import jsPDF from 'jspdf';
+import { RestringirDatoDirective } from '../../directives/restringir-dato.directive';
+import { AgrandarElementoDirective } from '../../directives/agrandar-elemento.directive';
 
 
 @Component({
   selector: 'app-mis-horarios',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, SpinnerComponent],
+  imports: [ReactiveFormsModule, CommonModule, SpinnerComponent, RestringirDatoDirective, AgrandarElementoDirective],
   templateUrl: './mis-horarios.component.html',
   styleUrl: './mis-horarios.component.css',
   animations: [

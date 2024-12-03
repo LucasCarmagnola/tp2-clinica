@@ -22,7 +22,7 @@
                 <td>{{usuario.nombre}}</td>
                 <td>{{usuario.apellido}}</td>
                 <td>{{usuario.email}}</td>
-                <td>{{usuario.dni}}</td>
+                <td>{{usuario.dni | dniPuntos}}</td>
                 <td>{{usuario.tipoUsuario}}</td>
                 <td><img [src]="usuario.imagenPerfil" alt="foto-perfil" style="height: 50px; width: 50px; border-radius: 50%;"></td>
                 <td>
@@ -62,7 +62,7 @@
                 <tr>
                   <td>{{historia.fecha | date: 'dd/MM/yyy'}}</td>
                   <td>{{historia.nombreMedico}}</td>
-                  <td>{{historia.evaluacion}}</td>
+                  <td>{{historia.evaluacion | muyLargo}}</td>
                   @if(historia.datosDinamicos){
                     <td>
                       @for(dato of historia.datosDinamicos; track $index){
