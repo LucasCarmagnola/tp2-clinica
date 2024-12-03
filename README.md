@@ -18,7 +18,7 @@ Al seleccionar una de las especialidades te llevara a la seleccion de especialis
 
 ![image](https://github.com/user-attachments/assets/4ca64bcb-6ee7-4c37-8ae2-897f59875262)
 
-En la pestaña 'mis turnos' tendras todos tur turnos, con sus respectivos estados para que puedas gestionarlos, ver las devoluciones, y realizar una encuesta de atención,
+En la pestaña 'mis turnos' tendras todos tus turnos, con sus respectivos estados para que puedas gestionarlos, ver las devoluciones, y realizar una encuesta de atención,
 
 ![image](https://github.com/user-attachments/assets/23e81d80-db8b-4671-872e-2fbf5f890df7)
 
@@ -42,7 +42,7 @@ El especialista gestiona sus horarios desde su perfil, puede modificar sus horar
 
 ![image](https://github.com/user-attachments/assets/e4edf3ef-bc38-486a-8c63-799995660afa)
 
-Por ultimo el Administrador puede administrar los usuarios
+Por ultimo el Administrador puede gestionar los usuarios
 ![image](https://github.com/user-attachments/assets/95fffff0-3eaf-4b33-9369-7c2d43b6923b)
 
 Puede ver estadisticas de la clinica, con la posibilidad de descargarlas
