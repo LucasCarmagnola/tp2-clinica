@@ -22,7 +22,37 @@ En la pestaña 'mis turnos' tendras todos tur turnos, con sus respectivos estado
 
 ![image](https://github.com/user-attachments/assets/23e81d80-db8b-4671-872e-2fbf5f890df7)
 
-<img src="https://github.com/user-attachments/assets/1ef41acb-d319-4001-9811-82d39d0277c1" alt="Descripción de la imagen" width="300" height="200">
+<img src="https://github.com/user-attachments/assets/1ef41acb-d319-4001-9811-82d39d0277c1" alt="Descripción de la imagen" width="500" height="500">
+
+Desde 'mi perfil' podras ver todo tu historial de turnos junto a sus detalles, y tambien la descarga de los mismos como pdf. 
+
+![image](https://github.com/user-attachments/assets/c7112584-470f-41e6-b428-56f7e6eff0e3)
+
+--------------------------------------------------------------------------------
+
+Desde el Especialista se podran aceptar o rechazar los turnos, y al finalizar se podra cargar la historia clinica del paciente.
+
+![image](https://github.com/user-attachments/assets/f4c08898-758e-44af-af22-df5e67835647)
+
+Desde la pestaña 'Pacientes' habra una lista de todos los pacientes que fueron atendidos al menos una vez por dicho especialista, con los detalles de cada turno
+
+![image](https://github.com/user-attachments/assets/8b31a3bf-5510-4ef3-a53a-a3fbec49b83a)
+
+El especialista gestiona sus horarios desde su perfil, puede modificar sus horarios
+
+![image](https://github.com/user-attachments/assets/e4edf3ef-bc38-486a-8c63-799995660afa)
+
+Por ultimo el Administrador puede administrar los usuarios
+![image](https://github.com/user-attachments/assets/95fffff0-3eaf-4b33-9369-7c2d43b6923b)
+
+Puede ver estadisticas de la clinica, con la posibilidad de descargarlas
+
+![image](https://github.com/user-attachments/assets/a8ab6019-04cc-4743-a1d8-bac05ba4e424)
+![image](https://github.com/user-attachments/assets/66a8d02f-a277-4d03-a34d-e0b421e82f60)
+![image](https://github.com/user-attachments/assets/ddb7b980-9fc8-4c3b-94ed-0d5bbad57f31)
+![image](https://github.com/user-attachments/assets/b1a84121-294b-43ce-8524-b1fa8c48f71e)
+![image](https://github.com/user-attachments/assets/9467e323-b881-4594-bd4a-a47e910645d0)
+
 
 
 
