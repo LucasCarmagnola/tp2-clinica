@@ -1,27 +1,23 @@
-# Tp2
+# Tp2 Clinica Web Angular
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.1.
+Este pproyecto es un portal web que permite la gestion de turnos e historial medico para los pacientes.
 
-## Development server
+## Inicio de sesion
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+![image](https://github.com/user-attachments/assets/8b964451-9ae3-46e6-afd4-1bd9818da251)
 
-## Code scaffolding
+Hay inicios rapidos como Administrador, como Especialista y como Paciente.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![image](https://github.com/user-attachments/assets/578c2283-279e-4a38-9451-3c1ba98afa9e)
 
-## Build
+Al iniciar como Paciente podremos obtener turnos y revisar nuestro historial medico.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+![image](https://github.com/user-attachments/assets/b2b9d7cc-1ee8-4635-be96-b956d1240ae2)
 
-## Running unit tests
+Al seleccionar una de las especialidades te llevara a la seleccion de especialistas disponibles, con sus respectivos dias y horarios disponibles. Podras elegir entre todos los especcialistas los que mas se acomoden a tus necesidades!
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+![image](https://github.com/user-attachments/assets/4ca64bcb-6ee7-4c37-8ae2-897f59875262)
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
