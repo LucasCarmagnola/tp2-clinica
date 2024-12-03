@@ -22,7 +22,8 @@ En la pestaña 'mis turnos' tendras todos tur turnos, con sus respectivos estado
 
 ![image](https://github.com/user-attachments/assets/23e81d80-db8b-4671-872e-2fbf5f890df7)
 
-![image](https://github.com/user-attachments/assets/1ef41acb-d319-4001-9811-82d39d0277c1)
+<img src="https://github.com/user-attachments/assets/1ef41acb-d319-4001-9811-82d39d0277c1" alt="Descripción de la imagen" width="300" height="200">
+
 
 
 
