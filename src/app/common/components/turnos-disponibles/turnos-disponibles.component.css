@@ -1,4 +1,50 @@
-.component{
+.component {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 10px;
+    box-sizing: border-box;
+}
+
+.lista-horarios {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    justify-items: center;
+}
+
+.dias-disponibles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.256);
+    transition: 0.2s;
+    padding: 15px 50px;
+    background-color: white;
+    width: 75px;
+    height: 20px;
+}
+
+.dias-disponibles:hover {
+    background-color: rgb(195, 195, 189);
+}
+
+.dias-disponibles:active {
+    transform: scale(1.2);
+}
+
+h1{
+  margin-top: 5px;
+}
+
+
+/* .component{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,8 +54,8 @@
 
 .lista-horarios{
     overflow-y: auto;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: repeat(auto-fit, minmax(100px, 1fr));
     align-items: center;
 }
 
@@ -33,4 +79,4 @@
 .dias-disponibles:active{
     transform: scale(1.2);
 
-}
+} */

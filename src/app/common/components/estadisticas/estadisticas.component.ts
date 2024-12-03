@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import ApexCharts from "apexcharts";
+
 
 @Component({
   selector: 'app-estadisticas',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,],
   templateUrl: './estadisticas.component.html',
   styleUrl: './estadisticas.component.css'
 })
 export class EstadisticasComponent {
 
-  turnos : any[] = []
+  turnos : any
   turnosPorEspecialidad: any
   user : any
   especialistas : any[] = []
@@ -22,23 +24,13 @@ export class EstadisticasComponent {
   meses : any
   turnosPorEspecialista : any[] = []
   turnosFinalizadosPorEspecialistaPorMes : any[] = []
-  // especialidadesMedicas: any[] = [
-  //   { nombre: 'Cardiologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Dermatologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Endocrinologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Gastroenterologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Ginecologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Medico clinico', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Neumologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Neurologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Oftalmologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Oncologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Ortopedia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Pediatria', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Psiquiatria', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Traumatologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' },
-  //   { nombre: 'Urologia', foto: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8zedzO3aVEiL09oNMIFz5GYsSJDB84GLxxA&s' }
-  // ];
+  chartTurnosPorEspecialidad : any
+  graficoTurnosPorEspecialidad : boolean = false
+  graficoTurnosPorDia : boolean = false
+  graficoTurnosPorEspecialistaPorMes : boolean = false
+  graficoTurnosFinalizadosPorEspecialistaPorMes : boolean = false
+  mostrarTabla : boolean = false
+  
   especialidadesMedicas = [
     'Cardiologia',
     'Dermatologia',
@@ -58,7 +50,7 @@ export class EstadisticasComponent {
   ]
 
 
-  constructor(private databaseService : DatabaseService, private authService : AuthService){
+  constructor(private databaseService : DatabaseService, private authService : AuthService, private cdr: ChangeDetectorRef){
 
   }
 
@@ -79,6 +71,11 @@ export class EstadisticasComponent {
           this.turnosPorEspecialista = this.agruparPorEspecialista(this.turnosPorMes);
           this.turnosFinalizadosPorEspecialistaPorMes = this.filtrarTurnosFinalizados(this.turnosPorEspecialista);
 
+          //this.inicializarGraficoTurnosPorEspecialidad()
+          //this.inicializarGraficoTurnosPorDia()
+          //this.inicializarGraficoTurnosPorEspecialistaPorMes()
+          //this.inicializarGraficoTurnosFinalizadosPorEspecialistaPorMes()
+
         })
       })
     })
@@ -87,6 +84,17 @@ export class EstadisticasComponent {
       this.registros = logs
     })
 
+  }
+
+  agruparTurnosPorDia(turnos: any[]) {
+    return turnos.reduce((resultado, turno) => {
+      const fecha = turno.fecha.split(' ')[0]; // Extrae la fecha (yyyy-mm-dd)
+      if (!resultado[fecha]) {
+        resultado[fecha] = [];
+      }
+      resultado[fecha].push(turno);
+      return resultado;
+    }, {});
   }
 
   agruparTurnosPorEspecialidad(turnos : any[]){
@@ -185,5 +193,273 @@ export class EstadisticasComponent {
       turnosFinalizados: (value as any[]).length,
     }));
   }
+
+
+  private inicializarGraficoTurnosPorEspecialidad() {
+    const especialidades = Object.keys(this.turnosPorEspecialidad);
+    const cantidades = especialidades.map(especialidad => this.turnosPorEspecialidad[especialidad].length);
+  
+    const options = {
+      series: [
+        {
+          name: 'Cantidad de Turnos',
+          data: cantidades,
+        },
+      ],
+      chart: {
+        type: 'bar',
+        height: 350,
+      },
+      xaxis: {
+        categories: especialidades,
+        title: { text: 'Especialidades' },
+      },
+      yaxis: {
+        title: { text: 'Cantidad de Turnos' },
+      },
+      title: {
+        text: 'Cantidad de Turnos por Especialidad',
+        align: 'center',
+      },
+    };
+
+    const chart = new ApexCharts(document.querySelector('#chart-turnos-por-especialidad'), options);
+    chart.render();
+  }
+
+  prepararDatosParaGrafico(turnos: any[]) {
+    const turnosPorDia = this.agruparTurnosPorDia(turnos);
+    const fechas = Object.keys(turnosPorDia); // Las fechas
+    const cantidadTurnos = fechas.map(fecha => turnosPorDia[fecha].length); // Cantidad de turnos por cada fecha
+  
+    return { fechas, cantidadTurnos };
+  }
+
+
+  inicializarGraficoTurnosPorDia() {
+  
+    const { fechas, cantidadTurnos } = this.prepararDatosParaGrafico(this.turnos);
+
+    const options = {
+     chart: {
+        type: 'bar',
+        height: 350
+      },
+      series: [
+        {
+          name: 'Turnos',
+          data: cantidadTurnos // Datos de la cantidad de turnos por día
+        }
+      ],
+      xaxis: {
+        categories: fechas // Las fechas para el eje X
+      },
+      title: {
+        text: 'Cantidad de Turnos por dia',
+        align: 'center',
+      },
+    };
+
+    const chart = new ApexCharts(document.querySelector('#chart-turnos-por-dia'), options);
+    chart.render();
+  }
+
+  inicializarGraficoTurnosPorEspecialistaPorMes() {
+    const meses = this.getMeses();  // Obtener los meses
+    
+    // Obtener todos los especialistas únicos que aparecen en cualquier mes
+    const especialistas = Array.from(
+      new Set(meses.flatMap((mes:any) => Object.keys(this.turnosPorEspecialista[mes])))
+    );
+  
+    // Crear las series de datos para cada especialista
+    const seriesData = especialistas.map(especialista => {
+      return meses.map(mes => {
+        // Buscar la cantidad de turnos de ese especialista en el mes
+        const turnos = this.getEspecialistasPorMes(mes).find(item => item.nombre === especialista);
+        return turnos ? turnos.turnos : 0;  // Si no tiene turnos, devuelve 0
+      });
+    });
+  
+    // Definir las opciones del gráfico
+    const options = {
+      series: seriesData.map((data, index) => ({
+        name: especialistas[index],  // Nombre del especialista
+        data: data,  // Los datos (cantidad de turnos por mes)
+      })),
+      chart: {
+        height: 350,
+        type: 'bar',
+        stacked: false,  // No apilado, para barras separadas
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          dataLabels: {
+            position: 'top',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+      },
+      xaxis: {
+        categories: meses,  // Los meses como categorías del eje X
+      },
+      yaxis: {
+        title: {
+          text: 'Cantidad de Turnos',
+        },
+      },
+      legend: {
+        position: 'top',
+      },
+      title: {
+        text: 'Cantidad de Turnos por Especialista por Mes',
+        align: 'center',
+      },
+    };
+  
+    // Crear y renderizar el gráfico
+    const chart = new ApexCharts(document.querySelector('#chart-turnos-por-especialista-por-mes'), options);
+    chart.render();
+  }
+
+  inicializarGraficoTurnosFinalizadosPorEspecialistaPorMes() {
+    const meses = this.getMeses();  
+    
+    // Obtener todos los especialistas únicos que aparecen en cualquier mes
+    const especialistas = Array.from(
+      new Set(meses.flatMap((mes:any) => Object.keys(this.turnosFinalizadosPorEspecialistaPorMes[mes])))
+    );
+  
+    // Crear las series de datos para cada especialista con los turnos finalizados
+    const seriesData = especialistas.map(especialista => {
+      return meses.map(mes => {
+        // Buscar la cantidad de turnos finalizados de ese especialista en el mes
+        const turnos = this.getEspecialistasFinalizadosPorMes(mes).find(item => item.nombre === especialista);
+        return turnos ? turnos.turnosFinalizados : 0;  // Si no tiene turnos, devuelve 0
+      });
+    });
+  
+    // Definir las opciones del gráfico
+    const options = {
+      series: seriesData.map((data, index) => ({
+        name: especialistas[index],  // Nombre del especialista
+        data: data,  // Los datos (cantidad de turnos finalizados por mes)
+      })),
+      chart: {
+        height: 350,
+        type: 'bar',
+        stacked: false,  // No apilado, para barras separadas
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          dataLabels: {
+            position: 'top',
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+      },
+      xaxis: {
+        categories: meses,  // Los meses como categorías del eje X
+      },
+      yaxis: {
+        title: {
+          text: 'Cantidad de Turnos Finalizados',
+        },
+      },
+      legend: {
+        position: 'top',
+      },
+      title: {
+        text: 'Cantidad de Turnos Finalizados por Especialista por Mes',
+        align: 'center',
+      },
+    };
+  
+    // Crear y renderizar el gráfico
+    const chart = new ApexCharts(document.querySelector('#chart-turnos-finalizados-por-especialista-por-mes'), options);
+    chart.render();
+  }
+
+  mostrarGrafico(grafico : number){
+    if(grafico === 1){
+      const texto = document.getElementById('texto-turnos-por-especialidad') as HTMLElement;
+      this.graficoTurnosPorEspecialidad = !this.graficoTurnosPorEspecialidad
+      if (texto) {
+        texto.style.borderRadius = '10px';
+      }
+      if(this.graficoTurnosPorEspecialidad === true){
+        this.cdr.detectChanges()
+        this.inicializarGraficoTurnosPorEspecialidad()
+        if (texto) {
+          texto.style.borderRadius = '10px 10px 0 0';
+        }
+      }
+    }else if(grafico === 2){
+      const texto = document.getElementById('texto-turnos-por-dias') as HTMLElement;
+      this.graficoTurnosPorDia = !this.graficoTurnosPorDia
+      if (texto) {
+        texto.style.borderRadius = '10px';
+      }
+      if(this.graficoTurnosPorDia === true){
+        this.cdr.detectChanges()
+        this.inicializarGraficoTurnosPorDia()
+        if (texto) {
+          texto.style.borderRadius = '10px 10px 0 0';
+        }
+      }
+    }else if(grafico === 3){
+      const texto = document.getElementById('texto-turnos-por-especialista-mes') as HTMLElement;
+      this.graficoTurnosPorEspecialistaPorMes = !this.graficoTurnosPorEspecialistaPorMes
+      if (texto) {
+        texto.style.borderRadius = '10px';
+      }
+      if(this.graficoTurnosPorEspecialistaPorMes === true){
+        this.cdr.detectChanges()
+        this.inicializarGraficoTurnosPorEspecialistaPorMes()
+        if (texto) {
+          texto.style.borderRadius = '10px 10px 0 0';
+        }
+      }
+    }else if(grafico === 4){
+      const texto = document.getElementById('texto-turnos-finalizados-por-especialista') as HTMLElement;
+      this.graficoTurnosFinalizadosPorEspecialistaPorMes = !this.graficoTurnosFinalizadosPorEspecialistaPorMes
+      if (texto) {
+        texto.style.borderRadius = '10px';
+      }
+      if(this.graficoTurnosFinalizadosPorEspecialistaPorMes === true){
+        this.cdr.detectChanges()
+        this.inicializarGraficoTurnosFinalizadosPorEspecialistaPorMes()
+        if (texto) {
+          texto.style.borderRadius = '10px 10px 0 0';
+        }
+      }
+    }else if(grafico === 0){
+      const texto = document.getElementById('texto-tabla') as HTMLElement;
+      this.mostrarTabla = !this.mostrarTabla
+      if (texto) {
+        texto.style.borderRadius = '10px';
+      }
+      if(this.mostrarTabla){
+        if (texto) {
+          texto.style.borderRadius = '10px 10px 0 0';
+        }
+        
+      }
+    }
+
+
+
+  }
+  
+
+
+
+
 
 }

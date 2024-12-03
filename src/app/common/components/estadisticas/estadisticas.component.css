@@ -1,0 +1,115 @@
+.component{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.container-tabla-ingresos{
+    height: 500px;
+    width: 100%;
+    background-color: white;
+    padding: 20px 20px 0 15px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1), -2px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 0px 0px 10px 10px;
+    overflow-y: auto;
+}
+
+.tabla-ingresos{
+    background-color: #fff; 
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1); 
+    border-radius: 8px; 
+    width: 100%;
+}
+
+
+.tabla-ingresos th, .tabla-ingresos td {
+    padding: 12px; 
+    text-align: left; 
+    font-size: 1rem; 
+    color: #333; 
+}
+
+.tabla-ingresos th {
+    background-color: #f4f4f4; 
+    font-weight: bold; 
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 50%;
+    text-align: center;
+}
+
+.tabla-ingresos td {
+    border-bottom: 1px solid #ddd; 
+    text-align: center;
+}
+
+.tabla-ingresos tr:nth-child(even) {
+    background-color: #f9f9f9; 
+}
+
+.tabla-ingresos tr:hover {
+    background-color: #f1f1f1; 
+}
+
+.tabla-ingresos td, .tabla-ingresos th {
+    border: 1px solid #ddd; 
+}
+
+
+/* #chart-turnos-por-especialidad {
+    max-width: 900px;
+    width: 50%;
+    margin: 50px;
+}
+
+#chart-turnos-por-dia{
+    max-width: 900px;
+    width: 50%;
+    margin: 50px;
+} */
+
+.chart{
+    width: 100%;
+    background-color: white;
+    padding: 20px 20px 0 15px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1), -2px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 0px 0px 10px 10px;
+
+}
+
+.grafico{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    margin: 50px;
+}
+
+.texto{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px -2px 4px rgba(0, 0, 0, 0.1), -2px -2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 20px 0 15px;
+}
+
+.texto:hover{
+    background-color: rgba(150, 149, 149, 0.307);
+}
+
+.flecha{
+    cursor: pointer;
+}
+  
+
+@media (max-width: 1200px){
+    .chart, .texto, .container-tabla-ingresos, .grafico{
+        width: 90%;
+    }
+}

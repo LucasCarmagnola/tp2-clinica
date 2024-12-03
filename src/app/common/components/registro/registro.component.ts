@@ -294,15 +294,15 @@ export class RegistroComponent {
         this.showRecaptchaEspecialistas = true
       }
 
-    }, 600); 
+    }, 300); 
     
   }
 
   animarCarta(usuario:string) {
     if(usuario == 'paciente'){
-      this.estadoCartaPaciente = this.estadoCartaPaciente === 'normal' ? 'flipped' : 'normal'; // Cambia el estado al hacer clic
+      this.estadoCartaPaciente = this.estadoCartaPaciente === 'normal' ? 'flipped' : 'normal'; 
     }else{
-      this.estadoCartaMedico = this.estadoCartaMedico === 'normal' ? 'flipped' : 'normal'; // Cambia el estado al hacer clic
+      this.estadoCartaMedico = this.estadoCartaMedico === 'normal' ? 'flipped' : 'normal'; 
 
     }
   }

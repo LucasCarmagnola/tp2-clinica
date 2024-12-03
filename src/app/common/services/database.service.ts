@@ -6,6 +6,7 @@ import { StorageService } from './storage.service';
 import { Turno } from '../classes/turno';
 import { Auth, onAuthStateChanged } from '@angular/fire/auth';
 import { from, map, switchMap, take } from 'rxjs';
+import { ref } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -259,7 +260,9 @@ export class DatabaseService {
 
 
   traerRegistros(){
-    return this.firestore.collection('registros').valueChanges()
+    return this.firestore.collection('registros', ref => 
+      ref.orderBy('fecha', 'asc')
+    ).valueChanges()
   }
 
 

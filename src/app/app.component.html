@@ -19,13 +19,14 @@
             }
             @if(userDatabase?.tipoUsuario === 'administrador'){
                 <div class="item-menu" routerLink="/listaUsuarios">Usuarios</div>
+                <div class="item-menu" routerLink="/estadisticas">Estadisticas</div>
             } 
         </div>
         <div class="header-right">
             <!-- <img [src]="userDatabase?.imagenPerfil" alt="" class="img-perfil">
             <img src="flecha.png" alt=""> -->
             <div class="perfil-container">
-                <img [src]="userDatabase?.imagenPerfil" alt="Imagen de perfil" class="img-perfil" (click)="openMenu()"/>
+                <img [src]="userDatabase?.imagenPerfil" class="img-perfil" (click)="openMenu()"/>
                 <img src="flecha.png" alt="Flecha" class="flecha" (click)="openMenu()" />
             </div>
             @if(menuOpen === true){

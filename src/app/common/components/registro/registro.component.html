@@ -5,10 +5,9 @@
             <img src="/paciente.jpg" alt="" class="image-registro" [@flipAnimation]="estadoCartaPaciente"
             (click)="animarCarta('paciente')">
         </div>
-        <div class="opcion-registro" (click)="seleccionForm('medico')" [@flipAnimation]="estadoCartaMedico"
-        (click)="animarCarta('medico')">
+        <div class="opcion-registro" (click)="seleccionForm('medico')">
             <h2>Registrarse como Médico</h2>
-            <img src="/image.jpeg" alt="" class="image-registro" >
+            <img src="/image.jpeg" alt="" class="image-registro" (click)="animarCarta('medico')" [@flipAnimation]="estadoCartaMedico">
         </div>
     </div>
 

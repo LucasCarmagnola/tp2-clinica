@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DatabaseService } from '../../services/database.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-turnos-disponibles',
@@ -26,6 +27,8 @@ export class TurnosDisponiblesComponent {
     this.medicoInput = medico
     if(this.medicoInput){
       this.generarTurnosDisponibles(this.medicoInput.uid)
+    }else{
+      this.turnosDisponibles = null
     }
   }
 
@@ -38,8 +41,12 @@ export class TurnosDisponiblesComponent {
   // }
 
   enviarHorarios(dato : any){
-    console.log('encviando datos:', dato)
-    this.horariosEmitidos.emit(dato)
+    if(this.medicoRecibido){
+      console.log('encviando datos:', dato)
+      this.horariosEmitidos.emit(dato)
+    }else{
+      Swal.fire('Seleccione un especialista')
+    }
   }
   
   enviarDia(dia : string){

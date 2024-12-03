@@ -1,7 +1,9 @@
 <div class="component" [@slideInFromTop]>
     <button class="volver" id="volver" (click)="backEspecialidades()">Volver</button>
     <div class="solicitar-turno" id="solicitar-turno">
-        <h1>Seleccione una especialidad</h1>
+        <div class="titulo">
+            <h1>Seleccione una especialidad</h1>
+        </div>
         <div class="container">
             <button class="arrow left" (click)="scrollLeft()">&#8592;</button>
             <div class="container-especialidades">
@@ -17,25 +19,34 @@
 
     </div>
 
-    <div class="lista-especialistas" id="lista-especialistas">
-        <form action="" id="form-medicos">
+    <div class="container-lista-especialistas" id="container-lista-especialistas">
+        <div class="titulo">
+            <h1>Seleccione un especialista</h1>
+        </div>
+        <div class="lista-especialistas" id="lista-especialistas">
             @for(medico of especialistasDisponibles; track medico){
                 <div class="especialista" id="especialista">
                     <div class="info">
                         <img [src]="medico.imagenPerfil" alt="foto-perfil" class="foto-perfil">
-                        {{medico.nombre}} {{medico.apellido}}
+                        <p>{{medico.nombre}} {{medico.apellido}}</p>
                     </div>
                     <div class="container-radio">
                         <input type="radio" name="medico" [value]="medico" class="input-radio" [(ngModel)]="medicoSeleccionado">
                     </div>
                 </div>
             }
-        </form>
+        </div>
     </div>
     <div class="component-child" id="turnos-component">
+        <div class="titulo">
+            <h1>Fechas disponibles</h1>
+        </div>
         <app-turnos-disponibles [medicoRecibido]="medicoSeleccionado" (horariosEmitidos)="recibirDato($event)" (diaSeleccionadoEmitido)="recibirDia($event)"></app-turnos-disponibles>
     </div>
     <div class="component-child" id="horarios-component">
+        <div class="titulo">
+            <h1>Horarios disponibles</h1>
+        </div>
         <app-horarios-disponibles [horariosDisponibles]="horariosDisponibles" [diaSeleccionado]="diaSeleccinoado" [medicoRecibido]="medicoSeleccionado" [especialidad]="especialidadSeleccionada"></app-horarios-disponibles>
     </div>
 

@@ -26,16 +26,34 @@ export const authGuard: CanActivateFn = async (route, state) => {
     //         }
     //     })
     // );
-    const userr = auth.currentUser
-    const user = await authService.user
-    console.log(`en el auth guard. userr: ${userr}`)
-    console.log(`en el auth guard. user: ${user}`)
 
-    if(user === null || user === undefined){
-        router.navigate(['/login'], { queryParams : { returnUrl: state.url } });
-        return false
-    }else{
-        return true
+
+
+
+    // const userr = auth.currentUser
+    // const user = await authService.user
+    // console.log(`en el auth guard. userr: ${userr}`)
+    // console.log(`en el auth guard. user: ${user}`)
+
+    // if(user === null || user === undefined){
+    //     router.navigate(['/login'], { queryParams : { returnUrl: state.url } });
+    //     return false
+    // }else{
+    //     return true
+    // }
+
+
+    const user = await authService.usuarioObservable$.pipe(
+        take(1), // Solo tomamos el primer valor emitido (el estado del usuario)
+        map(user => !!user) // Transformamos en un booleano (si hay usuario, true)
+      ).toPromise();
+    
+      // Si no hay usuario autenticado, redirigimos al login
+      if (!user) {
+        router.navigate(['/login']);
+        return false;
     }
+
+    return true;
 
 };
