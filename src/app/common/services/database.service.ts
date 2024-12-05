@@ -105,6 +105,12 @@ export class DatabaseService {
     )
     return colUsuarios.valueChanges()
   }
+  traerPacientes(){
+    const colUsuarios = this.firestore.collection('usuarios', ref => ref
+      .where('tipoUsuario', '==','paciente')
+    )
+    return colUsuarios.valueChanges()
+  }
 
   activarEspecialista(uid: string){
     const colUsuarios = this.firestore.collection('usuarios');
@@ -149,13 +155,18 @@ export class DatabaseService {
     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
-  crearTurno(hora: string, fecha : string, medico : any, especialidad : string){
+  crearTurno(hora: string, fecha : string, medico : any, especialidad : string, paciente : any = null){
     try{
       const coleccion = this.firestore.collection('turnos')
       const doc = coleccion.doc()
-      const turno = new Turno(fecha, hora, 'pendiente', medico.uid, `${medico.nombre} ${medico.apellido}`, especialidad, this.authService.user.uid, this.authService.user.displayName, this.authService.user.photoURL)
+      if(paciente === null){
+        const turno = new Turno(fecha, hora, 'pendiente', medico.uid, `${medico.nombre} ${medico.apellido}`, especialidad, this.authService.user.uid, this.authService.user.displayName, this.authService.user.photoURL)
+        doc.set({...turno})
+      }else{
+        const turno = new Turno(fecha, hora, 'pendiente', medico.uid, `${medico.nombre} ${medico.apellido}`, especialidad, paciente.uid, paciente.nombre + paciente.apellido, paciente.imagenPerfil)
+        doc.set({...turno})
+      }
   
-      doc.set({...turno})
 
     }catch(error){
       throw error

@@ -71,11 +71,6 @@ export class EstadisticasComponent {
           this.turnosPorEspecialista = this.agruparPorEspecialista(this.turnosPorMes);
           this.turnosFinalizadosPorEspecialistaPorMes = this.filtrarTurnosFinalizados(this.turnosPorEspecialista);
 
-          //this.inicializarGraficoTurnosPorEspecialidad()
-          //this.inicializarGraficoTurnosPorDia()
-          //this.inicializarGraficoTurnosPorEspecialistaPorMes()
-          //this.inicializarGraficoTurnosFinalizadosPorEspecialistaPorMes()
-
         })
       })
     })
@@ -88,7 +83,7 @@ export class EstadisticasComponent {
 
   agruparTurnosPorDia(turnos: any[]) {
     return turnos.reduce((resultado, turno) => {
-      const fecha = turno.fecha.split(' ')[0]; // Extrae la fecha (yyyy-mm-dd)
+      const fecha = turno.fecha.split(' ')[0]; 
       if (!resultado[fecha]) {
         resultado[fecha] = [];
       }
@@ -123,15 +118,13 @@ export class EstadisticasComponent {
       const fecha = new Date(turno.fecha);
       const mesClave = `${fecha.getFullYear()}-${String(fecha.getMonth() + 1).padStart(2, '0')}`; // yyyy-mm
   
-      // Si no existe la clave del mes, la creamos
       if (!acumulador[mesClave]) {
         acumulador[mesClave] = [];
       }
-  
-      // Agregamos el turno al mes correspondiente
+
       acumulador[mesClave].push(turno);
       return acumulador;
-    }, {}); // El objeto acumulador comienza vacío
+    }, {}); 
   };
 
   agruparPorEspecialista(turnosPorMes: any) {
@@ -139,7 +132,6 @@ export class EstadisticasComponent {
     Object.keys(turnosPorMes).forEach( mes => {
       result[mes] = {};
       turnosPorMes[mes].forEach((turno : any) => {
-        // Si el especialista ya existe, se agrega el turno a su lista
         if (!result[mes][turno.nombreEspecialista]) {
           result[mes][turno.nombreEspecialista] = [];
         }
@@ -150,12 +142,10 @@ export class EstadisticasComponent {
   }
 
   getMeses(): string[] {
-    // Devuelve las claves de los meses
     return Object.keys(this.turnosPorEspecialista);
   }
   
   getEspecialistasPorMes(mes: any): any[] {
-    // Devuelve las claves (nombres de especialistas) y sus turnos para un mes dado
     const especialistas = this.turnosPorEspecialista[mes];
     return Object.entries(especialistas).map(([key, value]) => ({
       nombre: key,
@@ -172,7 +162,6 @@ export class EstadisticasComponent {
   
       Object.keys(turnosPorEspecialistaPorMes[mes]).forEach((especialista) => {
         const turnos = turnosPorEspecialistaPorMes[mes][especialista];
-        // Filtrar los turnos con estado 'finalizado'
         const turnosFinalizados = turnos.filter((turno: any) => turno.estado === 'finalizado');
   
         if (turnosFinalizados.length > 0) {
@@ -229,8 +218,8 @@ export class EstadisticasComponent {
 
   prepararDatosParaGrafico(turnos: any[]) {
     const turnosPorDia = this.agruparTurnosPorDia(turnos);
-    const fechas = Object.keys(turnosPorDia); // Las fechas
-    const cantidadTurnos = fechas.map(fecha => turnosPorDia[fecha].length); // Cantidad de turnos por cada fecha
+    const fechas = Object.keys(turnosPorDia); 
+    const cantidadTurnos = fechas.map(fecha => turnosPorDia[fecha].length); 
   
     return { fechas, cantidadTurnos };
   }
@@ -248,11 +237,11 @@ export class EstadisticasComponent {
       series: [
         {
           name: 'Turnos',
-          data: cantidadTurnos // Datos de la cantidad de turnos por día
+          data: cantidadTurnos 
         }
       ],
       xaxis: {
-        categories: fechas // Las fechas para el eje X
+        categories: fechas 
       },
       title: {
         text: 'Cantidad de Turnos por dia',
@@ -265,32 +254,28 @@ export class EstadisticasComponent {
   }
 
   inicializarGraficoTurnosPorEspecialistaPorMes() {
-    const meses = this.getMeses();  // Obtener los meses
+    const meses = this.getMeses(); 
     
-    // Obtener todos los especialistas únicos que aparecen en cualquier mes
     const especialistas = Array.from(
       new Set(meses.flatMap((mes:any) => Object.keys(this.turnosPorEspecialista[mes])))
     );
   
-    // Crear las series de datos para cada especialista
     const seriesData = especialistas.map(especialista => {
       return meses.map(mes => {
-        // Buscar la cantidad de turnos de ese especialista en el mes
         const turnos = this.getEspecialistasPorMes(mes).find(item => item.nombre === especialista);
-        return turnos ? turnos.turnos : 0;  // Si no tiene turnos, devuelve 0
+        return turnos ? turnos.turnos : 0;  
       });
     });
   
-    // Definir las opciones del gráfico
     const options = {
       series: seriesData.map((data, index) => ({
-        name: especialistas[index],  // Nombre del especialista
-        data: data,  // Los datos (cantidad de turnos por mes)
+        name: especialistas[index],  
+        data: data,  
       })),
       chart: {
         height: 350,
         type: 'bar',
-        stacked: false,  // No apilado, para barras separadas
+        stacked: false,  
       },
       plotOptions: {
         bar: {
@@ -304,7 +289,7 @@ export class EstadisticasComponent {
         enabled: true,
       },
       xaxis: {
-        categories: meses,  // Los meses como categorías del eje X
+        categories: meses,  
       },
       yaxis: {
         title: {
@@ -319,8 +304,7 @@ export class EstadisticasComponent {
         align: 'center',
       },
     };
-  
-    // Crear y renderizar el gráfico
+
     const chart = new ApexCharts(document.querySelector('#chart-turnos-por-especialista-por-mes'), options);
     chart.render();
   }
@@ -328,30 +312,27 @@ export class EstadisticasComponent {
   inicializarGraficoTurnosFinalizadosPorEspecialistaPorMes() {
     const meses = this.getMeses();  
     
-    // Obtener todos los especialistas únicos que aparecen en cualquier mes
     const especialistas = Array.from(
       new Set(meses.flatMap((mes:any) => Object.keys(this.turnosFinalizadosPorEspecialistaPorMes[mes])))
     );
   
-    // Crear las series de datos para cada especialista con los turnos finalizados
     const seriesData = especialistas.map(especialista => {
       return meses.map(mes => {
-        // Buscar la cantidad de turnos finalizados de ese especialista en el mes
         const turnos = this.getEspecialistasFinalizadosPorMes(mes).find(item => item.nombre === especialista);
-        return turnos ? turnos.turnosFinalizados : 0;  // Si no tiene turnos, devuelve 0
+        return turnos ? turnos.turnosFinalizados : 0;  
       });
     });
   
     // Definir las opciones del gráfico
     const options = {
       series: seriesData.map((data, index) => ({
-        name: especialistas[index],  // Nombre del especialista
-        data: data,  // Los datos (cantidad de turnos finalizados por mes)
+        name: especialistas[index],  
+        data: data,  
       })),
       chart: {
         height: 350,
         type: 'bar',
-        stacked: false,  // No apilado, para barras separadas
+        stacked: false,  
       },
       plotOptions: {
         bar: {
@@ -365,7 +346,7 @@ export class EstadisticasComponent {
         enabled: true,
       },
       xaxis: {
-        categories: meses,  // Los meses como categorías del eje X
+        categories: meses,  
       },
       yaxis: {
         title: {
@@ -381,7 +362,6 @@ export class EstadisticasComponent {
       },
     };
   
-    // Crear y renderizar el gráfico
     const chart = new ApexCharts(document.querySelector('#chart-turnos-finalizados-por-especialista-por-mes'), options);
     chart.render();
   }

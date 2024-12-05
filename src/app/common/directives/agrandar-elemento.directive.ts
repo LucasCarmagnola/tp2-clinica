@@ -22,12 +22,18 @@ export class AgrandarElementoDirective {
   agrandar(escala : string){
     this.el.nativeElement.style.transform = `scale(${escala})`
     this.el.nativeElement.style.transition = 'transform 0.3s';
+    this.el.nativeElement.style.position = 'absolute'
+    this.el.nativeElement.style.top = '40%'
+    this.el.nativeElement.style.left = '45%'
   }
 
   escucharClickAfuera() {
     this.renderer.listen('document', 'click', (event) => {
       if (!this.el.nativeElement.contains(event.target)) {
         this.agrandar(this.escalaNativa); 
+        this.el.nativeElement.style.position = ''
+        this.el.nativeElement.style.top = ''
+        this.el.nativeElement.style.left = ''
       }
     });
   }

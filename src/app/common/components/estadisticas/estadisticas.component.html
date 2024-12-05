@@ -4,7 +4,11 @@
   <div class="grafico">
     <div class="texto" (click)="mostrarGrafico(0)" id="texto-tabla">
       <p>Cantidad de ingresos</p>
-      <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      @if(!mostrarTabla){
+        <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      }@else {
+        <img src="flecha-arriba.png" alt="" class="flecha" height="20px" width="20px">
+      }
     </div>
     @if(mostrarTabla){
 
@@ -36,7 +40,11 @@
   <div class="grafico">
     <div class="texto" (click)="mostrarGrafico(1)" id="texto-turnos-por-especialidad">
       <p>Cantidad de turnos por especialidad</p>
-      <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      @if(!graficoTurnosPorEspecialidad){
+        <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      }@else {
+        <img src="flecha-arriba.png" alt="" class="flecha" height="20px" width="20px">
+      }
     </div>
     @if(graficoTurnosPorEspecialidad){
       <div id="chart-turnos-por-especialidad" class="chart">
@@ -49,7 +57,11 @@
   <div class="grafico">
     <div class="texto" (click)="mostrarGrafico(2)" id="texto-turnos-por-dias">
       <p>Cantidad de turnos por dia</p>
-      <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      @if(!graficoTurnosPorDia){
+        <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      }@else {
+        <img src="flecha-arriba.png" alt="" class="flecha" height="20px" width="20px">
+      }
     </div>
     @if(graficoTurnosPorDia){
       <div id="chart-turnos-por-dia" class="chart"></div>
@@ -60,7 +72,11 @@
   <div class="grafico">
     <div class="texto" (click)="mostrarGrafico(3)" id="texto-turnos-por-especialista-mes">
       <p>Cantidad de turnos por especialista por mes</p>
-      <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      @if(!graficoTurnosPorEspecialistaPorMes){
+        <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+      }@else {
+        <img src="flecha-arriba.png" alt="" class="flecha" height="20px" width="20px">
+      }
     </div>
     @if(graficoTurnosPorEspecialistaPorMes){
       <div id="chart-turnos-por-especialista-por-mes" class="chart"></div>
@@ -71,7 +87,11 @@
 <div class="grafico">
   <div class="texto" (click)="mostrarGrafico(4)" id="texto-turnos-finalizados-por-especialista">
     <p>Cantidad de turnos finalizados por especialista por mes</p>
-    <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+    @if(!graficoTurnosFinalizadosPorEspecialistaPorMes){
+      <img src="flecha.png" alt="" class="flecha" height="20px" width="20px">
+    }@else {
+      <img src="flecha-arriba.png" alt="" class="flecha" height="20px" width="20px">
+    }
   </div>
   @if(graficoTurnosFinalizadosPorEspecialistaPorMes){
     <div id="chart-turnos-finalizados-por-especialista-por-mes" class="chart"></div>

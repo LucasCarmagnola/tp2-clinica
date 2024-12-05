@@ -148,7 +148,7 @@ export class TurnosComponent {
         </div>
       `,
       focusConfirm: false,
-      width: 800, // Ajustar el ancho del cuadro
+      width: 800, 
       preConfirm: () => {
         const altura = (document.getElementById('altura') as HTMLInputElement).value;
         const peso = (document.getElementById('peso') as HTMLInputElement).value;

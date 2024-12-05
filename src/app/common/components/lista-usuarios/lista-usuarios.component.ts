@@ -54,7 +54,6 @@ export class ListaUsuariosComponent {
       confirmButtonText: "Activar",
       denyButtonText: `Cancelar`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.databaseService.activarEspecialista(uid)
         Swal.fire("Cuenta activada!", "", "success");
@@ -70,7 +69,6 @@ export class ListaUsuariosComponent {
       confirmButtonText: "Inhabilitar",
       denyButtonText: `Cancelar`,
     }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         this.databaseService.desactivarEspecialista(uid)
         Swal.fire("Cuenta inhabilitada!", "", "success");
@@ -118,28 +116,24 @@ export class ListaUsuariosComponent {
   generarExcelPorUsuario(usuarioSeleccionado: any): void {
     const table = document.querySelector('.historia-clinica-table') as HTMLElement;
   
-    // Convertir la tabla a una hoja de trabajo de Excel
     const worksheet = XLSX.utils.table_to_sheet(table);
   
-    // Formatear las fechas al estilo dd/MM/yyyy
     const range = XLSX.utils.decode_range(worksheet['!ref'] || '');
-    for (let R = range.s.r + 1; R <= range.e.r; R++) { // Excluir encabezados
-      const cellAddress = XLSX.utils.encode_cell({ r: R, c: 0 }); // Columna de fecha (índice 0)
+    for (let R = range.s.r + 1; R <= range.e.r; R++) { 
+      const cellAddress = XLSX.utils.encode_cell({ r: R, c: 0 }); 
       const cell = worksheet[cellAddress];
       if (cell && cell.v) {
         try {
-          const originalDate = new Date(cell.v); // Convertir a fecha
+          const originalDate = new Date(cell.v); 
           if (!isNaN(originalDate.getTime())) {
-            // Formatear fecha como dd/MM/yyyy
             const formattedDate = originalDate.toLocaleDateString('es-ES', {
               day: '2-digit',
               month: '2-digit',
               year: 'numeric',
             });
             cell.v = formattedDate;
-            cell.t = 's'; // Asegurar que el tipo sea string
+            cell.t = 's'; 
           } else {
-            // Si no es una fecha válida, mantener el valor original
             console.warn(`Fecha inválida en la celda ${cellAddress}:`, cell.v);
           }
         } catch (error) {
@@ -148,11 +142,9 @@ export class ListaUsuariosComponent {
       }
     }
   
-    // Crear un libro de trabajo
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, `Historia_Clinica_${usuarioSeleccionado.nombre}`);
-  
-    // Exportar el libro de trabajo a un archivo
+
     XLSX.writeFile(workbook, `Historia_Clinica_${usuarioSeleccionado.nombre}_${usuarioSeleccionado.apellido}.xlsx`);
   }
   

@@ -21,7 +21,7 @@
 
 .contenedor{
     margin: 0 auto;
-    max-width: 1200px;
+    max-width: 1300px;
     width: 95%;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -151,19 +151,18 @@ h1 {
 }
 
 .opcion-login {
-  width: 80px;  /* Ajusta el tamaño deseado */
+  width: 80px;  
   height: 80px;
   border-radius: 50%;
   cursor: pointer;
   object-fit: cover;
 }
 
-/* Burbuja de pensamiento */
 .pensamiento {
   display: none;
   position: absolute;
   top: 0;
-  left: 120%; /* Posiciona la burbuja a la derecha de la imagen */
+  left: 120%; 
   width: 180px;
   padding: 10px;
   background-color: white;
@@ -174,7 +173,7 @@ h1 {
   z-index: 10;
 }
 
-/* "Hilo de pensamiento" */
+
 .pensamiento::after {
   content: '';
   position: absolute;
@@ -199,7 +198,7 @@ h1 {
   box-shadow: 4px -4px 0 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Muestra la burbuja cuando se hace hover en la imagen */
+
 .perfil:hover .pensamiento {
   display: block;
 }
