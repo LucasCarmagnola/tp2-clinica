@@ -1,6 +1,6 @@
 # Tp2 Clinica Web Angular
 
-Este pproyecto es un portal web que permite la gestion de turnos e historial medico para los pacientes.
+Este proyecto es un portal web que permite la gestion de turnos e historial medico para los pacientes.
 
 ## Inicio de sesion
 
