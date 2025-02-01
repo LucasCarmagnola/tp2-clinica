@@ -45,5 +45,9 @@ export const routes: Routes = [
         path : 'estadisticas', loadComponent : () => import('./common/components/estadisticas/estadisticas.component')
         .then((c) => c.EstadisticasComponent), canActivate : [authGuard]
     },
+    {
+        path : 'especialidades', loadComponent : () => import('./common/components/especialidades/especialidades.component')
+        .then((c) => c.EspecialidadesComponent),
+    },
 
 ];

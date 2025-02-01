@@ -1,0 +1,22 @@
+<div class="component">
+    <div class="container-agregar-especialidad">
+        <label for="nombre">Nombre de la especialidad</label>
+        <input type="text" id="nombre" placeholder="escriba aqui..." [(ngModel)]="nombre">
+        <label for="foto">Imagen de la especialidad</label>
+        <input type="file" name="foto" id="foto" (change)="imagenCargada($event)">
+    </div>
+    <button class="turno_boton" (click)="agregarEspecialidad()">Agregar especialidad</button>
+    
+    <div class="container-especialidades">
+        @for(especialidad of especialidades; track $index){
+            <div class="especialidad">
+                <div class="nombre">
+                    <h3>{{especialidad.nombre}}</h3>
+                </div>
+                <div class="foto">
+                    <img [src]="especialidad.foto" alt="">
+                </div>
+            </div>
+        }
+    </div>
+</div>

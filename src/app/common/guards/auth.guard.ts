@@ -50,7 +50,7 @@ export const authGuard: CanActivateFn = async (route, state) => {
     
       // Si no hay usuario autenticado, redirigimos al login
       if (!user) {
-        router.navigate(['/login']);
+        router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
         return false;
     }
 

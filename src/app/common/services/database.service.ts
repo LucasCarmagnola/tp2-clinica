@@ -134,10 +134,10 @@ export class DatabaseService {
     return documento.get();
   }
 
-  agregarEspecialidad(nombreEspecialidad: string, imagen : Blob){
+  async agregarEspecialidad(nombreEspecialidad: string, imagen : Blob){
     const coleccion = this.firestore.collection('especialidades')
     const documento = coleccion.doc()
-    const url = this.storageService.subirImagenEspecialidad(imagen, nombreEspecialidad)
+    const url = await this.storageService.subirImagenEspecialidad(imagen, nombreEspecialidad)
     documento.set({nombre: nombreEspecialidad, foto: url})
   }
 
@@ -274,6 +274,10 @@ export class DatabaseService {
     return this.firestore.collection('registros', ref => 
       ref.orderBy('fecha', 'asc')
     ).valueChanges()
+  }
+
+  getEspecialidades(){
+    return this.firestore.collection('especialidades').valueChanges()
   }
 
 

@@ -216,7 +216,7 @@ export class RegistroComponent {
 
       await sendEmailVerification(this.user);
       
-      this.openModal()
+      //this.openModal()
 
     }catch(e){
       console.error('Error en el registro:', e);
